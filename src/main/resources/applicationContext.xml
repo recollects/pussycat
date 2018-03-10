@@ -16,6 +16,6 @@
     
     <context:component-scan base-package="com.alipay.pussycat" />
     
-<!--     <bean id="demoService" class="com.alipay.pussycat.DemoService"/> -->
+     <bean id="informationFactory" class="com.alipay.pussycat.support.InformationFactory"/>
     
 </beans>    

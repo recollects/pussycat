@@ -11,12 +11,5 @@ import com.alipay.pussycat.base.BaseJunit4Test;
  */
 public class AppTest extends BaseJunit4Test{
 
-    @Autowired
-    private DemoService demoService;
-
-    @Test
-    public void testGetService() {
-        System.out.println(demoService);
-    }
 
 }
