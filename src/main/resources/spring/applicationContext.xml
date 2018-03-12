@@ -12,6 +12,11 @@
 
     <import resource="spring-redis.xml"/>
 
+    <mvc:annotation-driven />
+
+    <context:component-scan base-package="com.alipay.pussycat" />
+
+    <!-- 加载配置文件 -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
@@ -21,14 +26,15 @@
         </property>
     </bean>
 
-    <mvc:annotation-driven />
-
-    <context:component-scan base-package="com.alipay.pussycat" />
+    <!-- 应用上下文 -->
+    <bean id="pussyCatApplicationContext" class="com.alipay.pussycat.context.PussyCatApplicationContext"/>
     
      <bean id="demoService" class="com.alipay.pussycat.DemoService"/>
 
+    <!-- redis缓存实现 -->
     <bean id="redisCacheManager" class="com.alipay.pussycat.cache.redis.impl.RedisCacheManagerImpl" />
 
+    <!-- 缓存管理工厂 -->
     <bean id="cacheManagerFactory" class="com.alipay.pussycat.cache.CacheManagerFactory">
         <property name="cacheList">
             <list>
