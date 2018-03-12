@@ -6,6 +6,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisShardInfo;
 
 /**
+ *
  * @author jiadong
  * @date 2018/3/12 15:25
  */
@@ -16,11 +17,24 @@ public class JedisInstance {
     @Autowired
     private static JedisConnectionFactory jedisConnectionFactory;
 
+    private static volatile Jedis jedis = null;
+
+    /**
+     * 获取jedis单实例
+     *
+     * @return
+     */
     public static Jedis getInstance(){
-        JedisShardInfo shardInfo = jedisConnectionFactory.getShardInfo();
-        Jedis jedis = shardInfo.createResource();
+
+        if (jedis==null){
+            synchronized (JedisInstance.class){
+                if (jedis==null) {
+                    JedisShardInfo shardInfo = jedisConnectionFactory.getShardInfo();
+                    jedis = shardInfo.createResource();
+                }
+            }
+        }
         return jedis;
     }
-
 
 }
