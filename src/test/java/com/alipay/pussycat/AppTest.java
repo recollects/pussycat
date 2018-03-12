@@ -24,51 +24,7 @@ public class AppTest extends BaseJunit4Test{
     @Autowired
     private DemoService demoService;
 
-    @Autowired
-    private JedisConnectionFactory jedisConnectionFactory;
-
-
-    @Autowired
-    private CacheManager redisCacheManager;
-
-    @Autowired
-    private CacheManagerFactory cacheManagerFactory;
-
-    @Autowired
-    private PussyCatApplicationContext pussyCatApplicationContext;
-
-    @Test
-    public void testGetCacheManagerFactory() {
-        CacheManager cacheManager = cacheManagerFactory.get(CacheEnum.REDIS);
-
-        boolean result=cacheManager.set("aa","bb");
-        if (result){
-            System.out.println("插入成功");
-        }
-
-        String aa = cacheManager.get("aa");
-
-        System.out.println(aa);
-
+    public void testGetService(){
+        System.out.println(demoService);
     }
-
-    @Test
-    public void testFindList(){
-        List<CacheManager> cacheList = Lists.newArrayList();
-        cacheList.add(new RedisCacheManagerImpl());
-        CacheEnum cacheEnum=CacheEnum.REDIS;
-        CacheManager cacheManager = Iterators.find(cacheList.iterator(), new Predicate<CacheManager>() {
-
-            @Override
-            public boolean apply(CacheManager manager) {
-                if (cacheEnum == manager.cacheName()) {
-                    return true;
-                }
-                return false;
-            }
-        });
-        System.out.println(cacheManager.cacheName());
-    }
-
-
 }

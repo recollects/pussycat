@@ -29,7 +29,7 @@
     <!-- 应用上下文 -->
     <bean id="pussyCatApplicationContext" class="com.alipay.pussycat.context.PussyCatApplicationContext"/>
     
-     <bean id="demoService" class="com.alipay.pussycat.DemoService"/>
+     <!--<bean id="demoService" class="com.alipay.pussycat.DemoService"/>-->
 
     <!-- redis缓存实现 -->
     <bean id="redisCacheManager" class="com.alipay.pussycat.cache.redis.impl.RedisCacheManagerImpl" />
