@@ -2,11 +2,12 @@ package com.alipay.pussycat.cache.redis.impl;
 
 import com.alipay.pussycat.cache.CacheManager;
 import com.alipay.pussycat.cache.model.CacheEnum;
-import com.alipay.pussycat.cache.redis.JedisInstance;
 import com.alipay.pussycat.cache.redis.constant.RedisProtocolStatus;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisShardInfo;
 
 /**
  *
@@ -45,4 +46,37 @@ public class RedisCacheManagerImpl implements CacheManager {
         return CacheEnum.REDIS;
     }
 
+    @Autowired
+    private JedisConnectionFactory jedisConnectionFactory;
+
+    static class JedisInstance{
+
+        private JedisInstance(){}
+
+        private static volatile Jedis jedis = null;
+
+        /**
+         * 获取jedis单实例
+         *
+         * @return
+         */
+        public static Jedis getInstance(){
+
+            if (jedis==null){
+                synchronized (JedisInstance.class){
+                    if (jedis==null) {
+                        JedisShardInfo shardInfo = getJedisConnectionFactory().getShardInfo();
+                        jedis = shardInfo.createResource();
+                    }
+                }
+            }
+            return jedis;
+        }
+    }
+
+    public static JedisConnectionFactory getJedisConnectionFactory() {
+        //ApplicationContext applicationContext = PussyCatSpringContextUtils.getApplicationContext();
+        //return (JedisConnectionFactory)applicationContext.getBean("jedisConnectionFactory");
+        return null;
+    }
 }

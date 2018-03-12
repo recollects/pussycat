@@ -27,7 +27,7 @@
     
      <bean id="demoService" class="com.alipay.pussycat.DemoService"/>
 
-    <bean id="redisCacheManager" class="com.alipay.pussycat.cache.redis.impl.RedisCacheManagerImpl"/>
+    <bean id="redisCacheManager" class="com.alipay.pussycat.cache.redis.impl.RedisCacheManagerImpl" />
 
     <bean id="cacheManagerFactory" class="com.alipay.pussycat.cache.CacheManagerFactory">
         <property name="cacheList">

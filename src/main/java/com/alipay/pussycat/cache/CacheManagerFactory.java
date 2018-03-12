@@ -18,7 +18,7 @@ import org.apache.commons.collections4.CollectionUtils;
  */
 public class CacheManagerFactory {
 
-    List<CacheManager> cacheList = Lists.newArrayList();
+    private List<CacheManager> cacheList = Lists.newArrayList();
 
     /**
      * 取出缓存服务
@@ -29,7 +29,7 @@ public class CacheManagerFactory {
     public CacheManager get(CacheEnum cacheName){
 
         if (CollectionUtils.isEmpty(cacheList)){
-            throw new RuntimeException("");
+            throw new RuntimeException("缓存实例异常...");
         }
 
         return Iterators.find(cacheList.iterator(), new Predicate<CacheManager>() {
