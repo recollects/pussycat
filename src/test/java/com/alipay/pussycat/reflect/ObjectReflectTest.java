@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author recollects
  *
  */
-public class Hello implements Serializable {
+public class ObjectReflectTest implements Serializable {
 
 	/**
 	 * 
@@ -38,7 +38,7 @@ public class Hello implements Serializable {
 	}
 
 	public static void main(String[] args)throws Exception {
-		Hello hello = new Hello();
+		ObjectReflectTest hello = new ObjectReflectTest();
 
 		Method[] methods = hello.getClass().getMethods();
 
