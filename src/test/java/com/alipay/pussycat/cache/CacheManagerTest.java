@@ -11,6 +11,8 @@ import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisShardInfo;
 
 import java.util.List;
 
@@ -47,6 +49,14 @@ public class CacheManagerTest extends BaseJunit4Test {
         System.out.println(aa);
 
     }
+
+    @Test
+    public void testJedisSet(){
+        JedisShardInfo shardInfo = jedisConnectionFactory.getShardInfo();
+        Jedis jedis = shardInfo.createResource();
+
+    }
+
 
     @Test
     public void testFindList(){
