@@ -3,7 +3,7 @@ package com.alipay.pussycat.serializable.model;
 import java.io.Serializable;
 
 /**
- * Created by recoll on 18/3/13.
+ * Created by recollects on 18/3/13.
  */
 public class TransportModel implements Serializable{
 

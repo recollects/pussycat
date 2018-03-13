@@ -3,7 +3,7 @@ package com.alipay.pussycat.serializable;
 import java.io.Serializable;
 
 /**
- * Created by recoll on 18/3/13.
+ * Created by recollects on 18/3/13.
  */
 public interface HelloService extends Serializable{
 
