@@ -2,10 +2,16 @@ package com.alipay.pussycat.reflect;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.List;
 
+import com.alipay.pussycat.reflect.model.HelloService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
+import org.springframework.aop.framework.ReflectiveMethodInvocation;
+import org.springframework.expression.spel.support.ReflectiveMethodResolver;
+import org.springframework.util.ReflectionUtils;
 
 /**
  *
@@ -15,48 +21,38 @@ import org.apache.commons.lang3.StringUtils;
  * @author recollects
  *
  */
-public class ObjectReflectTest implements Serializable {
+public class ObjectReflectTest  {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public void sayHello() {
-		System.out.println("hello world");
-	}
-
-	public void sayHello(Integer a) {
-		System.out.println("hello world integer");
-	}
-	
-	public void sayHello(String a) {
-		System.out.println("hello world string");
-	}
-
-	public void sayHello(String a, String b) {
-		System.out.println("hello world ->a , ->b");
-	}
 
 	public static void main(String[] args)throws Exception {
-		ObjectReflectTest hello = new ObjectReflectTest();
 
-		Method[] methods = hello.getClass().getMethods();
+		HelloService helloService = new HelloService();
 
-		List<Method> asList = Arrays.asList(methods);
+		Class aClass = helloService.getClass();
 
-		for (Method method : asList) {
-			if (StringUtils.equals(method.getName(), "sayHello")) {
-				
-				int parameterCount = method.getParameterCount();
-				Class<?>[] parameterTypes = method.getParameterTypes();
+		Method sayHello = aClass.getMethod("sayHello", String.class);
 
-				if (parameterCount==1&&parameterTypes[0].newInstance() instanceof String) {
-					method.invoke(hello, "sss");
-				}
-			}
-		}
-		
+		sayHello.invoke(helloService,"ss");
+
+		Method sayHello1 = aClass.getMethod("sayHello", Integer.class);
+
+		sayHello1.invoke(helloService,22);
+
+
+
+		//---------工具--------------
+
+		Method sayHello2 = ReflectionUtils.findMethod(HelloService.class, "sayHello", String.class);
+
+		sayHello2.invoke(helloService,"ss");
+
+
+		//---------------
+		//ReflectiveMethodInvocation
+
+//		ReflectiveMethodResolver
+
+
 	}
 	
 }
