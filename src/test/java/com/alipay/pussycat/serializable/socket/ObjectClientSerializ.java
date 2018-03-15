@@ -3,10 +3,15 @@ package com.alipay.pussycat.serializable.socket;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.net.Socket;
 
+import com.alipay.pussycat.serializable.HelloService;
+import com.alipay.pussycat.serializable.HelloServiceImpl;
 import com.alipay.pussycat.serializable.model.TransportModel;
 
 /**
@@ -22,8 +27,15 @@ public class ObjectClientSerializ {
 		try {
 			Socket socket = new Socket("localhost", 8081);
 
+			HelloService helloService = new HelloServiceImpl();
+
 			TransportModel model = new TransportModel();
-			model.setResult("OK");
+			model.setObject(helloService);
+			model.setMethodName("sayHello");
+			Class<? extends HelloService> class1 = helloService.getClass();
+			Method method = class1.getMethod("sayHello",String.class);
+			model.setParameterTypes(method.getParameterTypes());
+			model.setParameters(new Object[]{"The first step of RPC"});
 
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -38,6 +50,15 @@ public class ObjectClientSerializ {
 
 			outputStream.write(byteArray);
 			outputStream.flush();
+			InputStream inputStream = socket.getInputStream();
+
+			ObjectInputStream ois = new ObjectInputStream(inputStream);
+			TransportModel readObject = (TransportModel)ois.readObject();
+			System.out.println("调用返回结果="+readObject.getResult());
+			socket.close();
+
+			System.out.println("客户端调用结束");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -10,11 +10,24 @@ public class TransportModel implements Serializable{
 
     private static final long serialVersionUID = 7109955232132227839L;
 
-    private String serviceName;
-
-    private Class objectType;
-
+    //返回结果
     private Object result;
+    //对象
+    private Object object;
+    //方法名
+    private String methodName;
+    //参数
+    private Class<?>[] parameterTypes;
+
+    private Object[] parameters;
+
+    public void setParameterTypes(Class<?>[] parameterTypes) {
+        this.parameterTypes = parameterTypes;
+    }
+
+    public Class<?>[] getParameterTypes() {
+        return parameterTypes;
+    }
 
     public void setResult(Object result) {
         this.result = result;
@@ -24,20 +37,27 @@ public class TransportModel implements Serializable{
         return result;
     }
 
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
+    public Object getObject() {
+        return object;
     }
 
-
-    public void setObjectType(Class objectType) {
-        this.objectType = objectType;
+    public void setObject(Object object) {
+        this.object = object;
     }
 
-    public String getServiceName() {
-        return serviceName;
+    public String getMethodName() {
+        return methodName;
     }
 
-    public Class getObjectType() {
-        return objectType;
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
+
+    public Object[] getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Object[] parameters) {
+        this.parameters = parameters;
     }
 }
