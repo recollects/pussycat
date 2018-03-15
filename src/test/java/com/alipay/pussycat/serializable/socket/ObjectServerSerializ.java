@@ -11,9 +11,14 @@ import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.alipay.pussycat.serializable.HelloService;
+import com.alipay.pussycat.serializable.HelloServiceImpl;
 import com.alipay.pussycat.serializable.model.TransportModel;
 
 /**
+ *
+ * 服务端
+ *
  * @author jiadong
  * @date 2018/3/14 19:12
  */
@@ -23,6 +28,9 @@ public class ObjectServerSerializ {
         try {
             ServerSocket serverSocket = new ServerSocket(8081);
             Socket accept = serverSocket.accept();
+
+            HelloService helloService = new HelloServiceImpl();
+            //TODO 模拟将服务放在map里去,这样客户端只用提交一个接口名,方法名,入参类型即可.我们服务在map里找到这样的服务,将服务取出来,执行返回结果给客户端!
 
             InputStream inputStream = accept.getInputStream();
 
