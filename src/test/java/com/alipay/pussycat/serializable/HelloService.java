@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by recollects on 18/3/13.
  */
-public interface HelloService extends Serializable{
+public interface HelloService {
 
     /**
      *  无参方法
@@ -29,6 +29,14 @@ public interface HelloService extends Serializable{
      * @return
      */
     String sayHello(Integer a);
+
+    /**
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    String sayHello(String a,Integer b);
 
 
 }

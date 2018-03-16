@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.net.Socket;
 
 import com.alipay.pussycat.serializable.HelloService;
@@ -30,14 +31,17 @@ public class ObjectClientSerializ {
 			HelloService helloService = new HelloServiceImpl();
 
 			TransportModel model = new TransportModel();
-			model.setObject(helloService);
 			model.setMethodName("sayHello");
 			Class<? extends HelloService> class1 = helloService.getClass();
 			Method method = class1.getMethod("sayHello",String.class);
 			model.setParameterTypes(method.getParameterTypes());
-			model.setParameters(new Object[]{"The first step of RPC"});
 
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            String transformStr = ObjectServerSerializ.parameterTransformStr(method.getParameters());
+            model.setParameters(transformStr);
+			model.setInputParameters(new Object[]{"The first step of RPC"});
+            model.setInterfaceName(HelloService.class.getName());
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
 			ObjectOutputStream oos = new ObjectOutputStream(bos);
 			oos.writeObject(model);
@@ -64,4 +68,6 @@ public class ObjectClientSerializ {
 		}
 
 	}
+
+
 }
