@@ -1,6 +1,5 @@
 package com.alipay.pussycat.cache;
 
-import com.alipay.pussycat.DemoService;
 import com.alipay.pussycat.base.BaseJunit4Test;
 import com.alipay.pussycat.cache.model.CacheEnum;
 import com.alipay.pussycat.cache.redis.impl.RedisCacheManagerImpl;
