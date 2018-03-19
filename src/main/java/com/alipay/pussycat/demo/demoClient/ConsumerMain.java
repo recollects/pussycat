@@ -1,8 +1,6 @@
-package com.alipay.pussycat.demoClient;
+package com.alipay.pussycat.demo.demoClient;
 
-import com.alipay.pussycat.RpcService;
-import com.alipay.pussycat.RpcServiceImpl;
-import com.alipay.pussycat.demoServer.ServerReflect;
+import com.alipay.pussycat.demo.RpcService;
 
 public class ConsumerMain {
     public static void main(String[] args) throws Exception {

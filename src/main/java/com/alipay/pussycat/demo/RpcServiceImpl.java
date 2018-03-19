@@ -1,4 +1,4 @@
-package com.alipay.pussycat;
+package com.alipay.pussycat.demo;
 
 public class RpcServiceImpl implements RpcService {
     @Override

@@ -1,4 +1,4 @@
-package com.alipay.pussycat.demoServer;
+package com.alipay.pussycat.demo.demoServer;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
 

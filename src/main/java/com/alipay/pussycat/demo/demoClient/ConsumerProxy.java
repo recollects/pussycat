@@ -1,4 +1,4 @@
-package com.alipay.pussycat.demoClient;
+package com.alipay.pussycat.demo.demoClient;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
