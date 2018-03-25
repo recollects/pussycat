@@ -6,37 +6,35 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- *
+ * 所有观察者队列
  *
  * @author recollects
  * @version V1.0
  * @date 2018年03月19日 下午9:58
  */
-public class ServerContainer implements Observerable{
+public class ObserverQueue implements Observerable {
 
-    private List<Observer> list = Lists.newArrayList();
+    /**
+     * 观察者队列[调用方]
+     */
+    private Queue<Observer> queue = new ConcurrentLinkedQueue<Observer>();
 
     @Override
     public void registerObserver(Observer o) {
-        list.add(o);
+        queue.add(o);
     }
 
     @Override
     public void removeObserver(Observer o) {
-        list.remove(o);
+        queue.remove(o);
     }
 
     @Override
     public void notifyObserver(Observer o) {
-        Iterators.any(list.iterator(), new Predicate<Observer>() {
-
-            @Override
-            public boolean apply(Observer input) {
-                return false;
-            }
-        });
-
+        //TODO 通知观察者获取新信息或者直接将信息直接推送给观察者
     }
 }

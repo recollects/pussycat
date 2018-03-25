@@ -2,7 +2,7 @@ package com.alipay.pussycat.register;
 
 /**
  *
- * 抽象观察者
+ * 抽象观察者[调用方]
  *
  * @author recollects
  * @version V1.0
