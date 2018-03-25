@@ -12,7 +12,6 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisShardInfo;
 
 /**
- *
  * 缓存redis实现
  *
  * @author jiadong
@@ -37,7 +36,7 @@ public class RedisCacheManagerImpl implements CacheManager {
     public boolean del(String key) {
         Jedis jedis = JedisInstance.getInstance();
         Long del = jedis.del(key);
-        if (del>0){
+        if (del > 0) {
             return true;
         }
         return false;
@@ -51,29 +50,40 @@ public class RedisCacheManagerImpl implements CacheManager {
     @Autowired
     private JedisConnectionFactory jedisConnectionFactory;
 
-    static class JedisInstance{
+    static class JedisInstance {
 
-        private JedisInstance(){}
+        private JedisInstance() {
+        }
 
         private static volatile Jedis jedis = null;
 
         /**
-         * 获取jedis单实例
+         * 获取可用jedis实例
+         *
+         * //TODO 需要优化
+         * @return
+         */
+        public static Jedis getInstance() {
+
+            //if (jedisIsConn()){
+            //  synchronized (JedisInstance.class){
+            if (jedisIsConn()) {
+                jedis = getJedisConnectionFactory().getConnection().getNativeConnection();
+            }
+            // }
+            //}
+            return jedis;
+        }
+
+        /**
+         * 该客户端是否连接中
          *
          * @return
          */
-        public static Jedis getInstance(){
-
-            if (jedis==null){
-                synchronized (JedisInstance.class){
-                    if (jedis==null) {
-                        JedisShardInfo shardInfo = getJedisConnectionFactory().getShardInfo();
-                        jedis = shardInfo.createResource();
-                    }
-                }
-            }
-            return jedis;
+        private static boolean jedisIsConn() {
+            return jedis == null || !jedis.isConnected();
         }
+
     }
 
 
