@@ -51,5 +51,4 @@ public class RedisCacheManagerImpl implements CacheManager {
         ShardedJedis shardedJedis = shardedJedisPool.getResource();
         return shardedJedis;
     }
-
 }
