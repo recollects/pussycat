@@ -1,6 +1,7 @@
 package com.alipay.pussycat.serializable.model;
 
 import java.io.Serializable;
+import java.lang.reflect.Parameter;
 
 /**
  * Created by recollects on 18/3/13.
@@ -12,14 +13,33 @@ public class TransportModel implements Serializable{
 
     //返回结果
     private Object result;
-    //对象
-    private Object object;
     //方法名
     private String methodName;
     //参数
     private Class<?>[] parameterTypes;
 
-    private Object[] parameters;
+    //接口名
+    private String interfaceName;
+
+    private String parameters;
+
+    private Object[] inputParameters;
+
+    public void setInputParameters(Object[] inputParameters) {
+        this.inputParameters = inputParameters;
+    }
+
+    public Object[] getInputParameters() {
+        return inputParameters;
+    }
+
+    public void setInterfaceName(String interfaceName) {
+        this.interfaceName = interfaceName;
+    }
+
+    public String getInterfaceName() {
+        return interfaceName;
+    }
 
     public void setParameterTypes(Class<?>[] parameterTypes) {
         this.parameterTypes = parameterTypes;
@@ -37,14 +57,6 @@ public class TransportModel implements Serializable{
         return result;
     }
 
-    public Object getObject() {
-        return object;
-    }
-
-    public void setObject(Object object) {
-        this.object = object;
-    }
-
     public String getMethodName() {
         return methodName;
     }
@@ -53,11 +65,11 @@ public class TransportModel implements Serializable{
         this.methodName = methodName;
     }
 
-    public Object[] getParameters() {
-        return parameters;
+    public void setParameters(String parameters) {
+        this.parameters = parameters;
     }
 
-    public void setParameters(Object[] parameters) {
-        this.parameters = parameters;
+    public String getParameters() {
+        return parameters;
     }
 }
