@@ -3,13 +3,10 @@ package com.alipay.pussycat.cache.redis.impl;
 import com.alipay.pussycat.cache.CacheManager;
 import com.alipay.pussycat.cache.model.CacheEnum;
 import com.alipay.pussycat.cache.redis.constant.RedisProtocolStatus;
-import com.alipay.pussycat.context.PussyCatApplicationContext;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisShardInfo;
+import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.ShardedJedisPool;
 
 /**
  * 缓存redis实现
@@ -19,23 +16,23 @@ import redis.clients.jedis.JedisShardInfo;
  */
 public class RedisCacheManagerImpl implements CacheManager {
 
+    @Autowired
+    private ShardedJedisPool shardedJedisPool;
+
     @Override
     public boolean set(String key, String value) {
-        Jedis jedis = JedisInstance.getInstance();
-        String str = jedis.set(key, value);
+        String str = getShardedJedis().set(key, value);
         return StringUtils.equalsIgnoreCase(str, RedisProtocolStatus.SUCCESS);
     }
 
     @Override
     public String get(String key) {
-        Jedis jedis = JedisInstance.getInstance();
-        return jedis.get(key);
+        return getShardedJedis().get(key);
     }
 
     @Override
     public boolean del(String key) {
-        Jedis jedis = JedisInstance.getInstance();
-        Long del = jedis.del(key);
+        Long del = getShardedJedis().del(key);
         if (del > 0) {
             return true;
         }
@@ -47,47 +44,11 @@ public class RedisCacheManagerImpl implements CacheManager {
         return CacheEnum.REDIS;
     }
 
-    @Autowired
-    private JedisConnectionFactory jedisConnectionFactory;
-
-    static class JedisInstance {
-
-        private JedisInstance() {
-        }
-
-        private static volatile Jedis jedis = null;
-
-        /**
-         * 获取可用jedis实例
-         *
-         * //TODO 需要优化
-         * @return
-         */
-        public static Jedis getInstance() {
-
-            //if (jedisIsConn()){
-            //  synchronized (JedisInstance.class){
-            if (jedisIsConn()) {
-                jedis = getJedisConnectionFactory().getConnection().getNativeConnection();
-            }
-            // }
-            //}
-            return jedis;
-        }
-
-        /**
-         * 该客户端是否连接中
-         *
-         * @return
-         */
-        private static boolean jedisIsConn() {
-            return jedis == null || !jedis.isConnected();
-        }
-
-    }
-
-
-    public static JedisConnectionFactory getJedisConnectionFactory() {
-        return PussyCatApplicationContext.getBean(JedisConnectionFactory.class);
+    /**
+     * @return
+     */
+    private ShardedJedis getShardedJedis() {
+        ShardedJedis shardedJedis = shardedJedisPool.getResource();
+        return shardedJedis;
     }
 }
