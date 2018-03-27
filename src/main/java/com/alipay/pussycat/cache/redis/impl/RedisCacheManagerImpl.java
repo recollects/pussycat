@@ -4,6 +4,8 @@ import com.alipay.pussycat.cache.CacheManager;
 import com.alipay.pussycat.cache.model.CacheEnum;
 import com.alipay.pussycat.cache.redis.constant.RedisProtocolStatus;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.*;
@@ -18,6 +20,8 @@ import redis.clients.jedis.ShardedJedisPool;
  * @date 2018/3/12 15:16
  */
 public class RedisCacheManagerImpl implements CacheManager {
+
+    private static final Logger logger = LoggerFactory.getLogger(RedisCacheManagerImpl.class);
 
     @Autowired
     private ShardedJedisPool shardedJedisPool;
