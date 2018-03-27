@@ -12,11 +12,14 @@ import java.util.function.Predicate;
  * @version V1.0
  * @date 2018年03月25日 下午5:53
  */
-public class ServicePublisherBeanFactory {
+public class ServiceCreateBeanFactory {
 
     private static final int DEFAULT_TIMEOUT = 3000;
+    private static final String DEFAULT_VERSION = "1.0";
 
     private int timeout = DEFAULT_TIMEOUT;
+
+    private String version = DEFAULT_VERSION;
 
     private Class clazz;
 
@@ -32,12 +35,20 @@ public class ServicePublisherBeanFactory {
     }
 
     /**
-     *
+     * TODO 处理逻辑需要提出去,还有创建完成发布服务也要单独提一个接口处理,
+     * 尽量做到不同逻辑之间互相独立
      */
-    public void publish() {
+    private void createBean(){
         check();
         //TODO 创建bean服务
     }
+
+    /**
+     *
+     */
+//    public void publish() {
+//
+//    }
 
     public int getTimeout() {
         return timeout;
@@ -61,5 +72,13 @@ public class ServicePublisherBeanFactory {
 
     public void setRef(Class ref) {
         this.ref = ref;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getVersion() {
+        return version;
     }
 }
