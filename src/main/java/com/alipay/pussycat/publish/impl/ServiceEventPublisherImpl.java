@@ -6,8 +6,9 @@ import org.springframework.stereotype.Service;
 
 /**
  * 实现服务发布操作
+ * @author recollects
+ * @version V1.0
  *
- * Created by recollects on 18/3/12.
  */
 @Service
 public class ServiceEventPublisherImpl extends AbstractServiceEventPublisher{
@@ -17,5 +18,6 @@ public class ServiceEventPublisherImpl extends AbstractServiceEventPublisher{
 
         //使用方需要发服务的接口类型传过来,对接口里的方法,解析出来,注册到注册中心去
 
+        logger_publish.info("测试日志打印");
     }
 }
