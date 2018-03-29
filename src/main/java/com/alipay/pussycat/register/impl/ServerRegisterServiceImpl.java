@@ -24,4 +24,14 @@ public class ServerRegisterServiceImpl implements ServerRegisterService{
         return new Result(false);
     }
 
+    @Override
+    public Result<Boolean> update(ServiceEvent event) {
+        return null;
+    }
+
+    @Override
+    public Result<Boolean> remove(ServiceEvent event) {
+        return null;
+    }
+
 }

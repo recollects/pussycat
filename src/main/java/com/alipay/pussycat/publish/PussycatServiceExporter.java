@@ -1,18 +1,27 @@
-package com.alipay.pussycat.publish.factory;
+package com.alipay.pussycat.publish;
 
+import com.alipay.pussycat.common.model.ErrorCodeEnum;
+import com.alipay.pussycat.common.utils.LogDef;
+import com.alipay.pussycat.publish.exception.ServicePublishException;
+import com.alipay.pussycat.publish.model.ServiceEvent;
+import com.alipay.pussycat.publish.model.SimpleServiceModel;
 import com.google.common.base.Preconditions;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Map;
 import java.util.function.Predicate;
 
 /**
- * 提供給客戶端发布服务用,一個生产bean的工厂
- * <p>到时候配置服务发布<p/>
+ * 提供給客戶端发布服务用[客户端所有服务都由这个类作为出口]
  *
  * @author recollects
  * @version V1.0
  * @date 2018年03月25日 下午5:53
  */
-public class ServiceCreateBeanFactory {
+public class PussycatServiceExporter {
+
+    private static final Logger LOGGER = LogDef.SERVICE_PUBLISH_DIGEST;
 
     private static final int DEFAULT_TIMEOUT = 3000;
     private static final String DEFAULT_VERSION = "1.0";
@@ -25,6 +34,9 @@ public class ServiceCreateBeanFactory {
 
     private Class ref;
 
+    @Autowired
+    private ServiceEventPublisher serviceEventPublisher;
+
     /**
      *
      */
@@ -35,20 +47,22 @@ public class ServiceCreateBeanFactory {
     }
 
     /**
-     * TODO 处理逻辑需要提出去,还有创建完成发布服务也要单独提一个接口处理,
-     * 尽量做到不同逻辑之间互相独立
+     * 必须调用
      */
-    private void createBean(){
+    public void init(){
         check();
-        //TODO 创建bean服务
-    }
 
-    /**
-     *
-     */
-//    public void publish() {
-//
-//    }
+        SimpleServiceModel model = new SimpleServiceModel();
+        model.setClazz(getClazz());
+        model.setTimeout(getTimeout());
+        model.setVersion(getVersion());
+        try {
+            serviceEventPublisher.publish(model);
+        } catch (Exception e) {
+            LOGGER.error("服务初始异常,class={}",clazz,e);
+            throw new ServicePublishException(ErrorCodeEnum.UNKNOWN_SYSTEM_ERROR,"服务初始异常",e);
+        }
+    }
 
     public int getTimeout() {
         return timeout;
