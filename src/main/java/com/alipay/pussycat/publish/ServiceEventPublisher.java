@@ -1,5 +1,6 @@
 package com.alipay.pussycat.publish;
 
+import com.alipay.pussycat.publish.exception.ServicePublishException;
 import com.alipay.pussycat.publish.model.ServiceEvent;
 import com.alipay.pussycat.publish.model.SimpleServiceModel;
 
@@ -16,7 +17,7 @@ public interface ServiceEventPublisher {
      *
      * @param model
      */
-    void publish(SimpleServiceModel model);
+    void publish(SimpleServiceModel model) throws ServicePublishException;
 
 
 

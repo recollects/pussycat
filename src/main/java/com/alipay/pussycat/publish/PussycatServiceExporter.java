@@ -58,7 +58,7 @@ public class PussycatServiceExporter {
         model.setVersion(getVersion());
         try {
             serviceEventPublisher.publish(model);
-        } catch (Exception e) {
+        } catch (ServicePublishException e) {
             LOGGER.error("服务初始异常,class={}",clazz,e);
             throw new ServicePublishException(ErrorCodeEnum.UNKNOWN_SYSTEM_ERROR,"服务初始异常",e);
         }
