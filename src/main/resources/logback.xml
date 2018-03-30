@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration debug="false">
 
     <property file="src/main/resources/antx.properties" />
 
     <!-- 控制台 -->
     <appender name="STDOUT-APPENDER" class="ch.qos.logback.core.ConsoleAppender">
         <target>System.out</target>
-        <encoding>${log_charset}</encoding>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
         </layout>
@@ -21,11 +20,11 @@
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>${log_level}</level>
             <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
+            <!--<onMismatch>DENY</onMismatch>-->
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${log_root}/${app_name}/common-default.log.%d{yyyy-MM-dd}</fileNamePattern>
-            <!--<maxHistory>7</maxHistory>-->
+            <maxHistory>3</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
@@ -42,24 +41,7 @@
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${log_root}/${app_name}/common-error.log.%d{yyyy-MM-dd}</fileNamePattern>
-            <maxHistory>7</maxHistory>
-        </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
-        </layout>
-    </appender>
-
-    <!-- 应用日志 -->
-    <appender name="APP-DEFAULT-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log_root}/${app_name}/${app_name}-default.log</file>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>${log_level}</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_root}/${app_name}/${app_name}-default.log.%d{yyyy-MM-dd}</fileNamePattern>
-            <maxHistory>7</maxHistory>
+            <maxHistory>3</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
@@ -67,15 +49,15 @@
     </appender>
 
     <!-- 缓存日志 -->
-    <appender name="CACHE-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log_root}/${app_name}/cache-digest.log</file>
+    <appender name="CACHE-DIGEST" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_root}/${app_name}/${app_name}-cache-digest.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>${log_level}</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_root}/${app_name}/cache-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>${log_root}/${app_name}/${app_name}-cache-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -84,15 +66,15 @@
     </appender>
 
     <!-- 服务发布 -->
-    <appender name="SERVICE-PUBLISH-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log_root}/${app_name}/service-publish-digest.log</file>
+    <appender name="SERVICE-PUBLISH-DIGEST" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_root}/${app_name}/${app_name}-service-publish-digest.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>${log_level}</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_root}/${app_name}/service-publish-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>${log_root}/${app_name}/${app_name}-service-publish-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -101,15 +83,15 @@
     </appender>
 
     <!-- 服务注册 -->
-    <appender name="SERVICE-REGISTER-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log_root}/${app_name}/service-register-digest.log</file>
+    <appender name="SERVICE-REGISTER-DIGEST" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_root}/${app_name}/${app_name}-service-register-digest.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>${log_level}</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_root}/${app_name}/service-register-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>${log_root}/${app_name}/${app_name}-service-register-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -117,24 +99,18 @@
         </layout>
     </appender>
 
-    <logger name="com.alipay.pussycat" level="${log_level}" additivity="false">
-        <appender-ref ref="DEFAULT-APPENDER" />
+    <logger name="service-publish-digest" additivity="false">
+        <level value="${log_level}" />
+        <appender-ref ref="SERVICE-PUBLISH-DIGEST" />
+    </logger>
+    <logger name="service-register-digest" additivity="false">
+        <level value="${log_level}" />
+        <appender-ref ref="SERVICE-REGISTER-DIGEST" />
     </logger>
 
-    <logger name="com.alipay.pussycat" level="${log_level}" additivity="false">
-        <appender-ref ref="ERROR-APPENDER" />
-    </logger>
-
-    <logger name="com.alipay.pussycat.cache" level="${log_level}" additivity="false">
-        <appender-ref ref="CACHE-DIGEST-APPENDER" />
-    </logger>
-
-    <logger name="com.alipay.pussycat.publish" level="${log_level}" additivity="false">
-        <appender-ref ref="SERVICE-PUBLISH-DIGEST-APPENDER" />
-    </logger>
-
-    <logger name="com.alipay.pussycat.register" level="${log_level}" additivity="false">
-        <appender-ref ref="SERVICE-REGISTER-DIGEST-APPENDER" />
+    <logger name="cache-digest" additivity="false">
+        <level value="${log_level}" />
+        <appender-ref ref="CACHE-DIGEST" />
     </logger>
 
     <root level="${log_level}">
@@ -142,13 +118,6 @@
 
         <appender-ref ref="DEFAULT-APPENDER" />
         <appender-ref ref="ERROR-APPENDER" />
-
-        <appender-ref ref="APP-DEFAULT-APPENDER" />
-
-        <appender-ref ref="CACHE-DIGEST-APPENDER" />
-        <appender-ref ref="SERVICE-PUBLISH-DIGEST-APPENDER" />
-        <appender-ref ref="SERVICE-REGISTER-DIGEST-APPENDER" />
-
 
     </root>
 
