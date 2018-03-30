@@ -12,7 +12,7 @@ import java.io.Serializable;
  *
  * Created by recollects on 18/3/12.
  */
-public abstract class ServiceEvent implements Serializable {
+public class ServiceEvent implements Serializable {
 
     private static final long serialVersionUID = 3387043415446548892L;
 

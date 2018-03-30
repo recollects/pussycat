@@ -76,7 +76,7 @@ public class CacheManagerTest extends BaseJunit4Test {
             logger.error("抛异常");
         }
 
-        serviceEventPublisher.publishEvent(null);
+//        serviceEventPublisher.publishEvent(null);
 
         logger_publish.info("test-日志打印");
         logger_publish.debug("test-日志打印");
