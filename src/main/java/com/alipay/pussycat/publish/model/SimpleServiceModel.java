@@ -9,11 +9,31 @@ package com.alipay.pussycat.publish.model;
  */
 public class SimpleServiceModel {
 
+    private String host;
+
+    private Integer port;
+
     private int timeout ;
 
     private String version;
 
     private Class clazz;
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
 
     public void setClazz(Class clazz) {
         this.clazz = clazz;

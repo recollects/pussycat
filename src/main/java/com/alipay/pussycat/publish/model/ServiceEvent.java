@@ -1,9 +1,7 @@
 package com.alipay.pussycat.publish.model;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
+import com.alipay.pussycat.common.utils.ToStringUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import java.io.Serializable;
 
@@ -44,7 +42,7 @@ public class ServiceEvent implements Serializable {
     /**
      * 参数唯一串
      */
-    private String parameters;
+    private String serviceKey;
 
     /**
      * 入参
@@ -77,7 +75,7 @@ public class ServiceEvent implements Serializable {
         sb.append(getPort()).append("/");
         sb.append(getInterfaceName()).append("/");
         sb.append(getMethodName()).append("#");
-        sb.append(getParameters());
+        sb.append(getServiceKey());
         return StringUtils.equals(obj.toString(),sb.toString());
     }
 
@@ -121,12 +119,21 @@ public class ServiceEvent implements Serializable {
         this.parameterTypes = parameterTypes;
     }
 
-    public String getParameters() {
-        return parameters;
+//    public String getParameters() {
+//        return parameters;
+//    }
+//
+//    public void setParameters(String parameters) {
+//        this.parameters = parameters;
+//    }
+
+
+    public void setServiceKey(String serviceKey) {
+        this.serviceKey = serviceKey;
     }
 
-    public void setParameters(String parameters) {
-        this.parameters = parameters;
+    public String getServiceKey() {
+        return serviceKey;
     }
 
     public Object[] getInputParameters() {
@@ -135,5 +142,10 @@ public class ServiceEvent implements Serializable {
 
     public void setInputParameters(Object[] inputParameters) {
         this.inputParameters = inputParameters;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringUtil.defaultStyle(this);
     }
 }

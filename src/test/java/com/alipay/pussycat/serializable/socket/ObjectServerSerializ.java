@@ -42,7 +42,7 @@ public class ObjectServerSerializ {
 
             HelloService helloService = new HelloServiceImpl();
 
-//            List<String> resolveClassMethods = resolveClassMethods(HelloService.class);
+//            List<String> resolveClassMethods = resolveClassMethods(UserService.class);
 
 //            ImmutableMap<Object, String> immutableMap = Maps.uniqueIndex(resolveClassMethods.iterator(), new Function<String, Object>() {
 //                @Override
@@ -63,7 +63,7 @@ public class ObjectServerSerializ {
             String transformStr = transportModel.getParameters();
             Object[] inputParameters = transportModel.getInputParameters();
 
-            //com.alipay.reflect.HelloService#sayHello:java.lang.String,java.lang.Integer
+            //com.alipay.reflect.UserService#sayHello:java.lang.String,java.lang.Integer
 
             String key = transportModel.getInterfaceName()+"#"+transportModel.getMethodName()+":"+transformStr;
 

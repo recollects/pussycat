@@ -2,15 +2,12 @@ package com.alipay.pussycat.publish;
 
 import com.alipay.pussycat.common.model.ErrorCodeEnum;
 import com.alipay.pussycat.common.utils.LogDef;
+import com.alipay.pussycat.common.utils.SystemUtils;
 import com.alipay.pussycat.publish.exception.ServicePublishException;
-import com.alipay.pussycat.publish.model.ServiceEvent;
 import com.alipay.pussycat.publish.model.SimpleServiceModel;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Map;
-import java.util.function.Predicate;
 
 /**
  * 提供給客戶端发布服务用[客户端所有服务都由这个类作为出口]
@@ -42,7 +39,7 @@ public class PussycatServiceExporter {
      */
     private void check() {
         Preconditions.checkNotNull(clazz);
-        Preconditions.checkNotNull(ref);
+//        Preconditions.checkNotNull(ref);
         Preconditions.checkArgument(timeout > 0, "超时时间不能小于0");
     }
 
@@ -56,6 +53,8 @@ public class PussycatServiceExporter {
         model.setClazz(getClazz());
         model.setTimeout(getTimeout());
         model.setVersion(getVersion());
+        model.setHost(SystemUtils.getIP());
+        model.setPort(8081);
         try {
             serviceEventPublisher.publish(model);
         } catch (ServicePublishException e) {

@@ -34,6 +34,7 @@ public class CacheManagerTest extends BaseJunit4Test {
 
     private static final Logger logger = LogDef.CACHE_DIGEST;
     private static final Logger logger_publish = LogDef.SERVICE_PUBLISH_DIGEST;
+    private static final Logger common = LoggerFactory.getLogger(CacheManagerTest.class);
 
 
     @Autowired
@@ -77,6 +78,18 @@ public class CacheManagerTest extends BaseJunit4Test {
 
 //        serviceEventPublisher.publishEvent(null);
 
+        logger_publish.info("test-日志打印");
+        logger_publish.debug("test-日志打印");
+        logger_publish.error("test-日志打印");
+
+        common.info("common-----");
+        common.debug("common-----");
+        common.error("common---error");
+        common.error("common---asdfasfd");
+        common.error("common---ewrwqre");
+        common.error("common---bafdasdfasf");
+        common.error("common---wqrqwreqwreqw");
+        //error.debug("aaaaaaaaaaaaaaaaaaa");
         //throw new RuntimeException("抛异常");
 
     }
