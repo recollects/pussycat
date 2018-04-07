@@ -1,7 +1,7 @@
 package com.alipay.pussycat.publish.model;
 
+import com.alipay.pussycat.common.utils.StringUtils;
 import com.alipay.pussycat.common.utils.ToStringUtil;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 
@@ -40,11 +40,6 @@ public class ServiceEvent implements Serializable {
     private  Class<?>[] parameterTypes;
 
     /**
-     * 参数唯一串
-     */
-    private String serviceKey;
-
-    /**
      * 入参
      */
     private Object[] inputParameters;
@@ -75,9 +70,11 @@ public class ServiceEvent implements Serializable {
         sb.append(getPort()).append("/");
         sb.append(getInterfaceName()).append("/");
         sb.append(getMethodName()).append("#");
-        sb.append(getServiceKey());
+        sb.append(StringUtils.parameterTypesToStr(getParameterTypes()));
         return StringUtils.equals(obj.toString(),sb.toString());
     }
+
+
 
     public String getHost() {
         return host;
@@ -117,23 +114,6 @@ public class ServiceEvent implements Serializable {
 
     public void setParameterTypes(Class<?>[] parameterTypes) {
         this.parameterTypes = parameterTypes;
-    }
-
-//    public String getParameters() {
-//        return parameters;
-//    }
-//
-//    public void setParameters(String parameters) {
-//        this.parameters = parameters;
-//    }
-
-
-    public void setServiceKey(String serviceKey) {
-        this.serviceKey = serviceKey;
-    }
-
-    public String getServiceKey() {
-        return serviceKey;
     }
 
     public Object[] getInputParameters() {

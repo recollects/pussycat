@@ -1,16 +1,14 @@
 package com.alipay.pussycat.cache;
 
-import java.util.List;
-import java.util.function.Consumer;
-
-import com.alipay.pussycat.cache.model.CacheEnum;
 import com.alipay.pussycat.common.utils.LogDef;
+import com.alipay.pussycat.common.utils.StringUtils;
+import com.alipay.pussycat.context.PussyCatApplicationContext;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
+
+import java.util.Map;
 
 /**
  * 缓存服务管理工厂
@@ -22,29 +20,30 @@ public class CacheManagerFactory {
 
     private static final Logger logger = LogDef.CACHE_DIGEST;
 
-    private List<CacheManager> cacheList = Lists.newArrayList();
+    private String cacheName;
 
     /**
      * 取出缓存服务
      *
-     * @param cacheName
      * @return
      */
-    public CacheManager get(CacheEnum cacheName) {
+    public CacheManager get() {
+
+        Map<String, CacheManager> cacheManagerMap = PussyCatApplicationContext.getApplicationContext().getBeansOfType(CacheManager.class);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("获取缓存实例" + cacheName.name());
+            logger.debug("获取缓存实例" + cacheName);
         }
-        if (CollectionUtils.isEmpty(cacheList)) {
+        if (MapUtils.isEmpty(cacheManagerMap)) {
             logger.error("缓存实例异常...");
             throw new RuntimeException("缓存实例异常...");
         }
 
-        return Iterators.find(cacheList.iterator(), new Predicate<CacheManager>() {
+        return Iterators.find(cacheManagerMap.values().iterator(), new Predicate<CacheManager>() {
 
             @Override
             public boolean apply(CacheManager manager) {
-                if (cacheName == manager.cacheName()) {
+                if (StringUtils.equalsAnyIgnoreCase(cacheName,manager.cacheName().name())) {
                     return true;
                 }
                 return false;
@@ -52,7 +51,7 @@ public class CacheManagerFactory {
         });
     }
 
-    public void setCacheList(List<CacheManager> cacheList) {
-        this.cacheList = cacheList;
+    public void setCacheName(String cacheName) {
+        this.cacheName = cacheName;
     }
 }

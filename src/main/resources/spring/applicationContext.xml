@@ -36,11 +36,7 @@
 
     <!-- 缓存管理工厂 -->
     <bean id="cacheManagerFactory" class="com.alipay.pussycat.cache.CacheManagerFactory">
-        <property name="cacheList">
-            <list>
-                <ref bean="redisCacheManager"/>
-            </list>
-        </property>
+        <property name="cacheName" value="${cache.name}"/>
     </bean>
 
     

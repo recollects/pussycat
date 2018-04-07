@@ -16,14 +16,14 @@
 
     <!-- 默认日志 -->
     <appender name="DEFAULT-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log_root}/${app_name}/common-default.log</file>
+        <file>${log.root}/${app.name}/common-default.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>${log_level}</level>
+            <level>${log.level}</level>
             <onMatch>ACCEPT</onMatch>
             <!--<onMismatch>DENY</onMismatch>-->
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_root}/${app_name}/common-default.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>${log.root}/${app.name}/common-default.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>3</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -33,14 +33,14 @@
 
     <!-- 公共错误日志 -->
     <appender name="ERROR-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log_root}/${app_name}/common-error.log</file>
+        <file>${log.root}/${app.name}/common-error.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_root}/${app_name}/common-error.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>${log.root}/${app.name}/common-error.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>3</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -50,14 +50,14 @@
 
     <!-- 缓存日志 -->
     <appender name="CACHE-DIGEST" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log_root}/${app_name}/${app_name}-cache-digest.log</file>
+        <file>${log.root}/${app.name}/${app.name}-cache-digest.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>${log_level}</level>
+            <level>${log.level}</level>
             <!--<onMatch>ACCEPT</onMatch>-->
             <!--<onMismatch>DENY</onMismatch>-->
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_root}/${app_name}/${app_name}-cache-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>${log.root}/${app.name}/${app.name}-cache-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -67,14 +67,14 @@
 
     <!-- 服务发布 -->
     <appender name="SERVICE-PUBLISH-DIGEST" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log_root}/${app_name}/${app_name}-service-publish-digest.log</file>
+        <file>${log.root}/${app.name}/${app.name}-service-publish-digest.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>${log_level}</level>
+            <level>${log.level}</level>
             <!--<onMatch>ACCEPT</onMatch>-->
             <!--<onMismatch>DENY</onMismatch>-->
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_root}/${app_name}/${app_name}-service-publish-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>${log.root}/${app.name}/${app.name}-service-publish-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -84,14 +84,14 @@
 
     <!-- 服务注册 -->
     <appender name="SERVICE-REGISTER-DIGEST" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log_root}/${app_name}/${app_name}-service-register-digest.log</file>
+        <file>${log.root}/${app.name}/${app.name}-service-register-digest.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>${log_level}</level>
+            <level>${log.level}</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_root}/${app_name}/${app_name}-service-register-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>${log.root}/${app.name}/${app.name}-service-register-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -100,20 +100,20 @@
     </appender>
 
     <logger name="service-publish-digest" additivity="false">
-        <level value="${log_level}" />
+        <level value="${log.level}" />
         <appender-ref ref="SERVICE-PUBLISH-DIGEST" />
     </logger>
     <logger name="service-register-digest" additivity="false">
-        <level value="${log_level}" />
+        <level value="${log.level}" />
         <appender-ref ref="SERVICE-REGISTER-DIGEST" />
     </logger>
 
     <logger name="cache-digest" additivity="false">
-        <level value="${log_level}" />
+        <level value="${log.level}" />
         <appender-ref ref="CACHE-DIGEST" />
     </logger>
 
-    <root level="${log_level}">
+    <root level="${log.level}">
         <appender-ref ref="STDOUT-APPENDER" />
 
         <appender-ref ref="DEFAULT-APPENDER" />

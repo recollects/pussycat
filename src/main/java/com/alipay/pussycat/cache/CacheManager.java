@@ -20,6 +20,14 @@ public interface CacheManager {
     boolean set(String key,String value);
 
     /**
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    boolean set(Object key,Object value);
+
+    /**
      * 从缓存中取数据
      *
      * @param key
@@ -28,12 +36,26 @@ public interface CacheManager {
     String get(String key);
 
     /**
+     *
+     * @param key
+     * @return
+     */
+    Object get(Object key);
+
+    /**
      * 删除缓存数据
      *
      * @param key
      * @return
      */
     boolean del(String key);
+
+    /**
+     *
+     * @param key
+     * @return
+     */
+    boolean del(Object key);
 
     /**
      * 缓存实例

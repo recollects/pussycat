@@ -13,16 +13,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisShardInfo;
-import redis.clients.jedis.ShardedJedis;
-import redis.clients.jedis.ShardedJedisPool;
-import redis.clients.jedis.Transaction;
+import redis.clients.jedis.*;
 
 import java.util.List;
 
@@ -63,7 +58,7 @@ public class CacheManagerTest extends BaseJunit4Test {
 
     @Test
     public void testGetCacheManagerFactory() {
-        CacheManager cacheManager = cacheManagerFactory.get(CacheEnum.REDIS);
+        CacheManager cacheManager = cacheManagerFactory.get();
 
         boolean result=cacheManager.set("aa","bb");
 
