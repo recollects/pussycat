@@ -74,7 +74,12 @@ public class RedisCacheManagerImpl implements CacheManager {
     @Override
     public boolean del(Object key) {
         ValueOperations opsForValue = redisTemplate.opsForValue();
-        return false;
+        try {
+            redisTemplate.delete(key);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
