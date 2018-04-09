@@ -25,13 +25,13 @@ public interface ServerRegisterService {
      * @param event
      * @return
      */
-    Result<Boolean> update(ServiceEvent event);
+    Result<Boolean> update(ServiceMetadata event);
 
     /**
      *
      * @param event
      * @return
      */
-    Result<Boolean> remove(ServiceEvent event);
+    Result<Boolean> remove(ServiceMetadata event);
 
 }

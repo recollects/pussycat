@@ -35,4 +35,14 @@ public class ServerRegisterServiceImpl implements ServerRegisterService{
         return new Result(true);
     }
 
+    @Override
+    public Result<Boolean> update(ServiceMetadata event) {
+        return new Result(false);
+    }
+
+    @Override
+    public Result<Boolean> remove(ServiceMetadata event) {
+        return new Result(false);
+    }
+
 }

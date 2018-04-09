@@ -1,6 +1,8 @@
 package com.alipay.pussycat.publish.impl;
 
 import com.alipay.pussycat.publish.AbstractServiceEventPublisher;
+import com.alipay.pussycat.publish.exception.ServicePublishException;
+import com.alipay.pussycat.publish.model.SimpleServiceModel;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,4 +21,10 @@ public class ServiceEventPublisherImpl extends AbstractServiceEventPublisher{
 
         logger_publish.info("测试日志打印");
     }
+
+    @Override
+    public void publish(SimpleServiceModel model) throws ServicePublishException {
+
+    }
+
 }
