@@ -9,7 +9,7 @@ import org.slf4j.Logger;
  *
  * Created by recollects on 18/3/12.
  */
-public abstract class AbstractServiceEventPublisher implements ServiceEventPublisher{
+public abstract class AbstractServiceEventPublisher implements ServicePublisher{
 
     protected static final Logger logger_publish = LogDef.SERVICE_PUBLISH_DIGEST;
 

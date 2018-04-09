@@ -1,7 +1,6 @@
 package com.alipay.pussycat.publish;
 
 import com.alipay.pussycat.base.BaseJunit4Test;
-import com.alipay.pussycat.publish.ServiceEventPublisher;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ServiceEventPublisherTest extends BaseJunit4Test{
 
     @Autowired
-    private ServiceEventPublisher serviceEventPublisher;
+    private ServicePublisher servicePublisher;
 
     @Test
     public void testPublishEvent(){

@@ -5,7 +5,7 @@ import com.alipay.pussycat.cache.model.CacheEnum;
 import com.alipay.pussycat.cache.redis.impl.RedisCacheManagerImpl;
 import com.alipay.pussycat.common.utils.LogDef;
 import com.alipay.pussycat.context.PussyCatApplicationContext;
-import com.alipay.pussycat.publish.ServiceEventPublisher;
+import com.alipay.pussycat.publish.ServicePublisher;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
@@ -40,7 +40,7 @@ public class CacheManagerTest extends BaseJunit4Test {
     private JedisConnectionFactory jedisConnectionFactory;
 
     @Autowired
-    private ServiceEventPublisher serviceEventPublisher;
+    private ServicePublisher servicePublisher;
 
     //@Autowired
     //private CacheManager redisCacheManager;
@@ -75,7 +75,7 @@ public class CacheManagerTest extends BaseJunit4Test {
             logger.error("抛异常");
         }
 
-        serviceEventPublisher.publishEvent(null);
+        servicePublisher.publishService(null);
 
         //throw new RuntimeException("抛异常");
 

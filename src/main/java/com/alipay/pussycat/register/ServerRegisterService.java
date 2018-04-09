@@ -1,7 +1,7 @@
 package com.alipay.pussycat.register;
 
 import com.alipay.pussycat.common.model.Result;
-import com.alipay.pussycat.publish.model.ServiceEvent;
+import com.alipay.pussycat.publish.model.ServiceMetadata;
 
 /**
  * 注册服务提供
@@ -18,6 +18,6 @@ public interface ServerRegisterService {
      * @param event
      * @return
      */
-    Result<Boolean> register(ServiceEvent event);
+    Result<Boolean> register(ServiceMetadata event);
 
 }

@@ -6,15 +6,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 
 /**
  * 网络传输包涵接口信息
  *
  * Created by recollects on 18/3/12.
  */
-public abstract class ServiceEvent implements Serializable {
+public class ServiceMetadata implements Serializable {
 
     private static final long serialVersionUID = 3387043415446548892L;
+    public static final String DEFAULT_VERSION = "1.0.0"; // 默认版本号
+    public static final int DEFAULT_TIMEOUT = 3000; // 默认超时时间
 
     /**
      * ip地址
@@ -31,10 +34,18 @@ public abstract class ServiceEvent implements Serializable {
      */
     private String interfaceName;
 
+    private Class<?> ItfClass;
+
+    /**
+     * 服务类
+     */
+    private Object target;
+
     /**
      * 方法名
      */
     private String methodName;
+    private String[] methodNames;
 
     /**
      * 参数类型[重载问题]
@@ -56,7 +67,12 @@ public abstract class ServiceEvent implements Serializable {
      */
     private final long timestamp;
 
-    public ServiceEvent() {
+    private int timeout = DEFAULT_TIMEOUT;
+    private String version = DEFAULT_VERSION;
+
+    private String uniqueName;
+
+    public ServiceMetadata() {
         timestamp = System.currentTimeMillis();
     }
 
@@ -79,6 +95,22 @@ public abstract class ServiceEvent implements Serializable {
         sb.append(getMethodName()).append("#");
         sb.append(getParameters());
         return StringUtils.equals(obj.toString(),sb.toString());
+    }
+
+
+    public String getMethodStamp(){
+        StringBuilder methodSB = new StringBuilder();
+        Method[] methods = target.getClass().getMethods();
+        for (Method method: methods) {
+            String name = method.getName();
+            Class<?>[] parameterTypes = method.getParameterTypes();
+            StringBuilder parameterSB = new StringBuilder();
+            for (Class<?> parameterType : parameterTypes ){
+                parameterSB.append(parameterType.getName()).append("-");
+            }
+            methodSB.append(name).append(":").append(parameterSB);
+        }
+        return methodSB.toString();
     }
 
     public String getHost() {
@@ -135,5 +167,41 @@ public abstract class ServiceEvent implements Serializable {
 
     public void setInputParameters(Object[] inputParameters) {
         this.inputParameters = inputParameters;
+    }
+
+    public Class<?> getItfClass() {
+        return ItfClass;
+    }
+
+    public void setItfClass(Class<?> itfClass) {
+        ItfClass = itfClass;
+    }
+
+    public Object getTarget() {
+        return target;
+    }
+
+    public void setTarget(Object target) {
+        this.target = target;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
+    public String getUniqueName() {
+        return interfaceName+"#"+version;
     }
 }
