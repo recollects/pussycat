@@ -13,6 +13,8 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 缓存redis实现
  *
@@ -39,8 +41,25 @@ public class RedisCacheManagerImpl implements CacheManager {
     }
 
     @Override
+    public boolean set(Object key, Object value) {
+        ValueOperations opsForValue = redisTemplate.opsForValue();
+        try {
+            opsForValue.set(key,value,20, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String get(String key) {
         return getJedis().get(key);
+    }
+
+    @Override
+    public Object get(Object key) {
+        ValueOperations opsForValue = redisTemplate.opsForValue();
+        return opsForValue.get(key);
     }
 
     @Override
@@ -50,6 +69,17 @@ public class RedisCacheManagerImpl implements CacheManager {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean del(Object key) {
+        ValueOperations opsForValue = redisTemplate.opsForValue();
+        try {
+            redisTemplate.delete(key);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.alipay.pussycat.publish.model;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.EqualsBuilder;
+import com.alipay.pussycat.common.utils.StringUtils;
+import com.alipay.pussycat.common.utils.ToStringUtil;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -93,7 +91,7 @@ public class ServiceMetadata implements Serializable {
         sb.append(getPort()).append("/");
         sb.append(getInterfaceName()).append("/");
         sb.append(getMethodName()).append("#");
-        sb.append(getParameters());
+        sb.append(StringUtils.parameterTypesToStr(getParameterTypes()));
         return StringUtils.equals(obj.toString(),sb.toString());
     }
 

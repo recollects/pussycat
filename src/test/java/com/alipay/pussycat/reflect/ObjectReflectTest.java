@@ -1,17 +1,9 @@
 package com.alipay.pussycat.reflect;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.Arrays;
-import java.util.List;
-
 import com.alipay.pussycat.reflect.model.HelloService;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.springframework.aop.framework.ReflectiveMethodInvocation;
-import org.springframework.expression.spel.support.ReflectiveMethodResolver;
 import org.springframework.util.ReflectionUtils;
+
+import java.lang.reflect.Method;
 
 /**
  *
@@ -45,6 +37,8 @@ public class ObjectReflectTest  {
 		Method sayHello2 = ReflectionUtils.findMethod(HelloService.class, "sayHello", String.class);
 
 		sayHello2.invoke(helloService,"ss");
+
+
 
 
 		//---------------

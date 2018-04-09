@@ -5,7 +5,7 @@ import com.alipay.pussycat.cache.model.CacheEnum;
 import com.alipay.pussycat.cache.redis.impl.RedisCacheManagerImpl;
 import com.alipay.pussycat.common.utils.LogDef;
 import com.alipay.pussycat.context.PussyCatApplicationContext;
-import com.alipay.pussycat.publish.ServicePublisher;
+import com.alipay.pussycat.publish.ServiceEventPublisher;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
@@ -13,16 +13,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisShardInfo;
-import redis.clients.jedis.ShardedJedis;
-import redis.clients.jedis.ShardedJedisPool;
-import redis.clients.jedis.Transaction;
+import redis.clients.jedis.*;
 
 import java.util.List;
 
@@ -34,13 +29,14 @@ public class CacheManagerTest extends BaseJunit4Test {
 
     private static final Logger logger = LogDef.CACHE_DIGEST;
     private static final Logger logger_publish = LogDef.SERVICE_PUBLISH_DIGEST;
+    private static final Logger common = LoggerFactory.getLogger(CacheManagerTest.class);
 
 
     @Autowired
     private JedisConnectionFactory jedisConnectionFactory;
 
     @Autowired
-    private ServicePublisher servicePublisher;
+    private ServiceEventPublisher serviceEventPublisher;
 
     //@Autowired
     //private CacheManager redisCacheManager;
@@ -62,7 +58,7 @@ public class CacheManagerTest extends BaseJunit4Test {
 
     @Test
     public void testGetCacheManagerFactory() {
-        CacheManager cacheManager = cacheManagerFactory.get(CacheEnum.REDIS);
+        CacheManager cacheManager = cacheManagerFactory.get();
 
         boolean result=cacheManager.set("aa","bb");
 
@@ -75,8 +71,20 @@ public class CacheManagerTest extends BaseJunit4Test {
             logger.error("抛异常");
         }
 
-        servicePublisher.publishService(null);
+//        serviceEventPublisher.publishEvent(null);
 
+        logger_publish.info("test-日志打印");
+        logger_publish.debug("test-日志打印");
+        logger_publish.error("test-日志打印");
+
+        common.info("common-----");
+        common.debug("common-----");
+        common.error("common---error");
+        common.error("common---asdfasfd");
+        common.error("common---ewrwqre");
+        common.error("common---bafdasdfasf");
+        common.error("common---wqrqwreqwreqw");
+        //error.debug("aaaaaaaaaaaaaaaaaaa");
         //throw new RuntimeException("抛异常");
 
     }

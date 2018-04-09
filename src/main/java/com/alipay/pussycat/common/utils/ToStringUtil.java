@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version V1.0
  * @date 2018年03月25日 下午4:27
  */
-public class ToStringStyleUtil {
+public class ToStringUtil {
 
     /**
      *

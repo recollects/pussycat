@@ -1,9 +1,6 @@
 package com.alipay.pussycat.common.model;
 
-import com.alipay.pussycat.common.utils.ToStringStyleUtil;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.alipay.pussycat.common.utils.ToStringUtil;
 
 import java.io.Serializable;
 
@@ -89,7 +86,7 @@ public class Result<T> implements Serializable{
 
     @Override
     public String toString() {
-        return ToStringStyleUtil.defaultStyle(this);
+        return ToStringUtil.defaultStyle(this);
     }
 
 }

@@ -20,4 +20,18 @@ public interface ServerRegisterService {
      */
     Result<Boolean> register(ServiceMetadata event);
 
+    /**
+     *
+     * @param event
+     * @return
+     */
+    Result<Boolean> update(ServiceEvent event);
+
+    /**
+     *
+     * @param event
+     * @return
+     */
+    Result<Boolean> remove(ServiceEvent event);
+
 }

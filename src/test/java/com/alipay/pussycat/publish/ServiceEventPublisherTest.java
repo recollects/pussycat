@@ -13,7 +13,7 @@ public class ServiceEventPublisherTest extends BaseJunit4Test{
     private ServicePublisher servicePublisher;
 
     @Test
-    public void testPublishEvent(){
-        //serviceEventPublisher.publishEvent(null);
+    public void testPublishEvent()throws  Exception{
+        Thread.currentThread().join();
     }
 }
