@@ -10,6 +10,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
  * 提供給客戶端发布服务用,一個生产bean的工厂
@@ -19,7 +22,7 @@ import org.springframework.context.ApplicationContextAware;
  * @version V1.0
  * @date 2018年03月25日 下午5:53
  */
-public class ServiceCreateFactoryBean implements InitializingBean, ApplicationContextAware {
+public class ServiceCreateFactoryBean implements InitializingBean, ApplicationContextAware,ApplicationListener {
 
     private static final Logger logger = LoggerFactory.getLogger(ServiceCreateFactoryBean.class);
 
@@ -62,7 +65,7 @@ public class ServiceCreateFactoryBean implements InitializingBean, ApplicationCo
      * 尽量做到不同逻辑之间互相独立
      */
     private void publishService(){
-        check();
+
         //TODO 注册服务
         ServerRegisterService serverRegisterService = PussycatServiceContainer.getInstance(ServerRegisterService.class);
         serverRegisterService.register(metadata);
@@ -74,7 +77,7 @@ public class ServiceCreateFactoryBean implements InitializingBean, ApplicationCo
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        publishService();
+        check();
     }
 
     @Override
@@ -116,5 +119,12 @@ public class ServiceCreateFactoryBean implements InitializingBean, ApplicationCo
     public void setServiceInterface(String serviceInterface) {
         this.serviceInterface = serviceInterface;
         metadata.setInterfaceName(serviceInterface);
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationEvent event) {
+        if(event instanceof ContextRefreshedEvent){
+            publishService();
+        }
     }
 }

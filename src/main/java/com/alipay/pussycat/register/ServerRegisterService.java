@@ -18,7 +18,7 @@ public interface ServerRegisterService {
      * @param event
      * @return
      */
-    Result<Boolean> register(ServiceMetadata event);
+    boolean register(ServiceMetadata event);
 
     /**
      *

@@ -4,10 +4,16 @@ import com.alipay.pussycat.cache.CacheManager;
 import com.alipay.pussycat.cache.redis.impl.RedisCacheManagerImpl;
 import com.alipay.pussycat.common.model.PussycatContants;
 import com.alipay.pussycat.common.model.Result;
+import com.alipay.pussycat.common.utils.LogDef;
 import com.alipay.pussycat.common.utils.PussycatServiceContainer;
+import com.alipay.pussycat.publish.PussycatServiceExporter;
 import com.alipay.pussycat.publish.model.ServiceMetadata;
+import com.alipay.pussycat.publish.model.SimpleServiceModel;
 import com.alipay.pussycat.register.DataStoreService;
 import com.alipay.pussycat.register.ServerRegisterService;
+import com.alipay.pussycat.server.ProviderServer;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -17,9 +23,13 @@ import com.alipay.pussycat.register.ServerRegisterService;
  */
 public class ServerRegisterServiceImpl implements ServerRegisterService{
 
+    protected static final Logger logger_publish = LogDef.SERVICE_PUBLISH_DIGEST;
+
     private DataStoreService dataStoreService = PussycatServiceContainer.getInstance(DataStoreService.class);
     private CacheManager cacheManager = PussycatServiceContainer.getInstance(CacheManager.class);
 
+    @Autowired
+    private ProviderServer  providerServer;
     /**
      * 注册服务[将提供服方的接口信息,存到注册中心去]
      *
@@ -27,12 +37,20 @@ public class ServerRegisterServiceImpl implements ServerRegisterService{
      * @return
      */
     @Override
-    public Result<Boolean> register(ServiceMetadata metadata) {
+    public boolean register(ServiceMetadata metadata) {
+        //开启pussycat服务
+        try {
+            providerServer.startPYCServer();
+        } catch (Exception e) {
+            logger_publish.info("start pussycat server fail......");
+        }
+
         //TODO 将提供方服务存到注册中心去
-        dataStoreService.put(PussycatContants.PAT_METADATA_KEY,metadata.getUniqueName(),metadata);
+        SimpleServiceModel simpleServiceModel = new SimpleServiceModel(metadata.getInterfaceName(),metadata,metadata.getTarget());
+
+        dataStoreService.put(PussycatContants.PAT_METADATA_KEY,metadata.getUniqueName(),simpleServiceModel);
         String key = PussycatContants.PUSSYCAT_REDIS_KEY_PRE +  metadata.getUniqueName();
-        ((RedisCacheManagerImpl)cacheManager).set(key,metadata.getMethodStamp());
-        return new Result(true);
+        return  ((RedisCacheManagerImpl)cacheManager).set(key,simpleServiceModel);
     }
 
     @Override

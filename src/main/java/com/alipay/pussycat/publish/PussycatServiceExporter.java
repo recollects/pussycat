@@ -32,7 +32,7 @@ public class PussycatServiceExporter {
     private Class ref;
 
     @Autowired
-    private ServiceEventPublisher serviceEventPublisher;
+    private ServicePublisher serviceEventPublisher;
 
     /**
      *
@@ -46,7 +46,7 @@ public class PussycatServiceExporter {
     /**
      * 必须调用
      */
-    public void init(){
+   /* public void init(){
         check();
 
         SimpleServiceModel model = new SimpleServiceModel();
@@ -61,7 +61,7 @@ public class PussycatServiceExporter {
             LOGGER.error("服务初始异常,class={}",clazz,e);
             throw new ServicePublishException(ErrorCodeEnum.UNKNOWN_SYSTEM_ERROR,"服务初始异常",e);
         }
-    }
+    }*/
 
     public int getTimeout() {
         return timeout;
