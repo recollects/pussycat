@@ -6,7 +6,6 @@ import com.alipay.pussycat.common.model.PussycatContants;
 import com.alipay.pussycat.common.model.Result;
 import com.alipay.pussycat.common.utils.LogDef;
 import com.alipay.pussycat.common.utils.PussycatServiceContainer;
-import com.alipay.pussycat.publish.PussycatServiceExporter;
 import com.alipay.pussycat.publish.model.ServiceMetadata;
 import com.alipay.pussycat.publish.model.SimpleServiceModel;
 import com.alipay.pussycat.register.DataStoreService;
@@ -16,12 +15,11 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
  * @author recollects
  * @version V1.0
  * @date 2018年03月25日 下午5:38
  */
-public class ServerRegisterServiceImpl implements ServerRegisterService{
+public class ServerRegisterServiceImpl implements ServerRegisterService {
 
     protected static final Logger logger_publish = LogDef.SERVICE_PUBLISH_DIGEST;
 
@@ -29,7 +27,8 @@ public class ServerRegisterServiceImpl implements ServerRegisterService{
     private CacheManager cacheManager = PussycatServiceContainer.getInstance(CacheManager.class);
 
     @Autowired
-    private ProviderServer  providerServer;
+    private ProviderServer providerServer;
+
     /**
      * 注册服务[将提供服方的接口信息,存到注册中心去]
      *
@@ -46,11 +45,11 @@ public class ServerRegisterServiceImpl implements ServerRegisterService{
         }
 
         //TODO 将提供方服务存到注册中心去
-        SimpleServiceModel simpleServiceModel = new SimpleServiceModel(metadata.getInterfaceName(),metadata,metadata.getTarget());
+        SimpleServiceModel simpleServiceModel = new SimpleServiceModel(metadata.getInterfaceName(), metadata, metadata.getTarget());
 
-        dataStoreService.put(PussycatContants.PAT_METADATA_KEY,metadata.getUniqueName(),simpleServiceModel);
-        String key = PussycatContants.PUSSYCAT_REDIS_KEY_PRE +  metadata.getUniqueName();
-        return  ((RedisCacheManagerImpl)cacheManager).set(key,simpleServiceModel);
+        dataStoreService.put(PussycatContants.PAT_METADATA_KEY, metadata.getUniqueName(), simpleServiceModel);
+        String key = PussycatContants.PUSSYCAT_REDIS_KEY_PRE + metadata.getUniqueName();
+        return ((RedisCacheManagerImpl) cacheManager).set(key, simpleServiceModel);
     }
 
     @Override

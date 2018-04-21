@@ -1,10 +1,6 @@
 package com.alipay.pussycat.publish;
 
-import com.alipay.pussycat.common.model.ErrorCodeEnum;
 import com.alipay.pussycat.common.utils.LogDef;
-import com.alipay.pussycat.common.utils.SystemUtils;
-import com.alipay.pussycat.publish.exception.ServicePublishException;
-import com.alipay.pussycat.publish.model.SimpleServiceModel;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +52,7 @@ public class PussycatServiceExporter {
         model.setHost(SystemUtils.getIP());
         model.setPort(8081);
         try {
-            serviceEventPublisher.publish(model);
+            servicePublisher.publish(model);
         } catch (ServicePublishException e) {
             LOGGER.error("服务初始异常,class={}",clazz,e);
             throw new ServicePublishException(ErrorCodeEnum.UNKNOWN_SYSTEM_ERROR,"服务初始异常",e);

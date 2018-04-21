@@ -1,11 +1,12 @@
 package com.alipay.pussycat.common.utils;
 
+import com.alipay.pussycat.register.ServerRegisterService;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.alipay.pussycat.register.ServerRegisterService;
 
 /**
  * 加载类，避免过多依赖spring实现
@@ -17,22 +18,28 @@ public class PussycatServiceContainer {
     @SuppressWarnings("unchecked")
     public static <T> T getInstance(Class<T> classType) {
         T instance = (T) INSTANCE_CACHE.get(classType);
+
         if (instance == null) {
-            try {
-                instance = ServiceLoader.load(classType, PussycatServiceContainer.class.getClassLoader()).iterator().next();
-                INSTANCE_CACHE.putIfAbsent(classType, instance);
+            ServiceLoader<T> serviceLoader = ServiceLoader.load(classType);
+
+            Iterator<T> iterator = serviceLoader.iterator();
+
+            while (iterator.hasNext()) {
+                T next = iterator.next();
+                INSTANCE_CACHE.putIfAbsent(classType, next);
                 return (T) INSTANCE_CACHE.get(classType);
-            } catch (RuntimeException e) {
-                    throw e;
             }
-        } else {
+            return null;
+        }else {
             if (classType.isAssignableFrom(instance.getClass())) {
                 return instance;
             } else {
                 throw new RuntimeException("[Init service Container Error]" + classType);
             }
         }
+
     }
+
 
     @SuppressWarnings("unchecked")
     public static <T> List<T> getInstances(Class<T> classType) {
@@ -46,7 +53,7 @@ public class PussycatServiceContainer {
                 INSTANCE_CACHE.putIfAbsent(classType, list);
                 return (List<T>) INSTANCE_CACHE.get(classType);
             } catch (RuntimeException e) {
-                    throw e;
+                throw e;
 
             }
         } else {

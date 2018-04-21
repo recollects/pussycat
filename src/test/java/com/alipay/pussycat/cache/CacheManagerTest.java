@@ -36,7 +36,7 @@ public class CacheManagerTest extends BaseJunit4Test {
     private JedisConnectionFactory jedisConnectionFactory;
 
     @Autowired
-    private ServicePublisher serviceEventPublisher;
+    private ServicePublisher servicePublisher;
 
     //@Autowired
     //private CacheManager redisCacheManager;
