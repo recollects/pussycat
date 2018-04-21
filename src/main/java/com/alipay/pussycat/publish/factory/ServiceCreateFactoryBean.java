@@ -17,7 +17,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 /**
  * 提供給客戶端发布服务用,一個生产bean的工厂
  * <p>到时候配置服务发布<p/>
- *
+ * FIXME 明瑾  这个类删了吧包括factory文件夹,直接用PussycatServiceExporter这个类!
  * @author recollects
  * @version V1.0
  * @date 2018年03月25日 下午5:53
