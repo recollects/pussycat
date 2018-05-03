@@ -45,7 +45,7 @@ public class PussycatServiceExporter {
    /* public void init(){
         check();
 
-        SimpleServiceModel model = new SimpleServiceModel();
+        SimpleServiceProviderModel model = new SimpleServiceProviderModel();
         model.setClazz(getClazz());
         model.setTimeout(getTimeout());
         model.setVersion(getVersion());

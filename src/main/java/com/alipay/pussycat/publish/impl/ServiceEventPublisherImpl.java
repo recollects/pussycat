@@ -2,7 +2,7 @@ package com.alipay.pussycat.publish.impl;
 
 import com.alipay.pussycat.publish.AbstractServiceEventPublisher;
 import com.alipay.pussycat.publish.exception.ServicePublishException;
-import com.alipay.pussycat.publish.model.SimpleServiceModel;
+import com.alipay.pussycat.publish.model.SimpleServiceProviderModel;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,7 +23,7 @@ public class ServiceEventPublisherImpl extends AbstractServiceEventPublisher{
     }
 
     @Override
-    public void publish(SimpleServiceModel model) throws ServicePublishException {
+    public void publish(SimpleServiceProviderModel model) throws ServicePublishException {
 
     }
 

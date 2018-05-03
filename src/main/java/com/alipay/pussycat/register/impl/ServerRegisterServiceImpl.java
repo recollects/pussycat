@@ -7,7 +7,7 @@ import com.alipay.pussycat.common.model.Result;
 import com.alipay.pussycat.common.utils.LogDef;
 import com.alipay.pussycat.common.utils.PussycatServiceContainer;
 import com.alipay.pussycat.publish.model.ServiceMetadata;
-import com.alipay.pussycat.publish.model.SimpleServiceModel;
+import com.alipay.pussycat.publish.model.SimpleServiceProviderModel;
 import com.alipay.pussycat.register.DataStoreService;
 import com.alipay.pussycat.register.ServerRegisterService;
 import com.alipay.pussycat.server.ProviderServer;
@@ -37,23 +37,21 @@ public class ServerRegisterServiceImpl implements ServerRegisterService {
      */
     @Override
     public boolean register(ServiceMetadata metadata) {
-        //开启pussycat服务
-        try {
-            //FIXME 明瑾 注册服务不需要每个都调用这个接口
-            providerServer.startPYCServer();
-        } catch (Exception e) {
-            logger_publish.info("start pussycat server fail......");
-        }
 
         //TODO 将提供方服务存到注册中心去
-        //FIXME 明瑾 这里参数传递,直接传一个对象就好了,或者传必须的参数metadata都传过去了
-        SimpleServiceModel simpleServiceModel = new SimpleServiceModel(metadata.getInterfaceName(), metadata, metadata.getTarget());
+        SimpleServiceProviderModel simpleServiceProviderModel = new SimpleServiceProviderModel(metadata);
 
         //FIXME 明瑾 这里put操作,就是一个key-value操作,要么把key在这里拼接,要么放到dataStoreService实现里去拼接
-        dataStoreService.put(PussycatContants.PAT_METADATA_KEY, metadata.getUniqueName(), simpleServiceModel);
+        dataStoreService.put(PussycatContants.PAT_METADATA_KEY, metadata.getUniqueName(), simpleServiceProviderModel);
         String key = PussycatContants.PUSSYCAT_REDIS_KEY_PRE + metadata.getUniqueName();
         //FIXME 明瑾 这里略...
-        return ((RedisCacheManagerImpl) cacheManager).set(key, simpleServiceModel);
+        return ((RedisCacheManagerImpl) cacheManager).set(key, simpleServiceProviderModel);
+    }
+
+    @Override
+    public boolean subscribe(ServiceMetadata event) {
+
+        return false;
     }
 
     @Override

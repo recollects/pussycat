@@ -1,13 +1,18 @@
 package com.alipay.pussycat.publish.factory;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import com.alipay.pussycat.common.utils.LogDef;
 import com.alipay.pussycat.common.utils.PussycatServiceContainer;
 import com.alipay.pussycat.publish.model.ServiceMetadata;
 import com.alipay.pussycat.register.ServerRegisterService;
+import com.alipay.pussycat.server.ProviderServer;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
@@ -24,7 +29,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  */
 public class ServiceCreateFactoryBean implements InitializingBean, ApplicationContextAware,ApplicationListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(ServiceCreateFactoryBean.class);
+    protected static final Logger logger_publish = LogDef.SERVICE_PUBLISH_DIGEST;
 
     private static final int DEFAULT_TIMEOUT = 3000;
     private static final String DEFAULT_VERSION = "1.0";
@@ -37,6 +42,13 @@ public class ServiceCreateFactoryBean implements InitializingBean, ApplicationCo
 
     private String serviceInterface;
     private final ServiceMetadata metadata = new ServiceMetadata();
+
+    static private AtomicBoolean isProviderStarted = new AtomicBoolean(false);
+
+
+
+    @Autowired
+    private ProviderServer providerServer;
 
     /**
      *
@@ -125,6 +137,14 @@ public class ServiceCreateFactoryBean implements InitializingBean, ApplicationCo
     public void onApplicationEvent(ApplicationEvent event) {
         if(event instanceof ContextRefreshedEvent){
             publishService();
+            //开启pussycat服务
+            if (isProviderStarted.compareAndSet(false, true)){
+                try {
+                    providerServer.startPYCServer();
+                } catch (Exception e) {
+                    logger_publish.info("start pussycat server fail......");
+                }
+            }
         }
     }
 }

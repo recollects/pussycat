@@ -1,7 +1,9 @@
 package com.alipay.pussycat.publish.model;
 
+import com.alipay.pussycat.common.utils.LogDef;
 import com.alipay.pussycat.common.utils.StringUtils;
 import com.alipay.pussycat.common.utils.ToStringUtil;
+import org.slf4j.Logger;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -12,6 +14,8 @@ import java.lang.reflect.Method;
  * Created by recollects on 18/3/12.
  */
 public class ServiceMetadata implements Serializable {
+
+    protected static final Logger logger_metadata = LogDef.SERVICE_METADATA_DIGEST;
 
     private static final long serialVersionUID = 3387043415446548892L;
     public static final String DEFAULT_VERSION = "1.0.0"; // 默认版本号
@@ -67,6 +71,11 @@ public class ServiceMetadata implements Serializable {
 
     private int timeout = DEFAULT_TIMEOUT;
     private String version = DEFAULT_VERSION;
+
+    /**
+     * 代理类型
+     */
+    private String proxyStyle = "jdk";
 
     private String uniqueName;
 
@@ -132,7 +141,12 @@ public class ServiceMetadata implements Serializable {
     }
 
     public void setInterfaceName(String interfaceName) {
-        this.interfaceName = interfaceName;
+        this.interfaceName = interfaceName.trim();
+        try {
+            setItfClass(Class.forName(this.interfaceName));
+        } catch (ClassNotFoundException e) {
+            logger_metadata.info("接口类不存在");
+        }
     }
 
     public String getMethodName() {

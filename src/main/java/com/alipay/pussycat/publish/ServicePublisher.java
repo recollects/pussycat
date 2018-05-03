@@ -1,7 +1,7 @@
 package com.alipay.pussycat.publish;
 
 import com.alipay.pussycat.publish.exception.ServicePublishException;
-import com.alipay.pussycat.publish.model.SimpleServiceModel;
+import com.alipay.pussycat.publish.model.SimpleServiceProviderModel;
 
 /**
  * 发布服务接口
@@ -18,7 +18,7 @@ public interface ServicePublisher {
      */
     void publishService(Class clazz);
 
-    void publish(SimpleServiceModel model) throws ServicePublishException;
+    void publish(SimpleServiceProviderModel model) throws ServicePublishException;
 
 
 

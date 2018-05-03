@@ -32,7 +32,6 @@ public class PussycatProviderServer implements ProviderServer {
     @Override
     synchronized public void startPYCServer() throws Exception {
         try {
-
             ServerBootstrap bootstrap = new ServerBootstrap();
             // 可配置的几个
             bootstrap.group(bossGroup, workerGroup)//
@@ -51,7 +50,6 @@ public class PussycatProviderServer implements ProviderServer {
             } finally {
 
             }
-
             started.compareAndSet(false,true);
         } catch (Exception e) {
             throw new Exception("启动HSF服务器端错误", e);

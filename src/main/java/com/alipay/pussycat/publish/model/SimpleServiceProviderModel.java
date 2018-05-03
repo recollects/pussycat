@@ -15,7 +15,7 @@ import com.alipay.pussycat.common.utils.SystemUtils;
  * @version V1.0
  * @date 2018年03月29日 下午9:45
  */
-public class SimpleServiceModel {
+public class SimpleServiceProviderModel {
 
     private final String host;
 
@@ -33,14 +33,14 @@ public class SimpleServiceModel {
     private final Map<String, List<ProviderMethodModel>> providerMethodModels = new HashMap<String, List<ProviderMethodModel>>();
 
 
-    public SimpleServiceModel(String serviceName, ServiceMetadata metada, Object serviceInstance) {
-        if (null == serviceInstance) {
-            throw new IllegalArgumentException("服务[" + serviceName + "]的Target为NULL.");
+    public SimpleServiceProviderModel(ServiceMetadata metada) {
+        if (null == metada.getTarget()) {
+            throw new IllegalArgumentException("服务[" + metada.getInterfaceName() + "]的Target为NULL.");
         }
 
-        this.serviceName = serviceName;
+        this.serviceName = metada.getInterfaceName();
         this.metadata = metada;
-        this.serviceInstance = serviceInstance;
+        this.serviceInstance = metada.getTarget();
         host = SystemUtils.getIP();
         timeout = metadata.getTimeout();
         initMethod();
