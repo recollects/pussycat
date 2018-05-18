@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import com.alipay.pussycat.common.model.ApplicationModel;
 import com.alipay.pussycat.common.model.SimpleServiceConsumerModel;
 import com.alipay.pussycat.publish.model.ServiceMetadata;
 
@@ -15,7 +16,16 @@ public class ServiceConsumeImpl implements ServiceConsume{
 
     @Override
     public Object consume(ServiceMetadata metadata) throws Exception {
-        //
+        //先从本地缓存中获取
+        SimpleServiceConsumerModel consumedServiceModel = ApplicationModel.instance().getConsumedServiceModel(metadata.getInterfaceName());
+        if (consumedServiceModel !=null ){
+            return consumedServiceModel.getProxyObject();
+        }
+        //生成服务代理
+        if(metadata.getItfClass() != null){
+
+        }
+
         return null;
     }
 
