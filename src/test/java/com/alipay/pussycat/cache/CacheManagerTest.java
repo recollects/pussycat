@@ -1,11 +1,11 @@
 package com.alipay.pussycat.cache;
 
 import com.alipay.pussycat.base.BaseJunit4Test;
-import com.alipay.pussycat.cache.model.CacheEnum;
-import com.alipay.pussycat.cache.redis.impl.RedisCacheManagerImpl;
+import com.alipay.pussycat.register.model.CacheEnum;
+import com.alipay.pussycat.register.redis.service.RedisCacheManagerImpl;
 import com.alipay.pussycat.common.utils.LogDef;
-import com.alipay.pussycat.context.PussyCatApplicationContext;
-import com.alipay.pussycat.publish.ServicePublisher;
+import com.alipay.pussycat.register.redis.service.CacheManager;
+import com.alipay.pussycat.register.redis.service.CacheManagerFactory;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
@@ -35,8 +35,7 @@ public class CacheManagerTest extends BaseJunit4Test {
     @Autowired
     private JedisConnectionFactory jedisConnectionFactory;
 
-    @Autowired
-    private ServicePublisher servicePublisher;
+
 
     //@Autowired
     //private CacheManager redisCacheManager;
@@ -47,8 +46,7 @@ public class CacheManagerTest extends BaseJunit4Test {
     @Autowired
     private CacheManagerFactory cacheManagerFactory;
 
-    @Autowired
-    private PussyCatApplicationContext pussyCatApplicationContext;
+
 
     @Autowired
     private ShardedJedisPool shardedJedisPool;

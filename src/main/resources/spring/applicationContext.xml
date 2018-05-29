@@ -32,10 +32,10 @@
      <!--<bean id="demoService" class="com.alipay.pussycat.demoClientClient.rpcServer.DemoService"/>-->
 
     <!-- redis缓存实现 -->
-    <bean id="redisCacheManager" class="com.alipay.pussycat.cache.redis.impl.RedisCacheManagerImpl" />
+    <bean id="redisCacheManager" class="com.alipay.pussycat.register.redis.service.RedisCacheManagerImpl" />
 
     <!-- 缓存管理工厂 -->
-    <bean id="cacheManagerFactory" class="com.alipay.pussycat.cache.CacheManagerFactory">
+    <bean id="cacheManagerFactory" class="com.alipay.pussycat.register.redis.service.CacheManagerFactory">
         <property name="cacheName" value="${cache.name}"/>
     </bean>
 

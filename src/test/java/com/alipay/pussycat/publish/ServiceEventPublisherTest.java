@@ -1,9 +1,9 @@
 package com.alipay.pussycat.publish;
 
 import com.alipay.pussycat.base.BaseJunit4Test;
-import com.alipay.pussycat.cache.CacheManagerFactory;
+import com.alipay.pussycat.register.redis.service.CacheManagerFactory;
 import com.alipay.pussycat.common.utils.PussycatServiceContainer;
-import com.alipay.pussycat.publish.model.ServiceMetadata;
+import com.alipay.pussycat.server.model.ServiceMetadata;
 import com.alipay.pussycat.register.ServerRegisterService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,8 +15,6 @@ import org.springframework.data.redis.core.RedisTemplate;
  */
 public class ServiceEventPublisherTest extends BaseJunit4Test{
 
-    @Autowired
-    private ServicePublisher servicePublisher;
 
     @Autowired
     private RedisTemplate redisTemplate;

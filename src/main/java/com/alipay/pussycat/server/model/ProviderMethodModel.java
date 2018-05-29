@@ -1,21 +1,26 @@
-package com.alipay.pussycat.consumer.model;
+package com.alipay.pussycat.server.model;
 
 import java.lang.reflect.Method;
+
 import java.util.concurrent.atomic.AtomicInteger;
+
 
 import com.alipay.pussycat.common.utils.StringUtils;
 
 /**
- * @author wb-smj330392
- * @create 2018-05-03 16:30
- *
- * ConsumerMethodModel和ProviderMethodModel一样，后期考虑两种类型方法模型的差别
+ * 
+ * @author kongming.lrq
+ * 
  */
-public class ConsumerMethodModel {
-
+public class ProviderMethodModel {
     private final static AtomicInteger INDEX_GENERATOR = new AtomicInteger(1);
     private transient final Method method;
     private final String methodName;
+
+    public String getMethodArgTypesJoiner() {
+        return methodArgTypesJoiner;
+    }
+
     private final String methodArgTypesJoiner;
 
     private String fullMethodInfoToExport;
@@ -30,7 +35,7 @@ public class ConsumerMethodModel {
 
     //private final String spasMethodName;
 
-    public ConsumerMethodModel(Method method, String serviceName, int timeout) {
+    public ProviderMethodModel(Method method, String serviceName, int timeout) {
         this.method = method;
         this.serviceName = serviceName;
         this.methodName = method.getName();
@@ -40,7 +45,7 @@ public class ConsumerMethodModel {
         if (parameterTypes.length > 0) {
             methodArgTypesJoiner = StringUtils.parameterTypesToStr(parameterTypes);
 
-            methodkeyBuilder.append("~").append(methodArgTypesJoiner);
+                methodkeyBuilder.append("~").append(methodArgTypesJoiner);
 
         } else {
             methodArgTypesJoiner = "";
@@ -108,7 +113,7 @@ public class ConsumerMethodModel {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ConsumerMethodModel other = (ConsumerMethodModel) obj;
+        ProviderMethodModel other = (ProviderMethodModel) obj;
         if (methodName == null) {
             if (other.methodName != null)
                 return false;

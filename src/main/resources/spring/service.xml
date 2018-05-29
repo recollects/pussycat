@@ -15,6 +15,6 @@
     <context:component-scan base-package="com.alipay.pussycat" />
 
 
-    <bean id="providerServer" class="com.alipay.pussycat.server.PussycatProviderServer" />
+    <bean id="providerServer" class="com.alipay.pussycat.server.impl.PussycatProviderServer" />
 
 </beans>    

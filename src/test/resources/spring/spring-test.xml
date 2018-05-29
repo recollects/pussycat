@@ -16,5 +16,11 @@
         <!--<property name="version" value="1.0.0"/>-->
     <!--</bean>-->
 
-    
+
+    <bean id="springMultiBean" class="com.alipay.pussycat.SpringSimpleMultiBean" init-method="initMethod">
+        <property name="id" value="10000"/>
+        <property name="name" value="sumingjin"/>
+    </bean>
+
+
 </beans>    

@@ -6,8 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.alipay.pussycat.common.utils.LogDef;
-import com.alipay.pussycat.publish.model.ProviderMethodModel;
-import com.alipay.pussycat.publish.model.SimpleServiceProviderModel;
+import com.alipay.pussycat.consumer.model.SimpleServiceConsumerModel;
+import com.alipay.pussycat.server.model.SimpleServiceProviderModel;
 import org.slf4j.Logger;
 
 /**
@@ -19,8 +19,25 @@ public class ApplicationModel {
 
     protected static final Logger logger_consume = LogDef.SERVICE_CONSUME_DIGEST;
 
-    private final ConcurrentMap<String, SimpleServiceProviderModel> providers = new ConcurrentHashMap<String, SimpleServiceProviderModel>();
-    private final ConcurrentMap<String, SimpleServiceConsumerModel> consumers = new ConcurrentHashMap<String, SimpleServiceConsumerModel>();
+    public ConcurrentMap<String, SimpleServiceProviderModel> getProviders() {
+        return providers;
+    }
+
+    public void setProviders(ConcurrentMap<String, SimpleServiceProviderModel> providers) {
+        this.providers = providers;
+    }
+
+    public ConcurrentMap<String, SimpleServiceConsumerModel> getConsumers() {
+        return consumers;
+    }
+
+    public void setConsumers(ConcurrentMap<String, SimpleServiceConsumerModel> consumers) {
+        this.consumers = consumers;
+    }
+
+    private  ConcurrentMap<String, SimpleServiceProviderModel> providers = new ConcurrentHashMap<String, SimpleServiceProviderModel>();
+
+    private  ConcurrentMap<String, SimpleServiceConsumerModel> consumers = new ConcurrentHashMap<String, SimpleServiceConsumerModel>();
     //private final ConcurrentMap<Integer, ProviderMethodModel> providerCoders = new ConcurrentHashMap<Integer, ProviderMethodModel>();
 
     public final static ApplicationModel model = new ApplicationModel();

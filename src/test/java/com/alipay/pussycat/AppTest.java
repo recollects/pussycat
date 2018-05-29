@@ -1,6 +1,6 @@
 package com.alipay.pussycat;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Test;
 
 import com.alipay.pussycat.base.BaseJunit4Test;
 
@@ -15,4 +15,15 @@ public class AppTest extends BaseJunit4Test{
 //    public void testGetService(){
 //        System.out.println(demoService);
 //    }
+    /*@Autowired
+    private CacheManagerFactory cacheManagerFactory;
+*/
+
+    /*@Autowired
+    private SpringSimpleMultiBean springSimpleMultiBean;*/
+    @Test
+    public void beanLifeCycle(){
+
+        /*springSimpleMultiBean.say();*/
+    }
 }
