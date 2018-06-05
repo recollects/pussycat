@@ -3,11 +3,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!--<groupId>com.alipay.pussycat</groupId>-->
-	<!--<artifactId>core-common</artifactId>-->
-	<!--<version>0.0.1-SNAPSHOT</version>-->
-	<!--<packaging>jar</packaging>-->
-
 	<parent>
 		<groupId>com.alipay.pussycat</groupId>
 		<artifactId>pussycat-parent</artifactId>
@@ -16,15 +11,7 @@
 	</parent>
 
 	<artifactId>pussycat-core-common</artifactId>
-	<!--<name>core-common</name>-->
 	<description>core-common project for Spring Boot</description>
-
-	<!--<parent>-->
-		<!--<groupId>org.springframework.boot</groupId>-->
-		<!--<artifactId>spring-boot-starter-parent</artifactId>-->
-		<!--<version>2.0.2.RELEASE</version>-->
-		<!--<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-	<!--</parent>-->
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

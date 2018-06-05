@@ -12,15 +12,7 @@
 
 	<artifactId>pussycat-register-local</artifactId>
 	<packaging>jar</packaging>
-	<!--<name>pussycat-register-local</name>-->
 	<description>register-local project for Spring Boot</description>
-
-	<!--<parent>-->
-		<!--<groupId>org.springframework.boot</groupId>-->
-		<!--<artifactId>spring-boot-starter-parent</artifactId>-->
-		<!--<version>2.0.2.RELEASE</version>-->
-		<!--<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-	<!--</parent>-->
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
