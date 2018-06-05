@@ -1,7 +1,8 @@
 package com.alipay.pussycat.register;
 
 import com.alipay.pussycat.common.model.Result;
-import com.alipay.pussycat.server.model.ServiceMetadata;
+import com.alipay.pussycat.common.model.ServiceMetadata;
+import com.alipay.pussycat.server.model.SimpleServiceProviderModel;
 
 /**
  * 该接口定位为服务的注册与订阅使用
@@ -26,7 +27,7 @@ public interface ServerRegisterService {
      * @param event
      * @return
      */
-    boolean subscribe(ServiceMetadata event);
+    SimpleServiceProviderModel subscribe(ServiceMetadata event);
 
     /**
      *

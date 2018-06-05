@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @version V1.0
  * @date 2018年03月25日 下午4:18
  */
-public class Result<T> implements Serializable{
+public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = -7439691665727292793L;
 
@@ -40,8 +40,8 @@ public class Result<T> implements Serializable{
      */
     private String requestId;
 
-    public Result(boolean success){
-        this.success=success;
+    public Result(boolean success) {
+        this.success = success;
     }
 
     public String getRequestId() {

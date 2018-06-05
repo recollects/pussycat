@@ -1,9 +1,9 @@
 package com.alipay.pussycat.netty.client;
 
-import io.netty.buffer.ByteBuf;
+import com.alipay.pussycat.netty.model.NettyResponse;
+import com.alipay.pussycat.netty.result.RpcContextResult;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
 
 /**
  * @author recollects
@@ -12,29 +12,15 @@ import io.netty.util.CharsetUtil;
  */
 public class ClientHandler extends SimpleChannelInboundHandler {
 
-//    @Override
-//    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-//        try {
-//            ByteBuf buf = (ByteBuf) msg;
-//
-//            System.out.print(buf.toString(CharsetUtil.UTF_8));
-//        } finally {
-//            ReferenceCountUtil.release(msg);
-//        }
-//    }
-
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-//        channelRead(ctx,msg);
-//        try {
 
-        ByteBuf buf = (ByteBuf) msg;
-        byte[] data = new byte[buf.readableBytes()];
-        buf.readBytes(data);
-        System.out.println(new String(data,CharsetUtil.UTF_8));
-//        } finally {
-//            ReferenceCountUtil.release(msg);
-//        }
+        if (msg instanceof NettyResponse) {
+            System.out.println("...........");
+            NettyResponse response = (NettyResponse) msg;
+            System.out.println("接收响应信息:" + response.getData());
+            RpcContextResult.getContextResponse().put(response.getRequestId(), response);
+        }
     }
 
     @Override
@@ -42,4 +28,5 @@ public class ClientHandler extends SimpleChannelInboundHandler {
         cause.printStackTrace();
         ctx.close();
     }
+
 }

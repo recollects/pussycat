@@ -27,8 +27,6 @@ public class ProtoStuffSerializer implements Serializer {
         return schema;
     }
 
-
-
     @Override
     public <T> byte[] writeObject(T obj) {
         Class<T> clazz = (Class<T>) obj.getClass();

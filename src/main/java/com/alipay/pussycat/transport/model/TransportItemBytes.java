@@ -18,7 +18,6 @@ public class TransportItemBytes {
 
     private byte[] bodyBytes;
 
-
     public int size() {
         return bodyBytes == null ? 0 : bodyBytes.length;
     }

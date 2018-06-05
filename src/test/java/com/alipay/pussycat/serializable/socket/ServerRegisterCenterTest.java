@@ -14,6 +14,6 @@ public class ServerRegisterCenterTest {
     /**
      * 服务信息存储
      */
-    public static  final Map<String,Object> SERVER_REGISTER_CENTER = Maps.newConcurrentMap();
+    public static final Map<String, Object> SERVER_REGISTER_CENTER = Maps.newConcurrentMap();
 
 }

@@ -17,57 +17,56 @@ import com.alipay.pussycat.serializable.model.TransportModel;
 
 /**
  * 客户端
- * 
+ *
  * @author jiadong
  *
  */
 public class ObjectClientSerializ {
 
-	public static void main(String[] args)  {
+    public static void main(String[] args) {
 
-		try {
-			Socket socket = new Socket("localhost", 8081);
+        try {
+            Socket socket = new Socket("localhost", 8081);
 
-			HelloService helloService = new HelloServiceImpl();
+            HelloService helloService = new HelloServiceImpl();
 
-			TransportModel model = new TransportModel();
-			model.setMethodName("sayHello");
-			Class<? extends HelloService> class1 = helloService.getClass();
-			Method method = class1.getMethod("sayHello",String.class);
-			model.setParameterTypes(method.getParameterTypes());
+            TransportModel model = new TransportModel();
+            model.setMethodName("sayHello");
+            Class<? extends HelloService> class1 = helloService.getClass();
+            Method method = class1.getMethod("sayHello", String.class);
+            model.setParameterTypes(method.getParameterTypes());
 
             String transformStr = ObjectServerSerializ.parameterTransformStr(method.getParameters());
             model.setParameters(transformStr);
-			model.setInputParameters(new Object[]{"The first step of RPC"});
+            model.setInputParameters(new Object[] { "The first step of RPC" });
             model.setInterfaceName(HelloService.class.getName());
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			oos.writeObject(model);
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(model);
 
-			oos.flush();
+            oos.flush();
 
-			byte[] byteArray = bos.toByteArray();
+            byte[] byteArray = bos.toByteArray();
 
-			OutputStream outputStream = socket.getOutputStream();
+            OutputStream outputStream = socket.getOutputStream();
 
-			outputStream.write(byteArray);
-			outputStream.flush();
-			InputStream inputStream = socket.getInputStream();
+            outputStream.write(byteArray);
+            outputStream.flush();
+            InputStream inputStream = socket.getInputStream();
 
-			ObjectInputStream ois = new ObjectInputStream(inputStream);
-			TransportModel readObject = (TransportModel)ois.readObject();
-			System.out.println("调用返回结果="+readObject.getResult());
-			socket.close();
+            ObjectInputStream ois = new ObjectInputStream(inputStream);
+            TransportModel readObject = (TransportModel) ois.readObject();
+            System.out.println("调用返回结果=" + readObject.getResult());
+            socket.close();
 
-			System.out.println("客户端调用结束");
+            System.out.println("客户端调用结束");
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
-
+    }
 
 }

@@ -1,10 +1,9 @@
 package com.alipay.pussycat.netty.server;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import com.alipay.pussycat.netty.model.NettyRequest;
+import com.alipay.pussycat.netty.model.NettyResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
 
 /**
  * @author recollects
@@ -12,21 +11,6 @@ import io.netty.util.CharsetUtil;
  * @date 2018年04月21日 下午6:14
  */
 public class ServerHandler extends SimpleChannelInboundHandler {
-
-
-//    @Override
-//    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-//
-//        try {
-//            ByteBuf in = (ByteBuf) msg;
-//            // 打印客户端输入，传输过来的的字符
-//            System.out.print(in.toString(CharsetUtil.UTF_8));
-//            ctx.writeAndFlush(Unpooled.copiedBuffer("苏明瑾你好呀!".getBytes()));
-//        } finally {
-//            ReferenceCountUtil.release(msg);
-//        }
-//    }
-
 
     /**
      * 这里在父类里已经调用了channelRead,所以不用重写,也不需要自己手动去释放,只用关心数据读取处理即可
@@ -37,16 +21,24 @@ public class ServerHandler extends SimpleChannelInboundHandler {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-//        channelRead(ctx, msg);
-//        try {
-            ByteBuf buf = (ByteBuf) msg;
-            byte[] data = new byte[buf.readableBytes()];
-            buf.readBytes(data);
-            System.out.println(new String(data, CharsetUtil.UTF_8));
-            ctx.writeAndFlush(Unpooled.copiedBuffer("苏明瑾你好呀!".getBytes()));
-//        } finally {
-//            ReferenceCountUtil.release(msg);
-//        }
+        System.out.println("server:" + msg);
+        if (msg instanceof NettyRequest) {
+            System.out.println("..........");
+
+            NettyRequest request = (NettyRequest) msg;
+            System.out.println("服务端接收请求:" + request.getData());
+            NettyResponse response = new NettyResponse();
+            response.setData("来自服务端的响应!!!");
+            response.setRequestId(request.getRequestId());
+            ctx.writeAndFlush(response);
+
+        }
+        //        ByteBuf buf = (ByteBuf) msg;
+        //        byte[] data = new byte[buf.readableBytes()];
+        //        buf.readBytes(data);
+        //        System.out.println(new String(data, CharsetUtil.UTF_8));
+        //        ctx.writeAndFlush(Unpooled.copiedBuffer("苏明瑾你好呀!".getBytes()));
+
     }
 
     @Override

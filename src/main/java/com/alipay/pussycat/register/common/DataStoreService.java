@@ -33,7 +33,7 @@ public interface DataStoreService {
 
     /**
      * 删除存储的OSGi服务的数据
-     * 
+     *
      * @param componentName
      * @param key
      */

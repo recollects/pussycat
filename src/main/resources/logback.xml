@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
 
-    <property file="src/main/resources/antx.properties" />
+    <property file="src/main/resources/antx.properties"/>
 
     <!-- 控制台 -->
     <appender name="STDOUT-APPENDER" class="ch.qos.logback.core.ConsoleAppender">
@@ -74,7 +74,8 @@
             <!--<onMismatch>DENY</onMismatch>-->
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.root}/${app.name}/${app.name}-service-publish-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>${log.root}/${app.name}/${app.name}-service-publish-digest.log.%d{yyyy-MM-dd}
+            </fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -91,7 +92,8 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.root}/${app.name}/${app.name}-service-register-digest.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>${log.root}/${app.name}/${app.name}-service-register-digest.log.%d{yyyy-MM-dd}
+            </fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -100,24 +102,24 @@
     </appender>
 
     <logger name="service-publish-digest" additivity="false">
-        <level value="${log.level}" />
-        <appender-ref ref="SERVICE-PUBLISH-DIGEST" />
+        <level value="${log.level}"/>
+        <appender-ref ref="SERVICE-PUBLISH-DIGEST"/>
     </logger>
     <logger name="service-register-digest" additivity="false">
-        <level value="${log.level}" />
-        <appender-ref ref="SERVICE-REGISTER-DIGEST" />
+        <level value="${log.level}"/>
+        <appender-ref ref="SERVICE-REGISTER-DIGEST"/>
     </logger>
 
     <logger name="cache-digest" additivity="false">
-        <level value="${log.level}" />
-        <appender-ref ref="CACHE-DIGEST" />
+        <level value="${log.level}"/>
+        <appender-ref ref="CACHE-DIGEST"/>
     </logger>
 
     <root level="${log.level}">
-        <appender-ref ref="STDOUT-APPENDER" />
+        <appender-ref ref="STDOUT-APPENDER"/>
 
-        <appender-ref ref="DEFAULT-APPENDER" />
-        <appender-ref ref="ERROR-APPENDER" />
+        <appender-ref ref="DEFAULT-APPENDER"/>
+        <appender-ref ref="ERROR-APPENDER"/>
 
     </root>
 

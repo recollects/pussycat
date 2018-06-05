@@ -10,11 +10,11 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
 
-    <context:component-scan base-package="com.alipay.pussycat" />
+    <context:component-scan base-package="com.alipay.pussycat"/>
 
 
-    <bean id="providerServer" class="com.alipay.pussycat.server.impl.PussycatProviderServer" />
+    <!--<bean id="providerServer" class="com.alipay.pussycat.server.impl.ProviderServerImpl" />-->
 
 </beans>    

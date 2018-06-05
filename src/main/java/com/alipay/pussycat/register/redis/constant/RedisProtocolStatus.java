@@ -7,7 +7,6 @@ package com.alipay.pussycat.register.redis.constant;
 public class RedisProtocolStatus {
 
     /**成功*/
-    public static final String SUCCESS="OK";
-
+    public static final String SUCCESS = "OK";
 
 }

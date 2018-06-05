@@ -42,15 +42,14 @@ public class ObjectServerSerializ {
 
             HelloService helloService = new HelloServiceImpl();
 
-//            List<String> resolveClassMethods = resolveClassMethods(UserService.class);
+            //            List<String> resolveClassMethods = resolveClassMethods(UserService.class);
 
-//            ImmutableMap<Object, String> immutableMap = Maps.uniqueIndex(resolveClassMethods.iterator(), new Function<String, Object>() {
-//                @Override
-//                public Object apply(String s) {
-//                    return helloService;
-//                }
-//            });
-
+            //            ImmutableMap<Object, String> immutableMap = Maps.uniqueIndex(resolveClassMethods.iterator(), new Function<String, Object>() {
+            //                @Override
+            //                public Object apply(String s) {
+            //                    return helloService;
+            //                }
+            //            });
 
             InputStream inputStream = accept.getInputStream();
 
@@ -65,18 +64,18 @@ public class ObjectServerSerializ {
 
             //com.alipay.reflect.UserService#sayHello:java.lang.String,java.lang.Integer
 
-            String key = transportModel.getInterfaceName()+"#"+transportModel.getMethodName()+":"+transformStr;
+            String key = transportModel.getInterfaceName() + "#" + transportModel.getMethodName() + ":" + transformStr;
 
             //模拟将信息添加注册中心
-            ServerRegisterCenterTest.SERVER_REGISTER_CENTER.put(key,helloService);
+            ServerRegisterCenterTest.SERVER_REGISTER_CENTER.put(key, helloService);
             //然后取出服务
             Object object = ServerRegisterCenterTest.SERVER_REGISTER_CENTER.get(key);
 
-            Method method = object.getClass().getMethod(methodName,parameterTypes);
+            Method method = object.getClass().getMethod(methodName, parameterTypes);
 
             Object invoke = method.invoke(object, inputParameters);
 
-            System.out.println("提供服务端执行方法返回结果："+invoke);
+            System.out.println("提供服务端执行方法返回结果：" + invoke);
 
             OutputStream outputStream = accept.getOutputStream();
 
@@ -117,7 +116,7 @@ public class ObjectServerSerializ {
      * @param clazz
      * @return
      */
-    public static List<String> resolveClassMethods(Class clazz){
+    public static List<String> resolveClassMethods(Class clazz) {
         Method[] methods = clazz.getMethods();
 
         List<String> list = Lists.newArrayList();
@@ -125,7 +124,7 @@ public class ObjectServerSerializ {
 
             Parameter[] parameters = method.getParameters();
 
-            String parameterStr=parameterTransformStr(parameters);
+            String parameterStr = parameterTransformStr(parameters);
             list.add(HelloService.class.getName() + "#" + method.getName() + ":" + parameterStr);
         }
         return list;
@@ -136,7 +135,7 @@ public class ObjectServerSerializ {
      * @param parameters
      * @return
      */
-    public static String parameterTransformStr(Parameter[] parameters){
+    public static String parameterTransformStr(Parameter[] parameters) {
         String parameterStr = null;
         if (parameters != null && parameters.length > 0) {
             List<Parameter> asList = Arrays.asList(parameters);
@@ -155,6 +154,5 @@ public class ObjectServerSerializ {
         }
         return parameterStr;
     }
-
 
 }

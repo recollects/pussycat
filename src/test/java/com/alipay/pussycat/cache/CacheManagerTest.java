@@ -26,16 +26,12 @@ import java.util.List;
  */
 public class CacheManagerTest extends BaseJunit4Test {
 
-
-    private static final Logger logger = LogDef.CACHE_DIGEST;
+    private static final Logger logger         = LogDef.CACHE_DIGEST;
     private static final Logger logger_publish = LogDef.SERVICE_PUBLISH_DIGEST;
-    private static final Logger common = LoggerFactory.getLogger(CacheManagerTest.class);
-
+    private static final Logger common         = LoggerFactory.getLogger(CacheManagerTest.class);
 
     @Autowired
     private JedisConnectionFactory jedisConnectionFactory;
-
-
 
     //@Autowired
     //private CacheManager redisCacheManager;
@@ -45,8 +41,6 @@ public class CacheManagerTest extends BaseJunit4Test {
 
     @Autowired
     private CacheManagerFactory cacheManagerFactory;
-
-
 
     @Autowired
     private ShardedJedisPool shardedJedisPool;
@@ -58,18 +52,18 @@ public class CacheManagerTest extends BaseJunit4Test {
     public void testGetCacheManagerFactory() {
         CacheManager cacheManager = cacheManagerFactory.get();
 
-        boolean result=cacheManager.set("aa","bb");
+        boolean result = cacheManager.set("aa", "bb");
 
         String aa = cacheManager.get("aa");
-        if (logger.isDebugEnabled()){
-            logger.debug("成功插入redis一条数据key={},value={}","aa","bb");
+        if (logger.isDebugEnabled()) {
+            logger.debug("成功插入redis一条数据key={},value={}", "aa", "bb");
         }
 
-        if (logger.isErrorEnabled()){
+        if (logger.isErrorEnabled()) {
             logger.error("抛异常");
         }
 
-//        serviceEventPublisher.publishEvent(null);
+        //        serviceEventPublisher.publishEvent(null);
 
         logger_publish.info("test-日志打印");
         logger_publish.debug("test-日志打印");
@@ -88,7 +82,7 @@ public class CacheManagerTest extends BaseJunit4Test {
     }
 
     @Test
-    public void testJedisSet(){
+    public void testJedisSet() {
         JedisShardInfo shardInfo = jedisConnectionFactory.getShardInfo();
         Jedis jedis = shardInfo.createResource();
 
@@ -98,10 +92,10 @@ public class CacheManagerTest extends BaseJunit4Test {
 
         String set = jedis.set("YE01", "YE01");
 
-        jedis.set("YE02","YE02");
+        jedis.set("YE02", "YE02");
 
         String ye01 = jedis.get("YE01");
-        System.out.println("查询结果--->"+ye01);
+        System.out.println("查询结果--->" + ye01);
 
         //执行事务
         multi.exec();
@@ -119,12 +113,11 @@ public class CacheManagerTest extends BaseJunit4Test {
 
     }
 
-
     @Test
-    public void testFindList(){
+    public void testFindList() {
         List<CacheManager> cacheList = Lists.newArrayList();
         cacheList.add(new RedisCacheManagerImpl());
-        CacheEnum cacheEnum=CacheEnum.REDIS;
+        CacheEnum cacheEnum = CacheEnum.REDIS;
         CacheManager cacheManager = Iterators.find(cacheList.iterator(), new Predicate<CacheManager>() {
 
             @Override
@@ -137,7 +130,5 @@ public class CacheManagerTest extends BaseJunit4Test {
         });
         System.out.println(cacheManager.cacheName());
     }
-
-
 
 }

@@ -19,7 +19,7 @@ import java.util.Map;
  * @author jiadong
  * @date 2018/3/12 15:57
  */
-public class CacheManagerFactory implements InitializingBean ,ApplicationContextAware{
+public class CacheManagerFactory implements InitializingBean, ApplicationContextAware {
 
     private static final Logger logger = LogDef.CACHE_DIGEST;
 
@@ -48,7 +48,7 @@ public class CacheManagerFactory implements InitializingBean ,ApplicationContext
 
             @Override
             public boolean apply(CacheManager manager) {
-                if (StringUtils.equalsAnyIgnoreCase(cacheName,manager.cacheName().name())) {
+                if (StringUtils.equalsAnyIgnoreCase(cacheName, manager.cacheName().name())) {
                     return true;
                 }
                 return false;
@@ -67,6 +67,6 @@ public class CacheManagerFactory implements InitializingBean ,ApplicationContext
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-            this.applicationContext = applicationContext;
+        this.applicationContext = applicationContext;
     }
 }

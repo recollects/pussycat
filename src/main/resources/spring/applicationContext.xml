@@ -12,9 +12,9 @@
 
     <import resource="spring-redis.xml"/>
 
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
 
-    <context:component-scan base-package="com.alipay.pussycat" />
+    <context:component-scan base-package="com.alipay.pussycat"/>
 
     <!-- 加载配置文件 -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -27,17 +27,17 @@
     </bean>
 
     <!-- 应用上下文 -->
-    <bean id="pussyCatApplicationContext" class="com.alipay.pussycat.context.PussyCatApplicationContext"/>
-    
-     <!--<bean id="demoService" class="com.alipay.pussycat.demoClientClient.rpcServer.DemoService"/>-->
+    <!--<bean id="pussyCatApplicationContext" class="com.alipay.pussycat.context.PussyCatApplicationContext"/>-->
+
+    <!--<bean id="demoService" class="com.alipay.pussycat.demoClientClient.rpcServer.DemoService"/>-->
 
     <!-- redis缓存实现 -->
-    <bean id="redisCacheManager" class="com.alipay.pussycat.register.redis.service.RedisCacheManagerImpl" />
+    <bean id="redisCacheManager" class="com.alipay.pussycat.register.redis.service.RedisCacheManagerImpl"/>
 
     <!-- 缓存管理工厂 -->
     <bean id="cacheManagerFactory" class="com.alipay.pussycat.register.redis.service.CacheManagerFactory">
         <property name="cacheName" value="${cache.name}"/>
     </bean>
 
-    
+
 </beans>    

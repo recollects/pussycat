@@ -6,15 +6,14 @@ import java.lang.reflect.Parameter;
 /**
  * Created by recollects on 18/3/13.
  */
-public class TransportModel implements Serializable{
-
+public class TransportModel implements Serializable {
 
     private static final long serialVersionUID = 7109955232132227839L;
 
     //返回结果
-    private Object result;
+    private Object     result;
     //方法名
-    private String methodName;
+    private String     methodName;
     //参数
     private Class<?>[] parameterTypes;
 

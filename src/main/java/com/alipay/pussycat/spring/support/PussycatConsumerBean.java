@@ -1,12 +1,12 @@
-package com.alipay.pussycat.spring_support;
+package com.alipay.pussycat.spring.support;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
+import com.alipay.pussycat.common.model.PussycatContants;
 import com.alipay.pussycat.common.utils.LogDef;
 import com.alipay.pussycat.common.utils.PussycatServiceContainer;
 import com.alipay.pussycat.consumer.ServiceConsume;
-import com.alipay.pussycat.server.model.ServiceMetadata;
 import com.alipay.pussycat.register.ServerRegisterService;
+import com.alipay.pussycat.common.model.ServiceMetadata;
+import com.alipay.pussycat.server.model.SimpleServiceProviderModel;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -17,19 +17,16 @@ import org.springframework.util.Assert;
  * @version V1.0
  * @date 2018年04月07日 上午10:47
  */
-public class PussycatConsumerBean implements InitializingBean,FactoryBean {
+public class PussycatConsumerBean implements InitializingBean, FactoryBean {
 
-    protected static final Logger logger_consume = LogDef.SERVICE_CONSUME_DIGEST;
+    private static final Logger logger_consume = LogDef.SERVICE_CONSUME_DIGEST;
 
-    private ServiceConsume serviceConsume = PussycatServiceContainer.getInstance(ServiceConsume.class);
+    private ServiceConsume        serviceConsume  = PussycatServiceContainer.getInstance(ServiceConsume.class);
     private ServerRegisterService registerService = PussycatServiceContainer.getInstance(ServerRegisterService.class);
 
-    private static final int DEFAULT_TIMEOUT = 3000;
-    private static final String DEFAULT_VERSION = "1.0";
+    private int timeout = PussycatContants.DEFAULT_TIMEOUT;
 
-    private int timeout = DEFAULT_TIMEOUT;
-
-    private String version = DEFAULT_VERSION;
+    private String version = PussycatContants.DEFAULT_VERSION;
 
     private Object target;
 
@@ -48,7 +45,6 @@ public class PussycatConsumerBean implements InitializingBean,FactoryBean {
 
     public Object getTarget() {
         return target;
-
     }
 
     public void setTarget(Object target) {
@@ -56,43 +52,49 @@ public class PussycatConsumerBean implements InitializingBean,FactoryBean {
         metadata.setTarget(target);
     }
 
-    public String getServiceInterface() {
-        return serviceInterface;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setServiceInterface(String serviceInterface) {
-        this.serviceInterface = serviceInterface;
-        metadata.setInterfaceName(serviceInterface);
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+        metadata.setInterfaceName(serviceName);
     }
 
-    private String serviceInterface;
+    private String serviceName;
 
     private final ServiceMetadata metadata = new ServiceMetadata();
 
-    static private AtomicBoolean isProviderStarted = new AtomicBoolean(false);
-
     private Object serviceProxy;
-
-    private Object objMonitor = new Object();
-
-
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        //TODO 创建服务.
         // 初始化判断
         check();
+
+        //订阅服务
+        SimpleServiceProviderModel providerModel = registerService.subscribe(metadata);
+
+        if (providerModel != null) {
+            System.out.println("接口订阅成功:" + metadata.getUniqueName());
+        } else {
+            System.out.println("接口订阅失败:" + metadata.getUniqueName());
+        }
+
+        metadata.setHost(providerModel.getHost());
+        metadata.setPort(providerModel.getPort());
+        metadata.setVersion(providerModel.getVersion());
+
         // 获取服务实例 本地缓存获取+生成服务代理
         Object obj = serviceConsume.consume(metadata);
+        System.out.println("生成代理对象成功:" + obj);
         metadata.setTarget(obj);
-        //订阅服务
-        registerService.subscribe(metadata);
+        this.serviceProxy = obj;
+
     }
 
     private void check() {
-        Assert.notNull(metadata.getItfClass(),"接口类不存在");
-
-
+        Assert.notNull(metadata.getItfClass(), "接口类不存在");
     }
 
     public Object getServiceProxy() {
@@ -106,7 +108,7 @@ public class PussycatConsumerBean implements InitializingBean,FactoryBean {
 
     @Override
     public Object getObject() throws Exception {
-        return metadata.getTarget();
+        return serviceProxy;
     }
 
     @Override

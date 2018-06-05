@@ -1,5 +1,6 @@
 package com.alipay.pussycat.transport.model;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -8,8 +9,9 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author wb-smj330392
  * @create 2018-05-25 15:09
  */
-public class RemotingTransporter  {
+public class RemotingTransporter implements Serializable {
 
+    private static final long serialVersionUID = -750012243114836795L;
     /**
      * 定义的网络传输的类型：请求｜响应
      */
@@ -20,6 +22,8 @@ public class RemotingTransporter  {
      * 主要用于网络协议头的部分
      */
     private byte code;
+
+    private int timeOut = 3000;
 
     public TransportItemBytes getTransportItemBytes() {
         return transportItemBytes;
@@ -51,7 +55,7 @@ public class RemotingTransporter  {
      */
     private long requestId = transportId.getAndIncrement();
 
-    public RemotingTransporter(){
+    public RemotingTransporter() {
 
     }
 
@@ -60,7 +64,7 @@ public class RemotingTransporter  {
      * @param transportBody 请求的正文
      * @return
      */
-    public static RemotingTransporter createRequestTransporter(TransportBody transportBody){
+    public static RemotingTransporter createRequestTransporter(TransportBody transportBody) {
         RemotingTransporter remotingTransporter = new RemotingTransporter();
         remotingTransporter.transportBody = transportBody;
         remotingTransporter.setCode(TransportProtocal.REQUEST_CODE);
@@ -73,7 +77,7 @@ public class RemotingTransporter  {
      * @param code 响应对象的类型
      * @return
      */
-    public static RemotingTransporter createResponseTransporter(TransportBody transportBody,long requestId){
+    public static RemotingTransporter createResponseTransporter(TransportBody transportBody, long requestId) {
         RemotingTransporter remotingTransporter = new RemotingTransporter();
         remotingTransporter.transportBody = transportBody;
         remotingTransporter.setRequestId(requestId);
@@ -82,15 +86,12 @@ public class RemotingTransporter  {
         return remotingTransporter;
     }
 
-
-
-
     public static RemotingTransporter newInstance(long requestId, byte code, byte[] bytes) {
         RemotingTransporter remotingTransporter = new RemotingTransporter();
         remotingTransporter.setCode(code);
-        if (code == TransportProtocal.REQUEST_CODE){
+        if (code == TransportProtocal.REQUEST_CODE) {
             remotingTransporter.setTransportType(TransportProtocal.REQUEST_REMOTING);
-        }else {
+        } else {
             remotingTransporter.setTransportType(TransportProtocal.RESPONSE_REMOTING);
         }
         remotingTransporter.setRequestId(requestId);
@@ -98,6 +99,13 @@ public class RemotingTransporter  {
         return remotingTransporter;
     }
 
+    public void setTimeOut(int timeOut) {
+        this.timeOut = timeOut;
+    }
+
+    public int getTimeOut() {
+        return timeOut;
+    }
 
     public int getTransportType() {
         return transportType;

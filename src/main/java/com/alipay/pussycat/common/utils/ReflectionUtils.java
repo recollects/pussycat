@@ -20,15 +20,15 @@ public class ReflectionUtils {
     /**
      *
      */
-    private static final List<String> EXCLUDE_METHOD = Lists.newArrayList("toString", "wait", "equals", "hashCode", "getClass", "notify", "notifyAll");
-
+    private static final List<String> EXCLUDE_METHOD = Lists
+            .newArrayList("toString", "wait", "equals", "hashCode", "getClass", "notify", "notifyAll");
 
     /**
      * @param clazz
      * @return
      */
     public static List<Method> findMethod(Class<?> clazz) {
-       return findMethod(clazz, true);
+        return findMethod(clazz, true);
     }
 
     ;
@@ -42,11 +42,11 @@ public class ReflectionUtils {
 
         Preconditions.checkArgument(clazz != null, "Class is null");
 
-//        if (clazz.isInterface()){
-//            Method[] methods = clazz.getMethods();
-//            List<Method> asList = Arrays.asList(methods);
-//            return Sets.newHashSet(asList);
-//        }
+        //        if (clazz.isInterface()){
+        //            Method[] methods = clazz.getMethods();
+        //            List<Method> asList = Arrays.asList(methods);
+        //            return Sets.newHashSet(asList);
+        //        }
 
         Method[] methods = clazz.getMethods();
 
@@ -65,6 +65,5 @@ public class ReflectionUtils {
 
         return Lists.newArrayList(collection);
     }
-
 
 }

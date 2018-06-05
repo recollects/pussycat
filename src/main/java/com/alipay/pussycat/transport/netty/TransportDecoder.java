@@ -17,16 +17,18 @@ import static com.alipay.pussycat.transport.model.TransportProtocal.CAFE;
  * @author wb-smj330392
  * @create 2018-05-25 20:22
  */
-public class TransportDecoder extends ReplayingDecoder<TransportDecoder.state>{
+public class TransportDecoder extends ReplayingDecoder<TransportDecoder.state> {
 
     private static final Logger logger = LoggerFactory.getLogger(TransportDecoder.class);
 
     private static final int MAX_BODY_SIZE = 1024 * 1024 * 5;
+
     public TransportDecoder() {
         //设置(下文#state()的默认返回对象)
         super(state.HEADER_CAFE);
     }
-    TransportProtocal protocal =  new TransportProtocal();
+
+    TransportProtocal protocal = new TransportProtocal();
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
@@ -34,7 +36,7 @@ public class TransportDecoder extends ReplayingDecoder<TransportDecoder.state>{
             case HEADER_CAFE:
                 checkCafe(in.readShort()); // CAFE
                 checkpoint(state.HEADER_TYPE);
-            case HEADER_TYPE :          // 消息类型标志位
+            case HEADER_TYPE:          // 消息类型标志位
                 protocal.setCode(in.readByte());
                 checkpoint(state.HEADER_ID);
 
@@ -59,21 +61,19 @@ public class TransportDecoder extends ReplayingDecoder<TransportDecoder.state>{
 
     private int checkBodyLength(int bodyLength) throws Exception {
         if (bodyLength > MAX_BODY_SIZE) {
-            throw new Exception("body of request is bigger than limit value "+ MAX_BODY_SIZE);
+            throw new Exception("body of request is bigger than limit value " + MAX_BODY_SIZE);
         }
         return bodyLength;
     }
 
-    private void checkCafe(short cafe) throws Exception  {
+    private void checkCafe(short cafe) throws Exception {
         if (CAFE != cafe) {
             logger.error("cafe is not match");
-            throw new Exception("magic value is not equal "+cafe);
+            throw new Exception("magic value is not equal " + cafe);
         }
     }
 
-
-
-    enum state{
+    enum state {
         HEADER_CAFE, HEADER_TYPE, HEADER_ID, HEADER_BODY_LENGTH, BODY
     }
 }

@@ -14,8 +14,8 @@ public interface HelloService {
      */
     String sayHello();
 
-
     //-------------方法重载---------------------
+
     /**
      *
      * @param a
@@ -36,7 +36,6 @@ public interface HelloService {
      * @param b
      * @return
      */
-    String sayHello(String a,Integer b);
-
+    String sayHello(String a, Integer b);
 
 }

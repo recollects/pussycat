@@ -19,8 +19,6 @@ public class TransportProtocal {
     /** 响应的类型*/
     public static final byte RESPONSE_CODE = 12;
 
-
-
     /** 发送的是请求信息*/
     public static final int REQUEST_REMOTING = 1;
 
@@ -55,9 +53,6 @@ public class TransportProtocal {
     }
 
     private int bodyLength;
-
-
-
 
 }
 

@@ -11,16 +11,28 @@
         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <!--<bean class="com.alipay.pussycat.publish.PussycatServiceExporter" init-method="init">-->
-        <!--<property name="clazz" value="com.alipay.pussycat.publish.interfaceclazz.UserService"/>-->
-        <!--<property name="timeout" value="3000"/>-->
-        <!--<property name="version" value="1.0.0"/>-->
+    <!--<property name="clazz" value="com.alipay.pussycat.publish.interfaceclazz.UserService"/>-->
+    <!--<property name="timeout" value="3000"/>-->
+    <!--<property name="version" value="1.0.0"/>-->
     <!--</bean>-->
 
 
-    <bean id="springMultiBean" class="com.alipay.pussycat.SpringSimpleMultiBean" init-method="initMethod">
-        <property name="id" value="10000"/>
-        <property name="name" value="sumingjin"/>
+    <!--<bean id="springMultiBean" class="com.alipay.pussycat.SpringSimpleMultiBean" init-method="initMethod">-->
+    <!--<property name="id" value="10000"/>-->
+    <!--<property name="name" value="sumingjin"/>-->
+    <!--</bean>-->
+
+    <!-- 提供方配置 -->
+    <bean id="userServiceProvider" class="com.alipay.pussycat.insidetest.model.UserServiceImpl"/>
+    <bean class="com.alipay.pussycat.spring.support.PussycatServerBean">
+        <property name="serviceName" value="com.alipay.pussycat.insidetest.model.UserService"/>
+        <property name="target" ref="userServiceProvider"/>
     </bean>
 
+    <!-- 消费端配置-->
+    <bean id="userServiceConsumer" class="com.alipay.pussycat.spring.support.PussycatConsumerBean">
+        <property name="serviceName" value="com.alipay.pussycat.insidetest.model.UserService"/>
+        <!--<property name="target" value="com.alipay.pussycat.insidetest.model.UserService"/>-->
+    </bean>
 
 </beans>    

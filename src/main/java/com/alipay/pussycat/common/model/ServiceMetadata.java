@@ -1,16 +1,13 @@
-package com.alipay.pussycat.server.model;
+package com.alipay.pussycat.common.model;
 
 import com.alipay.pussycat.common.utils.LogDef;
-import com.alipay.pussycat.common.utils.StringUtils;
-import com.alipay.pussycat.common.utils.ToStringUtil;
 import org.slf4j.Logger;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
 
 /**
  * 网络传输包涵接口信息
- *
+ * <p>
  * Created by recollects on 18/3/12.
  */
 public class ServiceMetadata implements Serializable {
@@ -18,8 +15,6 @@ public class ServiceMetadata implements Serializable {
     protected static final Logger logger_metadata = LogDef.SERVICE_METADATA_DIGEST;
 
     private static final long serialVersionUID = 3387043415446548892L;
-    public static final String DEFAULT_VERSION = "1.0.0"; // 默认版本号
-    public static final int DEFAULT_TIMEOUT = 3000; // 默认超时时间
 
     /**
      * ip地址
@@ -29,14 +24,16 @@ public class ServiceMetadata implements Serializable {
     /**
      * 端口号
      */
-    private int port;
+    private int    port    = PussycatContants.DEFAULT_PORT;
+    private int    timeout = PussycatContants.DEFAULT_TIMEOUT;
+    private String version = PussycatContants.DEFAULT_VERSION;
 
     /**
      * 接口名
      */
     private String interfaceName;
 
-    private Class<?> ItfClass;
+    private Class<?> itfClass;
 
     /**
      * 服务类
@@ -47,30 +44,16 @@ public class ServiceMetadata implements Serializable {
      * 方法名
      */
     private String methodName;
-    private String[] methodNames;
 
     /**
      * 参数类型[重载问题]
      */
-    private  Class<?>[] parameterTypes;
-
-    /**
-     * 参数唯一串
-     */
-    private String parameters;
-
-    /**
-     * 入参
-     */
-    private Object[] inputParameters;
+    private Class<?>[] parameterTypes;
 
     /**
      * 时间戳
      */
     private final long timestamp;
-
-    private int timeout = DEFAULT_TIMEOUT;
-    private String version = DEFAULT_VERSION;
 
     /**
      * 代理类型
@@ -89,36 +72,35 @@ public class ServiceMetadata implements Serializable {
 
     /**
      * 防止服务重服注册[每台机器,一个端口下只能注册一个服务(重载属于多个服务)]
-     * @param obj
+     * //     * @param obj
+     *
      * @return
      */
-    @Override
-    public boolean equals(Object obj) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("rpc://");
-        sb.append(getHost()).append(":");
-        sb.append(getPort()).append("/");
-        sb.append(getInterfaceName()).append("/");
-        sb.append(getMethodName()).append("#");
-        sb.append(StringUtils.parameterTypesToStr(getParameterTypes()));
-        return StringUtils.equals(obj.toString(),sb.toString());
-    }
-
-
-    public String getMethodStamp(){
-        StringBuilder methodSB = new StringBuilder();
-        Method[] methods = target.getClass().getMethods();
-        for (Method method: methods) {
-            String name = method.getName();
-            Class<?>[] parameterTypes = method.getParameterTypes();
-            StringBuilder parameterSB = new StringBuilder();
-            for (Class<?> parameterType : parameterTypes ){
-                parameterSB.append(parameterType.getName()).append("-");
-            }
-            methodSB.append(name).append(":").append(parameterSB);
-        }
-        return methodSB.toString();
-    }
+    //    @Override
+    //    public boolean equals(Object obj) {
+    //        StringBuilder sb = new StringBuilder();
+    //        sb.append("rpc://");
+    //        sb.append(getHost()).append(":");
+    //        sb.append(getPort()).append("/");
+    //        sb.append(getInterfaceName()).append("/");
+    //        sb.append(getMethodName()).append("#");
+    //        sb.append(StringUtils.parameterTypesToStr(getParameterTypes()));
+    //        return StringUtils.equals(obj.toString(),sb.toString());
+    //    }
+//    public String getMethodStamp() {
+    //        StringBuilder methodSB = new StringBuilder();
+    //        Method[] methods = target.getClass().getMethods();
+    //        for (Method method : methods) {
+    //            String name = method.getName();
+    //            Class<?>[] parameterTypes = method.getParameterTypes();
+    //            StringBuilder parameterSB = new StringBuilder();
+    //            for (Class<?> parameterType : parameterTypes) {
+    //                parameterSB.append(parameterType.getName()).append("-");
+    //            }
+    //            methodSB.append(name).append(":").append(parameterSB);
+    //        }
+    //        return methodSB.toString();
+    //    }
 
     public String getHost() {
         return host;
@@ -165,28 +147,28 @@ public class ServiceMetadata implements Serializable {
         this.parameterTypes = parameterTypes;
     }
 
-    public String getParameters() {
-        return parameters;
-    }
-
-    public void setParameters(String parameters) {
-        this.parameters = parameters;
-    }
-
-    public Object[] getInputParameters() {
-        return inputParameters;
-    }
-
-    public void setInputParameters(Object[] inputParameters) {
-        this.inputParameters = inputParameters;
-    }
+    //    public String getParameters() {
+    //        return parameters;
+    //    }
+    //
+    //    public void setParameters(String parameters) {
+    //        this.parameters = parameters;
+    //    }
+    //
+    //    public Object[] getInputParameters() {
+    //        return inputParameters;
+    //    }
+    //
+    //    public void setInputParameters(Object[] inputParameters) {
+    //        this.inputParameters = inputParameters;
+    //    }
 
     public Class<?> getItfClass() {
-        return ItfClass;
+        return itfClass;
     }
 
     public void setItfClass(Class<?> itfClass) {
-        ItfClass = itfClass;
+        this.itfClass = itfClass;
     }
 
     public Object getTarget() {
@@ -214,6 +196,6 @@ public class ServiceMetadata implements Serializable {
     }
 
     public String getUniqueName() {
-        return interfaceName+"#"+version;
+        return interfaceName + "#" + version;
     }
 }

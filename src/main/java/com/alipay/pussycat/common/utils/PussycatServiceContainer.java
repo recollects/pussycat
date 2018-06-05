@@ -1,6 +1,6 @@
 package com.alipay.pussycat.common.utils;
 
-import com.alipay.pussycat.register.ServerRegisterService;
+import com.alipay.pussycat.server.ProviderServer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,26 +20,27 @@ public class PussycatServiceContainer {
         T instance = (T) INSTANCE_CACHE.get(classType);
 
         if (instance == null) {
-            ServiceLoader<T> serviceLoader = ServiceLoader.load(classType);
+            try {
+                ServiceLoader<T> serviceLoader = ServiceLoader.load(classType);
+                Iterator<T> iterator = serviceLoader.iterator();
 
-            Iterator<T> iterator = serviceLoader.iterator();
-
-            while (iterator.hasNext()) {
-                T next = iterator.next();
-                INSTANCE_CACHE.putIfAbsent(classType, next);
-                return (T) INSTANCE_CACHE.get(classType);
+                while (iterator.hasNext()) {
+                    T next = iterator.next();
+                    INSTANCE_CACHE.putIfAbsent(classType, next);
+                    return (T) INSTANCE_CACHE.get(classType);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
             return null;
-        }else {
+        } else {
             if (classType.isAssignableFrom(instance.getClass())) {
                 return instance;
             } else {
                 throw new RuntimeException("[Init service Container Error]" + classType);
             }
         }
-
     }
-
 
     @SuppressWarnings("unchecked")
     public static <T> List<T> getInstances(Class<T> classType) {
@@ -66,7 +67,13 @@ public class PussycatServiceContainer {
     }
 
     public static void main(String[] args) {
-        ServerRegisterService instance = PussycatServiceContainer.getInstance(ServerRegisterService.class);
-        System.out.println(instance);
+        ServiceLoader<ProviderServer> consumes = ServiceLoader.load(ProviderServer.class);
+        Iterator<ProviderServer> iterator = consumes.iterator();
+
+        while (iterator.hasNext()) {
+            ProviderServer next = iterator.next();
+            System.out.println(next);
+        }
     }
+
 }

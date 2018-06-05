@@ -1,7 +1,7 @@
 package com.alipay.pussycat.transport.netty.serializable;
 
 /**
- * 
+ *
  *
  * @description 序列化接口
  * @author wb-smj330392
@@ -9,11 +9,11 @@ package com.alipay.pussycat.transport.netty.serializable;
  */
 public interface Serializer {
 
-	/**
-	 * 将对象序列化成byte[]
-	 * @param obj
-	 * @return
-	 */
+    /**
+     * 将对象序列化成byte[]
+     * @param obj
+     * @return
+     */
     <T> byte[] writeObject(T obj);
 
     /**

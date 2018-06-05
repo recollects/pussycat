@@ -1,11 +1,11 @@
 package com.alipay.pussycat.consumer.model;
 
+import com.alipay.pussycat.common.model.ServiceMetadata;
+import com.google.common.collect.Maps;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
-
-import com.alipay.pussycat.server.model.ServiceMetadata;
-import com.google.common.collect.Maps;
 
 /**
  * @author wb-smj330392
@@ -26,7 +26,7 @@ public class SimpleServiceConsumerModel {
     }
 
     private final ServiceMetadata metadata;
-    private final Object proxyObject;
+    private final Object          proxyObject;
 
     private final Map<Method, ConsumerMethodModel> methodModels = Maps.newConcurrentMap();
 
@@ -34,15 +34,16 @@ public class SimpleServiceConsumerModel {
         this.metadata = metadata;
         this.proxyObject = proxyObject;
 
-        if (proxyObject != null){
-            if(isJdk){
+        if (proxyObject != null) {
+            if (isJdk) {
                 Class<?> proxyObjectClass = proxyObject.getClass();
                 Field[] declaredFields = proxyObjectClass.getDeclaredFields();
-                for(Field field : declaredFields){
+                for (Field field : declaredFields) {
                     try {
-                        Method method = (Method)field.get(proxyObject);
+                        Method method = (Method) field.get(proxyObject);
 
-                        methodModels.put(method,new ConsumerMethodModel(method,metadata.getInterfaceName(),metadata.getTimeout()));
+                        methodModels.put(method,
+                                new ConsumerMethodModel(method, metadata.getInterfaceName(), metadata.getTimeout()));
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
@@ -50,9 +51,6 @@ public class SimpleServiceConsumerModel {
             }
         }
 
-
     }
-
-
 
 }

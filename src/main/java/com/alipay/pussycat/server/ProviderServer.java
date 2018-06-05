@@ -1,39 +1,42 @@
-/**
- * High-Speed Service Framework (HSF)
- * 
- * www.taobao.com
- * 	(C) �Ա�(�й�) 2003-2014
- */
 package com.alipay.pussycat.server;
 
-import com.alipay.pussycat.server.model.ServiceMetadata;
+import com.alipay.pussycat.common.exception.PussycatException;
+import com.alipay.pussycat.common.model.ServiceMetadata;
 
 /**
- * 描述：作为HSF提供者的server服务接口
- *server端做的主要两件事：注册服务、启动服务
+ * 服务提供方
  */
 public interface ProviderServer {
+
+    /**
+     *
+     * @return
+     */
+    boolean isStarted();
 
     /**
      * 启动服务
      * @throws Exception
      */
-    void startPYCServer() throws Exception;
+    void start() throws PussycatException;
 
     /**
      * 向注册中心注册服务
      * @throws Exception
      */
-    void registerPYCServer(ServiceMetadata metadata) throws Exception;
+    void register(ServiceMetadata metadata) throws PussycatException;
 
     /**
      * 向监控中心注册服务
      * 以后实现
      * @throws Exception
      */
-    void MonitorPYCServer() throws Exception;
+    void monitor() throws PussycatException;
 
-    void stopPYCServer() throws Exception;
-
+    /**
+     *
+     * @throws Exception
+     */
+    void stop() throws PussycatException;
 
 }

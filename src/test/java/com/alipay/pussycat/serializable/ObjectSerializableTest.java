@@ -17,23 +17,22 @@ import com.alipay.pussycat.serializable.model.TransportModel;
  */
 public class ObjectSerializableTest {
 
-    public static void main(String[] args) throws  Exception{
+    public static void main(String[] args) throws Exception {
         HelloService helloService = new HelloServiceImpl();
 
         TransportModel model = new TransportModel();
         model.setResult(helloService.sayHello());
-
 
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("./obj.out")));
         oos.writeObject(model);
         oos.flush();
 
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("./obj.out")));
-        TransportModel resultObject = (TransportModel)ois.readObject();
+        TransportModel resultObject = (TransportModel) ois.readObject();
 
         Object result = resultObject.getResult();
 
-        System.out.println("返回结果--->"+result);
+        System.out.println("返回结果--->" + result);
 
     }
 

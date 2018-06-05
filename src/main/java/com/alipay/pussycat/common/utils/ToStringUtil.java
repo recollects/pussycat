@@ -16,7 +16,7 @@ public class ToStringUtil {
      * @param obj
      * @return
      */
-    public static String defaultStyle(Object obj){
+    public static String defaultStyle(Object obj) {
         return ToStringBuilder.reflectionToString(obj, ToStringStyle.DEFAULT_STYLE);
     }
 }

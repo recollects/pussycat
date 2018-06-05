@@ -1,21 +1,19 @@
 package com.alipay.pussycat.server.model;
 
-import java.lang.reflect.Method;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
-
 import com.alipay.pussycat.common.utils.StringUtils;
 
+import java.lang.reflect.Method;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
- * 
- * @author kongming.lrq
- * 
+ *
+ * @author wb-smj330392
+ *
  */
 public class ProviderMethodModel {
     private final static AtomicInteger INDEX_GENERATOR = new AtomicInteger(1);
     private transient final Method method;
-    private final String methodName;
+    private final           String methodName;
 
     public String getMethodArgTypesJoiner() {
         return methodArgTypesJoiner;
@@ -28,7 +26,8 @@ public class ProviderMethodModel {
     public String getFullMethodInfoToExport() {
         return fullMethodInfoToExport;
     }
-    private  final String methodStamp;
+
+    private final String methodStamp;
     private final String serviceName;
     private transient final int index = INDEX_GENERATOR.getAndIncrement();
     private transient final int timeout;
@@ -45,7 +44,7 @@ public class ProviderMethodModel {
         if (parameterTypes.length > 0) {
             methodArgTypesJoiner = StringUtils.parameterTypesToStr(parameterTypes);
 
-                methodkeyBuilder.append("~").append(methodArgTypesJoiner);
+            methodkeyBuilder.append("~").append(methodArgTypesJoiner);
 
         } else {
             methodArgTypesJoiner = "";
@@ -53,16 +52,13 @@ public class ProviderMethodModel {
 
         this.methodStamp = methodkeyBuilder.toString();
         this.timeout = timeout;
-        fullMethodInfoToExport = serviceName +"#" + methodStamp + "#"+timeout;
+        fullMethodInfoToExport = serviceName + "#" + methodStamp + "#" + timeout;
 
     }
-
-
 
     public Method getMethod() {
         return method;
     }
-
 
     public String getMethodName() {
         return methodName;
@@ -71,7 +67,6 @@ public class ProviderMethodModel {
     public String getMethodKeyWithServiceName() {
         return serviceName + "#" + methodStamp;
     }
-
 
     public String getMethodKey() {
         return methodStamp;
@@ -89,12 +84,9 @@ public class ProviderMethodModel {
         return index;
     }
 
-
     //public String getSpasMethodName() {
     //    return spasMethodName;
     //}
-
-
 
     @Override
     public int hashCode() {

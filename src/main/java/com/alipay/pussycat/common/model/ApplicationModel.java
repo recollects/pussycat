@@ -1,19 +1,19 @@
 package com.alipay.pussycat.common.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import com.alipay.pussycat.common.utils.LogDef;
 import com.alipay.pussycat.consumer.model.SimpleServiceConsumerModel;
 import com.alipay.pussycat.server.model.SimpleServiceProviderModel;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 /**
  * @author wb-smj330392
  * @create 2018-04-29 18:49
- * 
+ *
  */
 public class ApplicationModel {
 
@@ -35,9 +35,9 @@ public class ApplicationModel {
         this.consumers = consumers;
     }
 
-    private  ConcurrentMap<String, SimpleServiceProviderModel> providers = new ConcurrentHashMap<String, SimpleServiceProviderModel>();
+    private ConcurrentMap<String, SimpleServiceProviderModel> providers = new ConcurrentHashMap<String, SimpleServiceProviderModel>();
 
-    private  ConcurrentMap<String, SimpleServiceConsumerModel> consumers = new ConcurrentHashMap<String, SimpleServiceConsumerModel>();
+    private ConcurrentMap<String, SimpleServiceConsumerModel> consumers = new ConcurrentHashMap<String, SimpleServiceConsumerModel>();
     //private final ConcurrentMap<Integer, ProviderMethodModel> providerCoders = new ConcurrentHashMap<Integer, ProviderMethodModel>();
 
     public final static ApplicationModel model = new ApplicationModel();
@@ -49,7 +49,6 @@ public class ApplicationModel {
     public SimpleServiceProviderModel getProvidedServiceModel(String serviceName) {
         return providers.get(serviceName);
     }
-
 
     public SimpleServiceConsumerModel getConsumedServiceModel(String serviceName) {
         return consumers.get(serviceName);
@@ -73,7 +72,7 @@ public class ApplicationModel {
 
     /**
      * make sure thread safe for init data
-     * 
+     *
      * @param serviceName
      * @param serviceModel
      */

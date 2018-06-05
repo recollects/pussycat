@@ -15,15 +15,16 @@ public class ConsumerMethodModel {
 
     private final static AtomicInteger INDEX_GENERATOR = new AtomicInteger(1);
     private transient final Method method;
-    private final String methodName;
-    private final String methodArgTypesJoiner;
+    private final           String methodName;
+    private final           String methodArgTypesJoiner;
 
     private String fullMethodInfoToExport;
 
     public String getFullMethodInfoToExport() {
         return fullMethodInfoToExport;
     }
-    private  final String methodStamp;
+
+    private final String methodStamp;
     private final String serviceName;
     private transient final int index = INDEX_GENERATOR.getAndIncrement();
     private transient final int timeout;
@@ -48,16 +49,13 @@ public class ConsumerMethodModel {
 
         this.methodStamp = methodkeyBuilder.toString();
         this.timeout = timeout;
-        fullMethodInfoToExport = serviceName +"#" + methodStamp + "#"+timeout;
+        fullMethodInfoToExport = serviceName + "#" + methodStamp + "#" + timeout;
 
     }
-
-
 
     public Method getMethod() {
         return method;
     }
-
 
     public String getMethodName() {
         return methodName;
@@ -66,7 +64,6 @@ public class ConsumerMethodModel {
     public String getMethodKeyWithServiceName() {
         return serviceName + "#" + methodStamp;
     }
-
 
     public String getMethodKey() {
         return methodStamp;
@@ -84,12 +81,9 @@ public class ConsumerMethodModel {
         return index;
     }
 
-
     //public String getSpasMethodName() {
     //    return spasMethodName;
     //}
-
-
 
     @Override
     public int hashCode() {

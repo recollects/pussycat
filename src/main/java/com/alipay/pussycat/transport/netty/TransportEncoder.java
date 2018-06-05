@@ -24,9 +24,9 @@ public class TransportEncoder extends MessageToByteEncoder<RemotingTransporter> 
         TransportBody transportBody = msg.getTransportBody();
         byte[] bodyBytes = serializer.writeObject(transportBody);///协议头
         out.writeShort(TransportProtocal.CAFE)
-            .writeByte(msg.getCode())
-            .writeLong(msg.getRequestId())
-            .writeLong(bodyBytes.length)
-            .writeBytes(bodyBytes);
+                .writeByte(msg.getCode())
+                .writeLong(msg.getRequestId())
+                .writeLong(bodyBytes.length)
+                .writeBytes(bodyBytes);
     }
 }

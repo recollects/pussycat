@@ -2,7 +2,6 @@ package com.alipay.pussycat.register.redis.service;
 
 import com.alipay.pussycat.register.model.CacheEnum;
 
-
 /**
  * 缓存统一管理
  *
@@ -17,7 +16,7 @@ public interface CacheManager {
      * @param value
      * @return
      */
-    boolean set(String key,String value);
+    boolean set(String key, String value);
 
     /**
      *
@@ -25,7 +24,7 @@ public interface CacheManager {
      * @param value
      * @return
      */
-    boolean set(Object key,Object value);
+    boolean setObj(String key, Object value);
 
     /**
      * 从缓存中取数据
@@ -40,7 +39,7 @@ public interface CacheManager {
      * @param key
      * @return
      */
-    Object get(Object key);
+    Object getObj(String key);
 
     /**
      * 删除缓存数据

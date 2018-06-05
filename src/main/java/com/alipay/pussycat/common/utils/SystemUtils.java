@@ -19,7 +19,6 @@ public class SystemUtils extends org.apache.commons.lang3.SystemUtils {
      */
     private static final Logger logger = LoggerFactory.getLogger(SystemUtils.class);
 
-
     /**
      * 获取机器的hostName
      *
