@@ -1,0 +1,14 @@
+
+
+
+##redis 配置
+redis:
+  maxIdle: 300
+  maxTotal: 6000
+  minIdle: 100
+  maxWaitMillis: 1000
+  testOnBorrow: true
+  host: 127.0.0.1
+  port: 6379
+  pass:
+  expiration: 600000
