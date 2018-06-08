@@ -12,7 +12,7 @@
 
     <!-- 提供方配置 -->
     <bean id="userServiceProvider" class="com.alipay.pussycat.insidetest.model.UserServiceImpl"/>
-    <bean class="com.alipay.pussycat.spring.support.PussycatServerBean">
+    <bean class="com.alipay.pussycat.core.api.spring.PussycatServerBean">
         <property name="serviceName" value="com.alipay.pussycat.insidetest.model.UserService"/>
         <property name="target" ref="userServiceProvider"/>
     </bean>

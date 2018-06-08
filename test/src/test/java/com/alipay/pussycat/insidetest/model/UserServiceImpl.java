@@ -1,6 +1,7 @@
 package com.alipay.pussycat.insidetest.model;
 
-import com.alipay.pussycat.common.utils.StringUtils;
+
+import com.alipay.pussycat.core.common.utils.StringUtils;
 
 import java.util.Random;
 
