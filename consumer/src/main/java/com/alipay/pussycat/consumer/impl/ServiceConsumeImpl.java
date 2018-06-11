@@ -4,9 +4,6 @@ import com.alipay.pussycat.consumer.ServiceConsume;
 import com.alipay.pussycat.consumer.proxy.PYCServiceProxy;
 import com.alipay.pussycat.core.common.enums.PussycatExceptionEnum;
 import com.alipay.pussycat.core.common.exception.PussycatException;
-import com.alipay.pussycat.core.common.model.ApplicationModel;
-import com.alipay.pussycat.core.common.model.ServiceMetadata;
-import com.alipay.pussycat.core.common.model.SimpleServiceConsumerModel;
 
 /**
  * @author wb-smj330392

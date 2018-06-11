@@ -1,7 +1,5 @@
 package com.alipay.pussycat.provider.handler;
 
-import com.alipay.pussycat.core.common.model.PussycatRequest;
-import com.alipay.pussycat.core.common.model.PussycatResponse;
 import com.alipay.pussycat.core.common.utils.PussycatProviderContainer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

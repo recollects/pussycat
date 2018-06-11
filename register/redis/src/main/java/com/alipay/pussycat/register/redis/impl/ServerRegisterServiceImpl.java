@@ -1,15 +1,10 @@
 package com.alipay.pussycat.register.redis.impl;
 
-import com.alipay.pussycat.common.model.ApplicationModel;
-import com.alipay.pussycat.common.model.PussycatContants;
-import com.alipay.pussycat.common.model.Result;
-import com.alipay.pussycat.common.utils.LogDef;
-import com.alipay.pussycat.common.utils.PussycatServiceContainer;
-import com.alipay.pussycat.register.ServerRegisterService;
-import com.alipay.pussycat.register.redis.service.CacheManager;
-import com.alipay.pussycat.server.model.ProviderMethodModel;
-import com.alipay.pussycat.common.model.ServiceMetadata;
-import com.alipay.pussycat.server.model.SimpleServiceProviderModel;
+import com.alipay.pussycat.core.common.model.*;
+import com.alipay.pussycat.core.common.utils.LogDef;
+import com.alipay.pussycat.core.common.utils.PussycatServiceContainer;
+import com.alipay.pussycat.register.redis.ServerRegisterService;
+import com.alipay.pussycat.register.redis.redis.service.CacheManager;
 import org.slf4j.Logger;
 
 import java.util.Map;
