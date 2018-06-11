@@ -1,5 +1,4 @@
 package com.alipay.pussycat.register.redis.redis.service;
-
 import com.alipay.pussycat.core.common.utils.PussycatServiceContainer;
 import com.alipay.pussycat.register.redis.model.CacheEnum;
 import com.alipay.pussycat.register.redis.redis.constant.RedisProtocolStatus;
