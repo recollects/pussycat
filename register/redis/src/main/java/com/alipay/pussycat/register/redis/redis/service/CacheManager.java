@@ -1,6 +1,5 @@
 package com.alipay.pussycat.register.redis.redis.service;
 
-
 import com.alipay.pussycat.register.redis.model.CacheEnum;
 
 /**
