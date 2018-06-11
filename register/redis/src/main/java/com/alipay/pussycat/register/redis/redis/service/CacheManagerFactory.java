@@ -1,7 +1,7 @@
 package com.alipay.pussycat.register.redis.redis.service;
 
-import com.alipay.pussycat.common.utils.LogDef;
-import com.alipay.pussycat.common.utils.StringUtils;
+import com.alipay.pussycat.core.common.utils.LogDef;
+import com.alipay.pussycat.core.common.utils.StringUtils;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import org.apache.commons.collections4.MapUtils;
