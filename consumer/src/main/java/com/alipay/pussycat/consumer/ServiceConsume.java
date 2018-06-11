@@ -1,6 +1,8 @@
 package com.alipay.pussycat.consumer;
 
 
+import com.alipay.pussycat.core.common.model.ServiceMetadata;
+
 /**
  * @author wb-smj330392
  * @create 2018-04-28 13:49

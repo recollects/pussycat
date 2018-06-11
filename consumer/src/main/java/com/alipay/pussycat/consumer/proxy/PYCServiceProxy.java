@@ -1,6 +1,10 @@
 package com.alipay.pussycat.consumer.proxy;
 
 import com.alipay.pussycat.consumer.handler.PYCConsumerHandler;
+import com.alipay.pussycat.core.common.model.PussycatRequest;
+import com.alipay.pussycat.core.common.model.PussycatResponse;
+import com.alipay.pussycat.core.common.model.RpcContextResult;
+import com.alipay.pussycat.core.common.model.ServiceMetadata;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
