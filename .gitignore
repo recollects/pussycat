@@ -25,3 +25,5 @@ nbdist/
 
 ### log ###
 logs/
+mvnw/
+mvnw.cmd/
