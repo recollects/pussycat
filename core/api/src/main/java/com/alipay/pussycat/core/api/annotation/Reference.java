@@ -31,7 +31,7 @@ public @interface Reference {
      *
      * @return
      */
-    String[] url() default "";
+    String[] url() default {};
 
     /**
      *代理方式

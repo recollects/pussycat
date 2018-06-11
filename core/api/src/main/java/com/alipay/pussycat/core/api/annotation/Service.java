@@ -47,4 +47,10 @@ public @interface Service {
      * @return
      */
     boolean async() default false;
+
+    /**
+     * 注册地址
+     * @return
+     */
+    String[] registry() default {};
 }
