@@ -1,6 +1,5 @@
 package com.alipay.pussycat.core.common.utils;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -65,14 +64,14 @@ public class PussycatServiceContainer {
         }
     }
 
-//    public static void main(String[] args) {
-//        ServiceLoader<ProviderServer> consumes = ServiceLoader.load(ProviderServer.class);
-//        Iterator<ProviderServer> iterator = consumes.iterator();
-//
-//        while (iterator.hasNext()) {
-//            ProviderServer next = iterator.next();
-//            System.out.println(next);
-//        }
-//    }
+    //    public static void main(String[] args) {
+    //        ServiceLoader<ProviderServer> consumes = ServiceLoader.load(ProviderServer.class);
+    //        Iterator<ProviderServer> iterator = consumes.iterator();
+    //
+    //        while (iterator.hasNext()) {
+    //            ProviderServer next = iterator.next();
+    //            System.out.println(next);
+    //        }
+    //    }
 
 }

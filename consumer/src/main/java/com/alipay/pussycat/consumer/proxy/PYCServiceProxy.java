@@ -150,18 +150,18 @@ public class PYCServiceProxy implements InvocationHandler {
         return serviceProxy;
     }
 
-//    public static void main(String[] args) {
-//        ServiceMetadata metadata = new ServiceMetadata();
-//        metadata.setHost("127.0.0.1");
-//        metadata.setPort(PussycatContants.DEFAULT_PORT);
-//        metadata.setTimeout(3000);
-//        metadata.setInterfaceName("com.alipay.pussycat.consumer.proxy.UserService");
-//        metadata.setItfClass(UserService.class);
-//        PYCServiceProxy proxy = new PYCServiceProxy(metadata);
-//        UserService serviceProxy = (UserService) proxy.getServiceProxy();
-//        String login = serviceProxy.login("yjd", "smj");
-//        System.out.println("返回结果:" + login);
-//
-//    }
+    //    public static void main(String[] args) {
+    //        ServiceMetadata metadata = new ServiceMetadata();
+    //        metadata.setHost("127.0.0.1");
+    //        metadata.setPort(PussycatContants.DEFAULT_PORT);
+    //        metadata.setTimeout(3000);
+    //        metadata.setInterfaceName("com.alipay.pussycat.consumer.proxy.UserService");
+    //        metadata.setItfClass(UserService.class);
+    //        PYCServiceProxy proxy = new PYCServiceProxy(metadata);
+    //        UserService serviceProxy = (UserService) proxy.getServiceProxy();
+    //        String login = serviceProxy.login("yjd", "smj");
+    //        System.out.println("返回结果:" + login);
+    //
+    //    }
 
 }

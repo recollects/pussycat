@@ -4,8 +4,8 @@ package com.alipay.pussycat.test;
 //@SpringBootTest
 public class TestApplicationTests {
 
-//	@Test
-	public void contextLoads() {
-	}
+    //	@Test
+    public void contextLoads() {
+    }
 
 }

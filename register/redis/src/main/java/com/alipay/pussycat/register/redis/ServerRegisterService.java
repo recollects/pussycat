@@ -1,6 +1,5 @@
 package com.alipay.pussycat.register.redis;
 
-
 import com.alipay.pussycat.core.common.model.Result;
 import com.alipay.pussycat.core.common.model.ServiceMetadata;
 import com.alipay.pussycat.core.common.model.SimpleServiceProviderModel;

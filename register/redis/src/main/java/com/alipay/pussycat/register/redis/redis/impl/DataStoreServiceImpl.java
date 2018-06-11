@@ -11,7 +11,6 @@ import com.alipay.pussycat.register.redis.common.DataStoreService;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * created by sumj
  */

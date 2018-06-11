@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties
 public class RedisConfig {
 
-    private int redisMaxIdle=300;
-    private int redisMaxTotal=6000;
-    private int redisMinIdle=100;
-    private int redisMaxWaitMillis=1000;
-    private boolean redisTestOnBorrow=true;
-    private String redisHost="127.0.0.1";
-    private int redisPport=6379;
-    private String redisPass="";
-    private int redisExpiration=600000;
+    private int     redisMaxIdle       = 300;
+    private int     redisMaxTotal      = 6000;
+    private int     redisMinIdle       = 100;
+    private int     redisMaxWaitMillis = 1000;
+    private boolean redisTestOnBorrow  = true;
+    private String  redisHost          = "127.0.0.1";
+    private int     redisPport         = 6379;
+    private String  redisPass          = "";
+    private int     redisExpiration    = 600000;
 
 }

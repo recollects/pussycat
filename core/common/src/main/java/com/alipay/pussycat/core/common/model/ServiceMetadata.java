@@ -87,7 +87,7 @@ public class ServiceMetadata implements Serializable {
     //        sb.append(StringUtils.parameterTypesToStr(getParameterTypes()));
     //        return StringUtils.equals(obj.toString(),sb.toString());
     //    }
-//    public String getMethodStamp() {
+    //    public String getMethodStamp() {
     //        StringBuilder methodSB = new StringBuilder();
     //        Method[] methods = target.getClass().getMethods();
     //        for (Method method : methods) {
@@ -101,7 +101,6 @@ public class ServiceMetadata implements Serializable {
     //        }
     //        return methodSB.toString();
     //    }
-
     public String getHost() {
         return host;
     }

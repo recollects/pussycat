@@ -1,6 +1,5 @@
 package com.alipay.pussycat.consumer;
 
-
 import com.alipay.pussycat.core.common.model.ServiceMetadata;
 
 /**

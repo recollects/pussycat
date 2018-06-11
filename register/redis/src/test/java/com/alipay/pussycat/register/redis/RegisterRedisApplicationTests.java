@@ -4,8 +4,8 @@ package com.alipay.pussycat.register.redis;
 //@SpringBootTest
 public class RegisterRedisApplicationTests {
 
-//	@Test
-	public void contextLoads() {
-	}
+    //	@Test
+    public void contextLoads() {
+    }
 
 }

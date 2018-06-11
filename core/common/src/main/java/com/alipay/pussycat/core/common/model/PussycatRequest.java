@@ -1,6 +1,5 @@
 package com.alipay.pussycat.core.common.model;
 
-
 import com.alipay.pussycat.core.common.utils.ToStringUtil;
 
 /**

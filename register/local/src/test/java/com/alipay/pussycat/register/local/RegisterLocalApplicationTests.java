@@ -4,8 +4,8 @@ package com.alipay.pussycat.register.local;
 //@SpringBootTest
 public class RegisterLocalApplicationTests {
 
-//	@Test
-	public void contextLoads() {
-	}
+    //	@Test
+    public void contextLoads() {
+    }
 
 }

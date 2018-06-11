@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
  */
 public class PYCServerHandler extends SimpleChannelInboundHandler<PussycatRequest> {
 
-//    Serializer serializer = PussycatServiceContainer.getInstance(Serializer.class);
+    //    Serializer serializer = PussycatServiceContainer.getInstance(Serializer.class);
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -51,7 +51,7 @@ public class PYCServerHandler extends SimpleChannelInboundHandler<PussycatReques
 
         System.out.println("服务端正确收到客户端的请求....");
         PussycatResponse pussycatResponse = new PussycatResponse();
-//        pussycatResponse.setResult("OK");
+        //        pussycatResponse.setResult("OK");
         pussycatResponse.setSuccess(true);
         pussycatResponse.setRequestId(request.getRequestId());
 
