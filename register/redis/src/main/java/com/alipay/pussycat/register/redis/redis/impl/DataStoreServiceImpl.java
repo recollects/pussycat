@@ -6,10 +6,11 @@
  */
 package com.alipay.pussycat.register.redis.redis.impl;
 
+import com.alipay.pussycat.register.redis.common.DataStoreService;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alipay.pussycat.register.common.DataStoreService;
 
 /**
  * created by sumj
