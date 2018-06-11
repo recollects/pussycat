@@ -1,8 +1,8 @@
 package com.alipay.pussycat.register.redis.redis.service;
 
-import com.alipay.pussycat.common.utils.PussycatServiceContainer;
-import com.alipay.pussycat.register.model.CacheEnum;
-import com.alipay.pussycat.register.redis.constant.RedisProtocolStatus;
+import com.alipay.pussycat.core.common.utils.PussycatServiceContainer;
+import com.alipay.pussycat.register.redis.model.CacheEnum;
+import com.alipay.pussycat.register.redis.redis.constant.RedisProtocolStatus;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
