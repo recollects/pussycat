@@ -1,5 +1,7 @@
 package com.alipay.pussycat.consumer.handler;
 
+import com.alipay.pussycat.core.common.model.PussycatResponse;
+import com.alipay.pussycat.core.common.model.RpcContextResult;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -20,7 +22,6 @@ public class PYCConsumerHandler extends SimpleChannelInboundHandler<PussycatResp
         System.out.println("channelRead0:" + response);
         RpcContextResult.getResultMap().put(response.getRequestId(), response);
         System.out.println("resultMap:" + RpcContextResult.getResultMap());
-        //        PYCServiceProxy.getCountDownLatch().countDown();
     }
 
     @Override

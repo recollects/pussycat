@@ -1,6 +1,5 @@
 package com.alipay.pussycat.register.redis.redis.service;
 
-import com.alipay.pussycat.core.common.utils.PussycatServiceContainer;
 import com.alipay.pussycat.register.redis.model.CacheEnum;
 import com.alipay.pussycat.register.redis.redis.constant.RedisProtocolStatus;
 import com.google.common.collect.Lists;
@@ -73,11 +72,7 @@ public class RedisCacheManagerImpl implements CacheManager {
         ValueOperations opsForValue = redisTemplate.opsForValue();
         try {
             //TODO 这是个BUG 不是超时时间,是过期时间
-            //            opsForValue.set(key, value, 20000, TimeUnit.MILLISECONDS);
             opsForValue.set(key, value);
-            //            Object obj = opsForValue.get(key);
-            //
-            //            System.out.println("存储的Key:"+key+",存储的Value:" + obj);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -151,37 +146,5 @@ public class RedisCacheManagerImpl implements CacheManager {
     private ShardedJedis getShardedJedis() {
         ShardedJedis shardedJedis = shardedJedisPool.getResource();
         return shardedJedis;
-    }
-
-    public static void main(String[] args) throws Exception {
-        //        RedisCacheManagerImpl redisCacheManager = new RedisCacheManagerImpl();
-        //        ServiceMetadata metada = new ServiceMetadata();
-        //        metada.setInterfaceName("com.alipay.pussycat.consumer.proxy.UserService");
-        //        metada.setTimeout(3000);
-        //        metada.setHost("127.0.0.1");
-        //        SimpleServiceProviderModel providerModel = new SimpleServiceProviderModel(metada);
-        //
-        //        redisCacheManager.setObj("YE"+1, new SimpleServiceProviderModel(metada));
-        //        redisCacheManager.setObj("11", "YE");
-        //
-        //        Object ye = redisCacheManager.getObj(new String("YE"+1));
-        //        Object ye1 = redisCacheManager.getObj("11");
-        //
-        //        System.out.println("-----------"+ye);
-        //        System.out.println(ye1);
-
-        CacheManager cacheManager = PussycatServiceContainer.getInstance(CacheManager.class);
-
-        //        new Thread(){
-        //            @Override
-        //            public void run() {
-        //                cacheManager.setObj("pussycat_redis_com.alipay.pussycat.consumer.proxy.UserService#1.0.0","zzz");
-        //            }
-        //        }.start();
-
-        //        Thread.sleep(1000);
-        //        Object obj = cacheManager.getObj("pussycat_redis_com.alipay.pussycat.consumer.proxy.UserService#1.0.0");
-        //
-        //        System.out.println(obj);
     }
 }

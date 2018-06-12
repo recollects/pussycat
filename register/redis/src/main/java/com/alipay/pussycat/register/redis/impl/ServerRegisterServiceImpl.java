@@ -20,8 +20,6 @@ public class ServerRegisterServiceImpl implements ServerRegisterService {
 
     private CacheManager cacheManager = PussycatServiceContainer.getInstance(CacheManager.class);
 
-    //    private AtomicBoolean isStart = new AtomicBoolean(false);
-
     /**
      * 注册服务[将提供服方的接口信息,存到注册中心去]
      *
@@ -49,6 +47,7 @@ public class ServerRegisterServiceImpl implements ServerRegisterService {
             Map<String, ProviderMethodModel> providerMethodModels = providerMode.getProviderMethodModels();
             ApplicationModel.instance().getProviders().putIfAbsent(providerMode.getServiceName(), providerMode);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
 

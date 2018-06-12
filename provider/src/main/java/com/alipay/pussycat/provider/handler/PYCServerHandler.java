@@ -1,6 +1,8 @@
 package com.alipay.pussycat.provider.handler;
 
-import com.alipay.pussycat.core.common.utils.PussycatProviderContainer;
+import com.alipay.pussycat.core.common.model.PussycatRequest;
+import com.alipay.pussycat.core.common.model.PussycatResponse;
+import com.alipay.pussycat.core.common.utils.PussycatProviderRefCache;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -12,8 +14,6 @@ import java.lang.reflect.Method;
  */
 public class PYCServerHandler extends SimpleChannelInboundHandler<PussycatRequest> {
 
-    //    Serializer serializer = PussycatServiceContainer.getInstance(Serializer.class);
-
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("channelActive...." + ctx.channel().remoteAddress());
@@ -24,31 +24,6 @@ public class PYCServerHandler extends SimpleChannelInboundHandler<PussycatReques
 
         System.out.println("channelRead0..." + request);
 
-        //        if (request.getCode() == TransportProtocal.REQUEST_CODE) {
-        //            PussycatRequest pussycatRequest = (PussycatRequest) request.getTransportBody();
-        //            String invokeMethodName = pussycatRequest.getInvokeMethodName();
-        //            Class<?>[] argTypes = pussycatRequest.getArgTypes();
-        //            Object[] reqArgs = pussycatRequest.getReqArgs();
-        //            String targetInterfaceName = pussycatRequest.getTargetInterfaceName();
-        //            SimpleServiceProviderModel providedServiceModel = ApplicationModel.instance().getProvidedServiceModel(targetInterfaceName);
-        //
-        //            Object result = null;
-        //            if (providedServiceModel != null) {
-        //                ProviderMethodModel providerMethodModel = providedServiceModel.getProviderMethodModels().get(invokeMethodName);
-        //                if (!StringUtils.parameterTypesToStr(argTypes).equals(providerMethodModel.getMethodArgTypesJoiner())) {
-        //                    throw new PussycatException(PussycatExceptionEnum.E_10006);
-        //                }
-        //                result = providerMethodModel.getMethod().invoke(providedServiceModel.getServiceInstance(), reqArgs);
-        //            }
-        //
-        //            PussycatResponse pussycatResponse = new PussycatResponse();
-        //            pussycatResponse.setResult(result);
-        //            pussycatResponse.setSuccess(true);
-        //            pussycatResponse.setRequestId(request.getRequestId());
-        //
-        //            ctx.writeAndFlush(pussycatResponse);
-        //        }
-
         System.out.println("服务端正确收到客户端的请求....");
         PussycatResponse pussycatResponse = new PussycatResponse();
         //        pussycatResponse.setResult("OK");
@@ -57,7 +32,7 @@ public class PYCServerHandler extends SimpleChannelInboundHandler<PussycatReques
 
         String interfaceName = request.getServiceName();
 
-        Object objRef = PussycatProviderContainer.providerObject.get(interfaceName);
+        Object objRef = PussycatProviderRefCache.providerObject.get(interfaceName);
 
         String methodName = request.getMethodName();
 

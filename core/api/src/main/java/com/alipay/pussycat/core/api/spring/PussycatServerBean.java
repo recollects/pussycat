@@ -5,7 +5,7 @@ import com.alipay.pussycat.core.common.exception.PussycatException;
 import com.alipay.pussycat.core.common.model.PussycatContants;
 import com.alipay.pussycat.core.common.model.ServiceMetadata;
 import com.alipay.pussycat.core.common.utils.LogDef;
-import com.alipay.pussycat.core.common.utils.PussycatProviderContainer;
+import com.alipay.pussycat.core.common.utils.PussycatProviderRefCache;
 import com.alipay.pussycat.core.common.utils.PussycatServiceContainer;
 import com.alipay.pussycat.core.common.utils.SystemUtils;
 import com.alipay.pussycat.provider.ProviderServer;
@@ -119,7 +119,7 @@ public class PussycatServerBean implements InitializingBean, ApplicationListener
             try {
                 metadata.setHost(SystemUtils.getIP());
                 providerServer.register(metadata);
-                PussycatProviderContainer.providerObject.put(serviceName, target);
+                PussycatProviderRefCache.providerObject.put(serviceName, target);
             } catch (Exception e) {
                 logger_publish.info("Pussycat 注册服务失败..." + metadata.getInterfaceName());
                 System.out.println("onApplicationEvent register异常:" + e);
