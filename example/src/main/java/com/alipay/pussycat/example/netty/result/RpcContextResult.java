@@ -1,6 +1,6 @@
-package com.alipay.pussycat.netty.result;
+package com.alipay.pussycat.example.netty.result;
 
-import com.alipay.pussycat.netty.model.NettyResponse;
+import com.alipay.pussycat.example.netty.model.NettyResponse;
 import com.google.common.collect.Maps;
 
 import java.util.Map;

@@ -35,7 +35,7 @@ public class PYCServiceProxy implements InvocationHandler {
 
     ChannelFuture contextChannelFuture = null;
 
-    private Object serviceProxy;
+//    private Object serviceProxy;
 
     private ServiceMetadata metadata;
 
@@ -48,7 +48,7 @@ public class PYCServiceProxy implements InvocationHandler {
         Class[] interfaces = { metadata.getItfClass() };
 
         Object proxyInstance = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), interfaces, this);
-        serviceProxy = proxyInstance;
+//        serviceProxy = proxyInstance;
     }
 
     @Override
@@ -76,10 +76,9 @@ public class PYCServiceProxy implements InvocationHandler {
             Thread.sleep(10);
         }
 
+        writeAndFlush(request);
+
         countDownLatch.await(request.getTimeout(), TimeUnit.MILLISECONDS);
-        //这里用唤醒方式来处理.
-        //        Thread.sleep(request.getTimeout());
-        System.out.println(".........睡眠结束.......");
         PussycatResponse pussycatResponse = RpcContextResult.getResultMap().get(request.getRequestId());
         System.out.println("从临时地方取出服务端响应的数据");
         if (pussycatResponse != null) {
@@ -107,12 +106,6 @@ public class PYCServiceProxy implements InvocationHandler {
                 .channel(NioSocketChannel.class).handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
-                        //                        socketChannel
-                        //                                .pipeline()
-                        //                                .addLast(new TransportEncoder(),
-                        //                                        new TransportDecoder(),
-                        //                                        new PYCConsumerHandler());
-
                         socketChannel.pipeline().addLast(new ObjectEncoder(),
                                 new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)),
                                 new PYCConsumerHandler());
@@ -133,7 +126,8 @@ public class PYCServiceProxy implements InvocationHandler {
     private void writeAndFlush(PussycatRequest request) {
 
         try {
-            contextChannelFuture.channel().writeAndFlush(request);
+            ChannelFuture channelFuture = contextChannelFuture.channel().writeAndFlush(request);
+
             contextChannelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -146,9 +140,9 @@ public class PYCServiceProxy implements InvocationHandler {
         return countDownLatch;
     }
 
-    public Object getServiceProxy() {
-        return serviceProxy;
-    }
+//    public Object getServiceProxy() {
+//        return serviceProxy;
+//    }
 
     //    public static void main(String[] args) {
     //        ServiceMetadata metadata = new ServiceMetadata();

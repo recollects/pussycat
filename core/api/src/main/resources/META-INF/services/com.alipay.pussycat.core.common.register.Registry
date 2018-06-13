@@ -1,0 +1,2 @@
+com.alipay.pussycat.register.local.LocalRegistry
+com.alipay.pussycat.register.redis.RedisRegistry

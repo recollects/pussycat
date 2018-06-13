@@ -1,7 +1,7 @@
-package com.alipay.pussycat.netty.server;
+package com.alipay.pussycat.example.netty.server;
 
-import com.alipay.pussycat.netty.model.NettyRequest;
-import com.alipay.pussycat.netty.model.NettyResponse;
+import com.alipay.pussycat.example.netty.model.NettyRequest;
+import com.alipay.pussycat.example.netty.model.NettyResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -10,17 +10,21 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @version V1.0
  * @date 2018年04月21日 下午6:14
  */
-public class ServerHandler extends SimpleChannelInboundHandler {
+public class ServerHandler extends SimpleChannelInboundHandler<NettyRequest> {
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+    }
 
     /**
-     * 这里在父类里已经调用了channelRead,所以不用重写,也不需要自己手动去释放,只用关心数据读取处理即可
      *
      * @param ctx
      * @param msg
      * @throws Exception
      */
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, NettyRequest msg) throws Exception {
         System.out.println("server:" + msg);
         if (msg instanceof NettyRequest) {
             System.out.println("..........");
@@ -33,12 +37,6 @@ public class ServerHandler extends SimpleChannelInboundHandler {
             ctx.writeAndFlush(response);
 
         }
-        //        ByteBuf buf = (ByteBuf) msg;
-        //        byte[] data = new byte[buf.readableBytes()];
-        //        buf.readBytes(data);
-        //        System.out.println(new String(data, CharsetUtil.UTF_8));
-        //        ctx.writeAndFlush(Unpooled.copiedBuffer("苏明瑾你好呀!".getBytes()));
-
     }
 
     @Override

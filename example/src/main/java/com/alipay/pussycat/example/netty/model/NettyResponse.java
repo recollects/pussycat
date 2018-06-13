@@ -1,4 +1,4 @@
-package com.alipay.pussycat.netty.model;
+package com.alipay.pussycat.example.netty.model;
 
 import java.io.Serializable;
 

@@ -1,7 +1,5 @@
 package com.alipay.pussycat.register.redis.redis.service;
 
-import com.alipay.pussycat.register.redis.model.CacheEnum;
-
 /**
  * 缓存统一管理
  *
@@ -56,11 +54,5 @@ public interface CacheManager {
      */
     boolean del(Object key);
 
-    /**
-     * 缓存实例
-     *
-     * @return
-     */
-    CacheEnum cacheName();
 
 }

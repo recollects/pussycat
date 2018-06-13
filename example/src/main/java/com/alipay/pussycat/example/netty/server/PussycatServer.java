@@ -1,4 +1,4 @@
-package com.alipay.pussycat.netty.server;
+package com.alipay.pussycat.example.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;

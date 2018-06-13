@@ -1,6 +1,5 @@
 package com.alipay.pussycat.register.redis.redis.service;
 
-import com.alipay.pussycat.register.redis.model.CacheEnum;
 import com.alipay.pussycat.register.redis.redis.constant.RedisProtocolStatus;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
@@ -109,11 +108,6 @@ public class RedisCacheManagerImpl implements CacheManager {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public CacheEnum cacheName() {
-        return CacheEnum.REDIS;
     }
 
     /**

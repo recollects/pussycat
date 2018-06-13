@@ -1,8 +1,8 @@
-package com.alipay.pussycat.netty.client;
+package com.alipay.pussycat.example.netty.client;
 
-import com.alipay.pussycat.netty.model.NettyRequest;
-import com.alipay.pussycat.netty.model.NettyResponse;
-import com.alipay.pussycat.netty.result.RpcContextResult;
+import com.alipay.pussycat.example.netty.model.NettyRequest;
+import com.alipay.pussycat.example.netty.model.NettyResponse;
+import com.alipay.pussycat.example.netty.result.RpcContextResult;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -32,11 +32,12 @@ public class PussycatClient {
         NettyRequest request = new NettyRequest();
         request.setData("叶家东你好啊.");
         request.setRequestId(UUID.randomUUID().toString());
+        ClientHandler clientHandler = new ClientHandler();
 
         Thread thread = new Thread() {
             @Override
             public void run() {
-                syncRequest(request);
+                syncRequest(request, clientHandler);
             }
         };
 
@@ -49,7 +50,7 @@ public class PussycatClient {
 
     }
 
-    private static void syncRequest(NettyRequest request) {
+    private static void syncRequest(NettyRequest request, ClientHandler clientHandler) {
         EventLoopGroup workerGroup = new NioEventLoopGroup(ioWorkerCount);
         EventLoopGroup eventExecutor = new NioEventLoopGroup(executorThreadCount);
 
@@ -64,7 +65,7 @@ public class PussycatClient {
                         ChannelPipeline pipeline = socketChannel.pipeline();
                         pipeline.addLast(new ObjectEncoder(),
                                 new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)),
-                                new ClientHandler());
+                                clientHandler);
 
                     }
                 });
