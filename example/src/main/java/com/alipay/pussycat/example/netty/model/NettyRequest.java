@@ -1,5 +1,7 @@
 package com.alipay.pussycat.example.netty.model;
 
+import com.alipay.pussycat.core.common.utils.ToStringUtil;
+
 import java.io.Serializable;
 import java.util.concurrent.CountDownLatch;
 
@@ -34,4 +36,8 @@ public class NettyRequest implements Serializable {
 
     private static CountDownLatch countDownLatch = new CountDownLatch(1);
 
+    @Override
+    public String toString() {
+        return ToStringUtil.defaultStyle(this);
+    }
 }

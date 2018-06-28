@@ -6,7 +6,7 @@ import com.alipay.pussycat.core.common.utils.ToStringUtil;
  * @author wb-smj330392
  * @create 2018-05-26 18:47
  */
-public class PussycatResponse extends RemotingTransporter implements TransportBody {
+public class PussycatResponse extends RpcCommonResponse implements TransportBody {
 
     /**
      * 通讯是否成功标识

@@ -1,0 +1,2 @@
+1.利用LineBasedFrameDecoder解决TCP粘包问题！【ObjectDecoder对象解码器有解粘包问题】
+2.

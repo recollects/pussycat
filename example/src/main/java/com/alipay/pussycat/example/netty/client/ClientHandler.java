@@ -1,7 +1,8 @@
 package com.alipay.pussycat.example.netty.client;
 
+import com.alipay.pussycat.example.netty.future.FutureMng;
+import com.alipay.pussycat.example.netty.future.SyncFuture;
 import com.alipay.pussycat.example.netty.model.NettyResponse;
-import com.alipay.pussycat.example.netty.result.RpcContextResult;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -26,7 +27,14 @@ public class ClientHandler extends SimpleChannelInboundHandler<NettyResponse> {
             NettyResponse response = (NettyResponse) msg;
             System.out.println("接收响应信息:" + response.getData());
             response.setData("响应内容!!!");
-            RpcContextResult.getContextResponse().put(response.getRequestId(), response);
+            response.setRequestId(msg.getRequestId());
+//            RpcContextResult.getContextResponse().put(response.getRequestId(), response);
+
+            FutureMng futureMng = new FutureMng();
+            SyncFuture syncFuture = futureMng.getInvokerFuture(msg.getRequestId());
+
+            syncFuture.setResponse(msg);
+
         }
     }
 

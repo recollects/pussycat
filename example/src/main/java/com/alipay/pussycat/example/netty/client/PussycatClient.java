@@ -1,8 +1,8 @@
 package com.alipay.pussycat.example.netty.client;
 
+import com.alipay.pussycat.example.netty.future.SyncFuture;
 import com.alipay.pussycat.example.netty.model.NettyRequest;
 import com.alipay.pussycat.example.netty.model.NettyResponse;
-import com.alipay.pussycat.example.netty.result.RpcContextResult;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -43,8 +43,13 @@ public class PussycatClient {
 
         thread.setDaemon(true);
         thread.start();
-        countDownLatch.await(3000, TimeUnit.MILLISECONDS);
-        NettyResponse nettyResponse = RpcContextResult.getContextResponse().get(request.getRequestId());
+        //        countDownLatch.await(3000, TimeUnit.MILLISECONDS);
+        //        NettyResponse nettyResponse = RpcContextResult.getContextResponse().get(request.getRequestId());
+
+        SyncFuture syncFuture = new SyncFuture();
+        NettyResponse nettyResponse = (NettyResponse) syncFuture.get();
+
+        System.out.println("同步调用结果--->" + nettyResponse);
 
         System.out.println("主线程响应信息:" + nettyResponse.getData());
 
@@ -78,11 +83,16 @@ public class PussycatClient {
                 public void operationComplete(ChannelFuture future) throws Exception {
                     if (!future.isSuccess()) {
                         //给出错误请求响应
+                        SocketChannel socketChannel = (SocketChannel) future.channel();
+                    } else {
+                        future.channel().eventLoop().schedule(() -> {
+                            //等待重连
+                        }, 3, TimeUnit.SECONDS);
                     }
                 }
             });
 
-            future.channel().closeFuture().sync();
+            //            future.channel().closeFuture().sync();
 
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -9,11 +9,15 @@ import java.util.concurrent.*;
  * @version V1.0
  *
  */
-public class SyncFuture<T> implements Future<T>{
-
-    private T response;
+public class SyncFuture<T> implements Future<T> {
 
     private CountDownLatch countDownLatch = new CountDownLatch(1);
+
+    private T
+                           response;
+
+    public SyncFuture() {
+    }
 
     @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
@@ -27,17 +31,29 @@ public class SyncFuture<T> implements Future<T>{
 
     @Override
     public boolean isDone() {
+        if (response != null) {
+            return true;
+        }
         return false;
     }
 
     @Override
-    public T get() throws InterruptedException, ExecutionException {
-        return null;
+    public T get() throws InterruptedException {
+        countDownLatch.await();
+        return this.response;
     }
 
     @Override
-    public T get(long timeout, TimeUnit unit)
-            throws InterruptedException, ExecutionException, TimeoutException {
+    public T get(long timeout, TimeUnit unit) throws InterruptedException {
+        if (countDownLatch.await(timeout, unit)) {
+            return this.response;
+        }
         return null;
     }
+
+    public void setResponse(T response) {
+        this.response = response;
+        countDownLatch.countDown();
+    }
+
 }

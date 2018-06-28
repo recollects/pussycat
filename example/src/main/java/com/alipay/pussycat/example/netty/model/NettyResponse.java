@@ -1,5 +1,7 @@
 package com.alipay.pussycat.example.netty.model;
 
+import com.alipay.pussycat.core.common.utils.ToStringUtil;
+
 import java.io.Serializable;
 
 /**
@@ -28,5 +30,10 @@ public class NettyResponse implements Serializable {
 
     public String getRequestId() {
         return requestId;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringUtil.defaultStyle(this);
     }
 }
