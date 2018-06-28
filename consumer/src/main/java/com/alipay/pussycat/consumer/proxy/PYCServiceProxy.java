@@ -4,7 +4,12 @@ import com.alipay.pussycat.consumer.future.DefaultInvokerFuture;
 import com.alipay.pussycat.consumer.future.InvokerFuture;
 import com.alipay.pussycat.consumer.handler.PYCConsumerHandler;
 import com.alipay.pussycat.consumer.remoting.Connection;
-import com.alipay.pussycat.core.common.model.*;
+import com.alipay.pussycat.core.common.enums.PussycatExceptionEnum;
+import com.alipay.pussycat.core.common.exception.PussycatException;
+import com.alipay.pussycat.core.common.model.PussycatRequest;
+import com.alipay.pussycat.core.common.model.PussycatResponse;
+import com.alipay.pussycat.core.common.model.RpcCommonResponse;
+import com.alipay.pussycat.core.common.model.ServiceMetadata;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -17,7 +22,6 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -30,15 +34,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class PYCServiceProxy implements InvocationHandler {
 
-    ChannelFuture contextChannelFuture = null;
-
     private Object serviceProxy;
 
     private ServiceMetadata metadata;
 
-    private AtomicBoolean isConn = new AtomicBoolean(false);
+    static final int retryCount=3;
 
-    public static CountDownLatch countDownLatch = new CountDownLatch(1);
+    private AtomicBoolean isConn = new AtomicBoolean(false);
 
     public PYCServiceProxy(ServiceMetadata metadata) {
         this.metadata = metadata;
@@ -58,13 +60,16 @@ public class PYCServiceProxy implements InvocationHandler {
         request.setHost(metadata.getHost());
 
         System.out.println("准备连接服务端.....");
+        Connection connection =null;
 
         if (!isConn.get()) {
-            connect(host, port, request);
+            int retry=0;
+            connection = connect(host, port, request,retry);
             Thread.sleep(10);
         }
-
-        Connection connection = new Connection(contextChannelFuture.channel());
+        if (connection==null){
+            throw new PussycatException(PussycatExceptionEnum.E_10008);
+        }
 
         InvokerFuture invokerFuture = new DefaultInvokerFuture();
 
@@ -73,11 +78,9 @@ public class PYCServiceProxy implements InvocationHandler {
         writeAndFlush(connection, host, port, request);
 
         //等待服务端响应过来
-        RpcCommonResponse pussycatResponse = invokerFuture.waitResponse();
+        RpcCommonResponse pussycatResponse = invokerFuture.waitResponse(request.getTimeout(), TimeUnit.MICROSECONDS);
 
-        //        PussycatResponse pussycatResponse = RpcContextResult.getResultMap().get(request.getRequestId());
         if (pussycatResponse == null) {
-            //            RpcContextResult.getResultMap().remove(request.getRequestId());
             //返回错误调用
             return invokerFuture.createFailResponse();
         }
@@ -92,7 +95,7 @@ public class PYCServiceProxy implements InvocationHandler {
      * @param host
      * @param port
      */
-    public void connect(String host, int port, PussycatRequest request) {
+    public Connection connect(String host, int port, PussycatRequest request,int retryCount) {
 
         Bootstrap bootstrap = new Bootstrap()
                 .group(workerGroup)
@@ -108,10 +111,13 @@ public class PYCServiceProxy implements InvocationHandler {
                     }
                 });
         try {
-            contextChannelFuture = bootstrap.connect(host, port).sync();
+            ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
+            retryCount++;
+            return new Connection(channelFuture.channel());
         } catch (InterruptedException e) {
             e.printStackTrace();
             System.out.println("连接服务异常" + e);
+            throw new PussycatException(PussycatExceptionEnum.E_10008);
         }
     }
 
@@ -121,8 +127,7 @@ public class PYCServiceProxy implements InvocationHandler {
      */
     private void writeAndFlush(final Connection connection, String host, int port, PussycatRequest request) {
 
-        //        try {
-        ChannelFuture channelFuture = connection.getChannel().writeAndFlush(request).addListener(
+        connection.getChannel().writeAndFlush(request).addListener(
 
                 new ChannelFutureListener() {
 
@@ -134,23 +139,19 @@ public class PYCServiceProxy implements InvocationHandler {
                         } else {
                             future.channel().eventLoop().schedule(() -> {
                                 System.out.println("等待重连");
-                                connect(host, port, request);
+                                int retry=0;
+                                if (retry>retryCount){
+                                    //重试次数据超限不重试，直接抛出
+                                    throw new PussycatException(PussycatExceptionEnum.E_10008);
+                                }else {
+                                    connect(host, port, request,retry);
+                                }
+
                                 writeAndFlush(connection, host, port, request);
                             }, 3, TimeUnit.SECONDS);
                         }
                     }
                 });
-
-        //            contextChannelFuture.channel().closeFuture().sync();
-        //        } catch (InterruptedException e) {
-        //            e.printStackTrace();
-        //        } finally {
-        //            workerGroup.shutdownGracefully();
-        //        }
-    }
-
-    public static CountDownLatch getCountDownLatch() {
-        return countDownLatch;
     }
 
     public Object getServiceProxy() {
