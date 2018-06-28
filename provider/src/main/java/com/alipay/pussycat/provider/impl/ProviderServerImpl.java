@@ -74,6 +74,10 @@ public class ProviderServerImpl implements ProviderServer {
         } catch (Exception e) {
 
         }
+
+        //TODO 调用connection#onClose方法，响应所有已请求的过来调用
+
+
     }
 
     /**
