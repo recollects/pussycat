@@ -6,7 +6,10 @@ import com.alipay.pussycat.core.common.utils.PussycatProviderRefCache;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author wb-smj330392
@@ -24,24 +27,54 @@ public class PYCServerHandler extends SimpleChannelInboundHandler<PussycatReques
 
         System.out.println("channelRead0..." + request);
 
-        System.out.println("服务端正确收到客户端的请求....");
-        PussycatResponse pussycatResponse = new PussycatResponse();
-        //        pussycatResponse.setResult("OK");
-        pussycatResponse.setSuccess(true);
-        pussycatResponse.setRequestId(request.getRequestId());
+        ExecutorService executor = Executors.newFixedThreadPool(10);
 
-        String interfaceName = request.getServiceName();
+        executor.submit(new InvokerHandle(ctx, request));
 
-        Object objRef = PussycatProviderRefCache.providerObject.get(interfaceName);
+    }
 
-        String methodName = request.getMethodName();
+    /**
+     * 处理请求任务
+     *
+     */
+    static class InvokerHandle implements Runnable {
+        ChannelHandlerContext ctx;
+        PussycatRequest       request;
 
-        Method method = objRef.getClass().getMethod(methodName, request.getArgTypes());
+        public InvokerHandle(ChannelHandlerContext ctx, PussycatRequest request) {
+            this.ctx = ctx;
+            this.request = request;
+        }
 
-        Object result = method.invoke(objRef, request.getReqArgs());
-        pussycatResponse.setResult(result);
-        ctx.writeAndFlush(pussycatResponse);
-        System.out.println("服务端响应结果:" + pussycatResponse);
+        @Override
+        public void run() {
+            try {
+                System.out.println("服务端正确收到客户端的请求....");
+                PussycatResponse pussycatResponse = new PussycatResponse();
+                //        pussycatResponse.setResult("OK");
+                pussycatResponse.setSuccess(true);
+                pussycatResponse.setRequestId(request.getRequestId());
+
+                String interfaceName = request.getServiceName();
+
+                Object objRef = PussycatProviderRefCache.providerObject.get(interfaceName);
+
+                String methodName = request.getMethodName();
+
+                Method method = objRef.getClass().getMethod(methodName, request.getArgTypes());
+
+                Object result = method.invoke(objRef, request.getReqArgs());
+                pussycatResponse.setResult(result);
+                ctx.writeAndFlush(pussycatResponse);
+                System.out.println("服务端响应结果:" + pussycatResponse);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
