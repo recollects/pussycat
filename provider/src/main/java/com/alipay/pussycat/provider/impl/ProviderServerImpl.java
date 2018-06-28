@@ -105,7 +105,7 @@ public class ProviderServerImpl implements ProviderServer {
             ChannelFuture f = bootstrap.bind(PussycatContants.DEFAULT_PORT).sync();
             System.out.println("服务端启动成功,服务端口号:" + PussycatContants.DEFAULT_PORT);
             started.compareAndSet(false, true);
-            f.channel().closeFuture().sync();
+//            f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             started.compareAndSet(true, false);
             throw new PussycatException(PussycatExceptionEnum.E_10007);
