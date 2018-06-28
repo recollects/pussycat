@@ -109,10 +109,10 @@ public class ProviderServerImpl implements ProviderServer {
         } catch (InterruptedException e) {
             started.compareAndSet(true, false);
             throw new PussycatException(PussycatExceptionEnum.E_10007);
-        } finally {
+        } /*finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
-        }
+        }*/
     }
 
 }
