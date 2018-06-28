@@ -1,6 +1,5 @@
 package com.alipay.pussycat.provider.impl;
 
-import com.alipay.pussycat.core.common.enums.PussycatExceptionEnum;
 import com.alipay.pussycat.core.common.exception.PussycatException;
 import com.alipay.pussycat.core.common.model.PussycatContants;
 import com.alipay.pussycat.core.common.model.ServiceMetadata;
@@ -30,6 +29,11 @@ public class ProviderServerImpl implements ProviderServer {
     private ServerRegisterService serverRegisterService = PussycatServiceContainer
             .getInstance(ServerRegisterService.class);
 
+    EventLoopGroup bossGroup   = new NioEventLoopGroup();
+    EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors() * 2);
+
+    private ChannelFuture future;
+
     @Override
     public boolean isStarted() {
         return started.get();
@@ -41,17 +45,7 @@ public class ProviderServerImpl implements ProviderServer {
             //一台机器只允许启动一次.
             return;
         }
-
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                System.out.println("bind");
-                bind();
-            }
-        };
-
-        thread.setDaemon(true);
-        thread.start();
+        bind();
     }
 
     @Override
@@ -72,18 +66,20 @@ public class ProviderServerImpl implements ProviderServer {
     @Override
     public void stop() throws PussycatException {
         //        throw new RuntimeException("暂时不支持");
-        //TODO
         System.out.println("..STOP..");
+
+        try {
+            workerGroup.shutdownGracefully().sync();
+            bossGroup.shutdownGracefully().sync();
+        } catch (Exception e) {
+
+        }
     }
 
     /**
      *
      */
-    private void bind() {
-        started.compareAndSet(false, true);
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors() * 2);
-
+    private synchronized void bind() {
         ServerBootstrap bootstrap = new ServerBootstrap();
         // 可配置的几个
         bootstrap.group(bossGroup, workerGroup)
@@ -93,26 +89,15 @@ public class ProviderServerImpl implements ProviderServer {
 
                     @Override
                     protected void initChannel(Channel ch) throws Exception {
-                        //                        ch.pipeline().addLast(new TransportEncoder(),
-                        //                                new TransportDecoder(),new PYCServerHandler());
                         ch.pipeline().addLast(new ObjectEncoder(),
                                 new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)),
                                 new PYCServerHandler());
                     }
                 });
 
-        try {
-            ChannelFuture f = bootstrap.bind(PussycatContants.DEFAULT_PORT).sync();
-            System.out.println("服务端启动成功,服务端口号:" + PussycatContants.DEFAULT_PORT);
-            started.compareAndSet(false, true);
-//            f.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
-            started.compareAndSet(true, false);
-            throw new PussycatException(PussycatExceptionEnum.E_10007);
-        } /*finally {
-            workerGroup.shutdownGracefully();
-            bossGroup.shutdownGracefully();
-        }*/
+        bootstrap.bind(PussycatContants.DEFAULT_PORT).syncUninterruptibly();
+        System.out.println("服务端启动成功,服务端口号:" + PussycatContants.DEFAULT_PORT);
+        started.compareAndSet(false, true);
     }
 
 }

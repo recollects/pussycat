@@ -38,9 +38,11 @@ public class PYCServiceProxy implements InvocationHandler {
 
     private ServiceMetadata metadata;
 
-    static final int retryCount=3;
+    static final int RETRY_COUNT = 3;
 
     private AtomicBoolean isConn = new AtomicBoolean(false);
+
+    private EventLoopGroup workerGroup = new NioEventLoopGroup();
 
     public PYCServiceProxy(ServiceMetadata metadata) {
         this.metadata = metadata;
@@ -60,22 +62,16 @@ public class PYCServiceProxy implements InvocationHandler {
         request.setHost(metadata.getHost());
 
         System.out.println("准备连接服务端.....");
-        Connection connection =null;
+        Connection connection = initConnect(host, port);
 
-        if (!isConn.get()) {
-            int retry=0;
-            connection = connect(host, port, request,retry);
-            Thread.sleep(10);
-        }
-        if (connection==null){
+        if (connection == null) {
             throw new PussycatException(PussycatExceptionEnum.E_10008);
         }
 
         InvokerFuture invokerFuture = new DefaultInvokerFuture();
-
         connection.addInvokerFuture(invokerFuture);
 
-        writeAndFlush(connection, host, port, request);
+        writeAndFlush(connection, host, port, request,0);
 
         //等待服务端响应过来
         RpcCommonResponse pussycatResponse = invokerFuture.waitResponse(request.getTimeout(), TimeUnit.MICROSECONDS);
@@ -88,15 +84,42 @@ public class PYCServiceProxy implements InvocationHandler {
         return ((PussycatResponse) pussycatResponse).getResult();
     }
 
-    private EventLoopGroup workerGroup = new NioEventLoopGroup();
+    /**
+     *
+     * @param host
+     * @param port
+     * @return
+     */
+    private Connection connect(String host, int port) {
+        Bootstrap bootstrap = initBootstrap();
+        ChannelFuture channelFuture = null;
+        try {
+            channelFuture = bootstrap.connect(host, port).sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.out.println("连接服务异常" + e);
+            throw new PussycatException(PussycatExceptionEnum.E_10008);
+        }
+        return new Connection(channelFuture.channel());
+    }
 
     /**
      *
      * @param host
      * @param port
+     * @return
      */
-    public Connection connect(String host, int port, PussycatRequest request,int retryCount) {
+    private Connection initConnect(String host, int port) {
+        Bootstrap bootstrap = initBootstrap();
+        ChannelFuture channelFuture = bootstrap.connect(host, port).syncUninterruptibly();
+        return new Connection(channelFuture.channel());
+    }
 
+    /**
+     *
+     * @return
+     */
+    private Bootstrap initBootstrap() {
         Bootstrap bootstrap = new Bootstrap()
                 .group(workerGroup)
                 .option(ChannelOption.SO_BACKLOG, 128)//设置TCP缓冲区
@@ -110,48 +133,34 @@ public class PYCServiceProxy implements InvocationHandler {
                                 new PYCConsumerHandler());
                     }
                 });
-        try {
-            ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
-            retryCount++;
-            return new Connection(channelFuture.channel());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            System.out.println("连接服务异常" + e);
-            throw new PussycatException(PussycatExceptionEnum.E_10008);
-        }
+        return bootstrap;
     }
 
     /**
      *
      * @param request
      */
-    private void writeAndFlush(final Connection connection, String host, int port, PussycatRequest request) {
+    private void writeAndFlush(final Connection connection, String host, int port, PussycatRequest request,int retryCount) {
 
-        connection.getChannel().writeAndFlush(request).addListener(
+        connection.getChannel().writeAndFlush(request).addListener((ChannelFutureListener)(future)->{
+            if (!future.isSuccess()) {
+                //给出错误请求响应
+                SocketChannel socketChannel = (SocketChannel) future.channel();
+            } else {
+                future.channel().eventLoop().schedule(() -> {
+                    System.out.println("等待重连");
 
-                new ChannelFutureListener() {
+                    connect(host, port);
 
-                    @Override
-                    public void operationComplete(ChannelFuture future) throws Exception {
-                        if (!future.isSuccess()) {
-                            //给出错误请求响应
-                            SocketChannel socketChannel = (SocketChannel) future.channel();
-                        } else {
-                            future.channel().eventLoop().schedule(() -> {
-                                System.out.println("等待重连");
-                                int retry=0;
-                                if (retry>retryCount){
-                                    //重试次数据超限不重试，直接抛出
-                                    throw new PussycatException(PussycatExceptionEnum.E_10008);
-                                }else {
-                                    connect(host, port, request,retry);
-                                }
-
-                                writeAndFlush(connection, host, port, request);
-                            }, 3, TimeUnit.SECONDS);
-                        }
+                    if (retryCount>RETRY_COUNT){
+                        //超过重试次数，抛出异常
+                        throw new PussycatException(PussycatExceptionEnum.E_10008);
                     }
-                });
+                    writeAndFlush(connection, host, port, request,retryCount);
+                }, 3, TimeUnit.SECONDS);
+            }
+        });
+
     }
 
     public Object getServiceProxy() {
