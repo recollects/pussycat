@@ -17,6 +17,8 @@ import java.util.concurrent.Executors;
  */
 public class PYCServerHandler extends SimpleChannelInboundHandler<PussycatRequest> {
 
+    private static ExecutorService executor = Executors.newFixedThreadPool(10);
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("channelActive...." + ctx.channel().remoteAddress());
@@ -26,8 +28,6 @@ public class PYCServerHandler extends SimpleChannelInboundHandler<PussycatReques
     protected void channelRead0(ChannelHandlerContext ctx, PussycatRequest request) throws Exception {
 
         System.out.println("channelRead0..." + request);
-
-        ExecutorService executor = Executors.newFixedThreadPool(10);
 
         executor.submit(new InvokerHandle(ctx, request));
 

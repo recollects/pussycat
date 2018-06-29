@@ -4,9 +4,12 @@ import com.alipay.pussycat.consumer.future.DefaultInvokerFuture;
 import com.alipay.pussycat.consumer.future.InvokerFuture;
 import com.alipay.pussycat.consumer.remoting.Connection;
 import com.alipay.pussycat.core.common.model.PussycatResponse;
+import com.alipay.pussycat.core.common.utils.DateUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,6 +20,11 @@ import java.util.concurrent.Executors;
  */
 public class PYCConsumerHandler extends SimpleChannelInboundHandler<PussycatResponse> {
 
+    /**
+     * TODO 可以动态修改
+     */
+    private static ExecutorService executor = Executors.newFixedThreadPool(10);
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("channelActive......." + ctx.channel().remoteAddress());
@@ -24,8 +32,6 @@ public class PYCConsumerHandler extends SimpleChannelInboundHandler<PussycatResp
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, PussycatResponse response) throws Exception {
-
-        ExecutorService executor = Executors.newFixedThreadPool(10);
 
         executor.submit(new ProcessTask(ctx, response));
 
@@ -50,6 +56,19 @@ public class PYCConsumerHandler extends SimpleChannelInboundHandler<PussycatResp
         @Override
         public void run() {
             //删除map里的future
+
+            long start = DateUtils.now();
+
+            Timer timer = new Timer();
+
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+
+                }
+            };
+//            timer.sch
+
             Connection connection = new Connection(ctx.channel());
             //TODO
             connection.removeInvokerFuture(Integer.parseInt(response.getRequestId() + ""));
@@ -58,6 +77,25 @@ public class PYCConsumerHandler extends SimpleChannelInboundHandler<PussycatResp
             InvokerFuture<PussycatResponse> invokerFuture = new DefaultInvokerFuture<>();
             invokerFuture.putResponse(response);
         }
+    }
+
+    public static void main(String[] args) {
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("执行");
+                try {
+                    Thread.sleep(4000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        timer.schedule(task,0L,3000);
+
     }
 
 }
