@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version V1.0
  *
  */
-public class ConsumerConfig extends AbstractConfig {
+public class ConsumerConfig<T> extends AbstractConfig {
 
     private final static AtomicInteger ID_GENERATOR = new AtomicInteger(0);
 
@@ -26,12 +26,19 @@ public class ConsumerConfig extends AbstractConfig {
      */
     private String intefaceId;
 
+    private Class<T> proxyClass;
+
     private Map<String, MethodConfig> methods;
 
     /**
      * 负载均衡策略
      */
     private String loadBalancer;
+
+    /**
+     * 调用类型【sync：同步调用，oneway：单向调用不需要返回，callback：需要服务端回调，future：调用不需要立即返回可阻塞等待返回结果】
+     */
+    private String invokeType;
 
     /**
      * 是否启动校验[强依赖校验]
@@ -77,6 +84,22 @@ public class ConsumerConfig extends AbstractConfig {
 
     public void setLoadBalancer(String loadBalancer) {
         this.loadBalancer = loadBalancer;
+    }
+
+    public void setInvokeType(String invokeType) {
+        this.invokeType = invokeType;
+    }
+
+    public String getInvokeType() {
+        return invokeType;
+    }
+
+    public void setProxyClass(Class<T> proxyClass) {
+        this.proxyClass = proxyClass;
+    }
+
+    public Class<T> getProxyClass() {
+        return proxyClass;
     }
 
     @Override

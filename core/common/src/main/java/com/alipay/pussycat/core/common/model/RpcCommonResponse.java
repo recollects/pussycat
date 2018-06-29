@@ -9,4 +9,16 @@ package com.alipay.pussycat.core.common.model;
  */
 public class RpcCommonResponse extends RemotingTransporter{
 
+    /**
+     * 通讯是否成功标识
+     */
+    private boolean success;
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
 }

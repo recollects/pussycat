@@ -4,8 +4,6 @@ import com.alipay.pussycat.core.common.enums.RegisterEnum;
 import com.alipay.pussycat.core.common.register.conf.ConsumerConfig;
 import com.alipay.pussycat.core.common.register.conf.ProviderConfig;
 
-import java.util.List;
-
 /**
  *
  * @author recollects
@@ -40,7 +38,7 @@ public interface Registry {
      * @param config
      * @return
      */
-    List<ProviderGroup> subscribe(ConsumerConfig config);
+    ProviderGroup subscribe(ConsumerConfig config);
 
     /**
      *

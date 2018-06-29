@@ -24,6 +24,12 @@ public class RedisRegistry extends AbstractRegistry {
 
     @Override
     public void register(ProviderConfig config) {
+        String appName = config.getAppName();
+
+        //表示这个服务不用注册
+        if (!config.isRegister()){
+            return;
+        }
 
     }
 
