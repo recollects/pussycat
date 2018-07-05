@@ -37,6 +37,7 @@ public class ConsumerConfig<T> extends AbstractConfig {
 
     /**
      * 调用类型【sync：同步调用，oneway：单向调用不需要返回，callback：需要服务端回调，future：调用不需要立即返回可阻塞等待返回结果】
+     * {@link com.alipay.pussycat.core.common.enums.InvokeTypeEnum}
      */
     private String invokeType;
 

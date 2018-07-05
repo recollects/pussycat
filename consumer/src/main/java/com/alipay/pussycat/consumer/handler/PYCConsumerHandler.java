@@ -7,11 +7,12 @@ import com.alipay.pussycat.core.common.model.PussycatResponse;
 import com.alipay.pussycat.core.common.utils.DateUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.HashedWheelTimer;
+import io.netty.util.Timeout;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author recollects
@@ -56,18 +57,7 @@ public class PYCConsumerHandler extends SimpleChannelInboundHandler<PussycatResp
         @Override
         public void run() {
             //删除map里的future
-
             long start = DateUtils.now();
-
-            Timer timer = new Timer();
-
-            TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-
-                }
-            };
-//            timer.sch
 
             Connection connection = new Connection(ctx.channel());
             //TODO
@@ -79,22 +69,22 @@ public class PYCConsumerHandler extends SimpleChannelInboundHandler<PussycatResp
         }
     }
 
-    public static void main(String[] args) {
-        Timer timer = new Timer();
+    public static void main(String[] args) throws Exception {
 
-        TimerTask task = new TimerTask() {
+        io.netty.util.Timer INSTANCE = new HashedWheelTimer(10, TimeUnit.MILLISECONDS);
+
+        Timeout timeout = INSTANCE.newTimeout(new io.netty.util.TimerTask() {
             @Override
-            public void run() {
-                System.out.println("执行");
-                try {
-                    Thread.sleep(4000L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
+            public void run(Timeout timeout) throws Exception {
 
-        timer.schedule(task,0L,3000);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+
+        //future、callback模式都属于非单线程调用，需要提供一种可以结束任务执行方式
+        timeout.task();
+        timeout.cancel();
+
 
     }
 

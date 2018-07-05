@@ -1,12 +1,10 @@
 package com.alipay.pussycat.register.redis;
 
-import com.alipay.pussycat.core.common.register.AbstractRegistry;
 import com.alipay.pussycat.core.common.enums.RegisterEnum;
+import com.alipay.pussycat.core.common.register.AbstractRegistry;
 import com.alipay.pussycat.core.common.register.ProviderGroup;
 import com.alipay.pussycat.core.common.register.conf.ConsumerConfig;
 import com.alipay.pussycat.core.common.register.conf.ProviderConfig;
-
-import java.util.List;
 
 /**
  *
@@ -39,7 +37,7 @@ public class RedisRegistry extends AbstractRegistry {
     }
 
     @Override
-    public List<ProviderGroup> subscribe(ConsumerConfig config) {
+    public ProviderGroup subscribe(ConsumerConfig config) {
         return null;
     }
 

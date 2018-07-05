@@ -1,9 +1,9 @@
 package com.alipay.pussycat.consumer.proxy;
 
-import com.alipay.pussycat.consumer.future.DefaultInvokerFuture;
-import com.alipay.pussycat.consumer.future.InvokerFuture;
+import com.alipay.pussycat.consumer.invoker.ConsumerInvoker;
+import com.alipay.pussycat.consumer.invoker.Invoker;
 import com.alipay.pussycat.core.common.model.PussycatRequest;
-import com.alipay.pussycat.core.common.model.RpcCommonResponse;
+import com.alipay.pussycat.core.common.model.PussycatResponse;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -29,18 +29,18 @@ public class JDKInvocationHandler implements InvocationHandler {
         String methodName = method.getName();
         Class[] paramTypes = method.getParameterTypes();
 
-        //TODO 发起远程调用
+        Invoker invoker=new ConsumerInvoker();
+
+        if ("toString".equals(methodName) && paramTypes.length == 0) {
+            return invoker.toString();
+        } else if ("hashCode".equals(methodName) && paramTypes.length == 0) {
+            return invoker.hashCode();
+        } else if ("equals".equals(methodName) && paramTypes.length == 1) {
+            return invoker.equals(proxy);
+        }
 
 
-        //构造请求
-        PussycatRequest request = buildRequest();
-
-        InvokerFuture invokerFuture = new DefaultInvokerFuture();
-
-        //TODO 这里invokerFuture接口只能提供future模式来调用，不满足其它调用模式
-
-        RpcCommonResponse response = invokerFuture.waitResponse();
-
+        PussycatResponse response = invoker.invoker(buildRequest());
 
         return response;
     }
@@ -50,6 +50,7 @@ public class JDKInvocationHandler implements InvocationHandler {
      * @return
      */
     private PussycatRequest buildRequest() {
+        //TODO
         return null;
     }
 }
