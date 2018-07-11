@@ -1,6 +1,8 @@
 package com.alipay.pussycat.core.common.register;
 
+import com.alipay.pussycat.core.common.ProcessorCenter;
 import com.alipay.pussycat.core.common.enums.RegisterEnum;
+import com.alipay.pussycat.core.common.exception.PussycatException;
 import com.alipay.pussycat.core.common.register.conf.ConsumerConfig;
 import com.alipay.pussycat.core.common.register.conf.ProviderConfig;
 
@@ -13,7 +15,7 @@ import java.util.List;
  * @version V1.0
  *
  */
-public interface Registry {
+public interface Registry extends ProcessorCenter {
 
     /**
      * 启动
@@ -47,5 +49,7 @@ public interface Registry {
      * @return
      */
     RegisterEnum registrar();
+
+
 
 }

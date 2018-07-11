@@ -13,12 +13,12 @@ public class RemotingTransporter implements Serializable {
 
     private static final long serialVersionUID = -750012243114836795L;
     /**
-     * 定义的网络传输的类型：请求｜响应
+     * 定义的网络传输的类型：请求 transportType = 1｜响应 transportType = 2
      */
     private int transportType;
 
     /**
-     * 定义的网络传输的类型：请求 code=1｜响应 code =2
+     * 定义的网络传输的主题信息类型：比如向注册中心注册服务，RPC服务调用，等
      * 主要用于网络协议头的部分
      */
     private byte code;
@@ -48,7 +48,7 @@ public class RemotingTransporter implements Serializable {
      */
     private transient long timestamp;
 
-    private static final AtomicLong transportId = new AtomicLong(1);
+    private static final AtomicLong transportId = new AtomicLong(0L);
 
     /**
      * 请求的id
@@ -64,10 +64,10 @@ public class RemotingTransporter implements Serializable {
      * @param transportBody 请求的正文
      * @return
      */
-    public static RemotingTransporter createRequestTransporter(TransportBody transportBody) {
+    public static RemotingTransporter createRequestTransporter(byte code,TransportBody transportBody) {
         RemotingTransporter remotingTransporter = new RemotingTransporter();
         remotingTransporter.transportBody = transportBody;
-        remotingTransporter.setCode(TransportProtocal.REQUEST_CODE);
+        remotingTransporter.setCode(code);
         remotingTransporter.transportType = TransportProtocal.REQUEST_REMOTING;
         return remotingTransporter;
     }
@@ -77,23 +77,27 @@ public class RemotingTransporter implements Serializable {
      * @param code 响应对象的类型
      * @return
      */
-    public static RemotingTransporter createResponseTransporter(TransportBody transportBody, long requestId) {
+    public static RemotingTransporter createResponseTransporter(byte code,TransportBody transportBody, long requestId) {
         RemotingTransporter remotingTransporter = new RemotingTransporter();
         remotingTransporter.transportBody = transportBody;
         remotingTransporter.setRequestId(requestId);
-        remotingTransporter.setCode(TransportProtocal.REQUEST_CODE);
+        remotingTransporter.setCode(code);
         remotingTransporter.transportType = TransportProtocal.RESPONSE_REMOTING;
         return remotingTransporter;
     }
 
-    public static RemotingTransporter newInstance(long requestId, byte code, byte[] bytes) {
+    /**
+     * 创建一个通用的传输对象
+     * @param requestId
+     * @param code
+     * @param bytes
+     * @param type
+     * @return
+     */
+    public static RemotingTransporter newInstance(long requestId, byte code, byte[] bytes,int type) {
         RemotingTransporter remotingTransporter = new RemotingTransporter();
         remotingTransporter.setCode(code);
-        if (code == TransportProtocal.REQUEST_CODE) {
-            remotingTransporter.setTransportType(TransportProtocal.REQUEST_REMOTING);
-        } else {
-            remotingTransporter.setTransportType(TransportProtocal.RESPONSE_REMOTING);
-        }
+        remotingTransporter.setTransportType(type);
         remotingTransporter.setRequestId(requestId);
         remotingTransporter.transportItemBytes.setBodyBytes(bytes);
         return remotingTransporter;

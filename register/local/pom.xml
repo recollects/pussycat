@@ -35,6 +35,11 @@
             <groupId>com.alipay.pussycat</groupId>
             <artifactId>pussycat-core-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.alipay.pussycat</groupId>
+            <artifactId>pussycat-provider</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

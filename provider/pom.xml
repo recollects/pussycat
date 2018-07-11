@@ -36,6 +36,10 @@
             <artifactId>pussycat-core-common</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.alipay.pussycat</groupId>
+            <artifactId>pussycat-core-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
         </dependency>

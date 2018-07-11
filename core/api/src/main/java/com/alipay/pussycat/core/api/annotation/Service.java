@@ -16,13 +16,13 @@ public @interface Service {
      * 版本号
      * @return
      */
-    String version() default "";
+    String version() ;
 
     /**
      * 超时时间
      * @return
      */
-    int timeout() default 0;
+    int timeout() ;
 
     /**
      * 接口名
@@ -34,7 +34,7 @@ public @interface Service {
      * 安全考虑,或者基于白名单的方式都可以,预留
      * @return
      */
-    String token() default "";
+    String white() default "";
 
     /**
      * 项目启动是否注册到注册中心
@@ -52,5 +52,12 @@ public @interface Service {
      * 注册地址
      * @return
      */
-    String[] registry() default {};
+    //String[] registry() default {};
+
+    /**
+     * 权重   1-100
+     * @return
+     */
+    int weight() default 50;
+
 }

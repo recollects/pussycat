@@ -2,8 +2,10 @@ package com.alipay.pussycat.provider.impl;
 
 import com.alipay.pussycat.core.common.exception.PussycatException;
 import com.alipay.pussycat.core.common.model.PussycatContants;
+import com.alipay.pussycat.core.common.model.RemotingTransporter;
 import com.alipay.pussycat.core.common.model.ServiceMetadata;
 import com.alipay.pussycat.core.common.utils.PussycatServiceContainer;
+import com.alipay.pussycat.provider.DefaultProvider;
 import com.alipay.pussycat.provider.ProviderServer;
 import com.alipay.pussycat.provider.handler.PYCServerHandler;
 import com.alipay.pussycat.register.redis.ServerRegisterService;
@@ -14,7 +16,11 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -23,6 +29,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author wb-smj330392
  */
 public class ProviderServerImpl implements ProviderServer {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProviderServerImpl.class);
 
     private static AtomicBoolean started = new AtomicBoolean(false);
 
@@ -33,6 +41,7 @@ public class ProviderServerImpl implements ProviderServer {
     EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors() * 2);
 
     private ChannelFuture future;
+
 
     @Override
     public boolean isStarted() {
@@ -103,5 +112,16 @@ public class ProviderServerImpl implements ProviderServer {
         System.out.println("服务端启动成功,服务端口号:" + PussycatContants.DEFAULT_PORT);
         started.compareAndSet(false, true);
     }
+
+    /**
+     * 2.0 版本服务端等待与消费端连接，基于注解，只需一次启动
+     * @throws PussycatException
+     */
+    @Override
+    public void serverStart() throws PussycatException{
+
+
+    }
+
 
 }

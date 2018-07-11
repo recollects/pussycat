@@ -35,7 +35,7 @@ public class ServiceMetadata implements Serializable {
 
     private Class<?> itfClass;
 
-    /**
+    /**d
      * 服务类
      */
     private Object target;

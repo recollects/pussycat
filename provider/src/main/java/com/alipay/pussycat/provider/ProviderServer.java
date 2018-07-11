@@ -1,12 +1,15 @@
 package com.alipay.pussycat.provider;
 
+import java.util.List;
+
 import com.alipay.pussycat.core.common.exception.PussycatException;
+import com.alipay.pussycat.core.common.model.RemotingTransporter;
 import com.alipay.pussycat.core.common.model.ServiceMetadata;
 
 /**
  * 服务提供方
  */
-public interface ProviderServer {
+public interface ProviderServer  {
 
     /**
      *
@@ -38,5 +41,8 @@ public interface ProviderServer {
      * @throws Exception
      */
     void stop() throws PussycatException;
+
+    void serverStart() throws PussycatException;
+
 
 }
