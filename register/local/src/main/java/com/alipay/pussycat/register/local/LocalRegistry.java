@@ -5,11 +5,20 @@ import com.alipay.pussycat.core.common.model.AckCustomBody;
 import com.alipay.pussycat.core.common.model.RemotingTransporter;
 import com.alipay.pussycat.core.common.netty.serializable.Serializer;
 import com.alipay.pussycat.core.common.netty.transport.NettyTransportClientController;
+
+import com.alipay.pussycat.core.common.register.AbstractRegistry;
+import com.alipay.pussycat.core.common.enums.RegisterEnum;
 import com.alipay.pussycat.core.common.register.AbstractRegistry;
 import com.alipay.pussycat.core.common.enums.RegisterEnum;
 import com.alipay.pussycat.core.common.register.ProviderGroup;
 import com.alipay.pussycat.core.common.register.conf.ConsumerConfig;
 import com.alipay.pussycat.core.common.register.conf.ProviderConfig;
+import com.alipay.pussycat.core.common.utils.NettyUtils;
+import com.alipay.pussycat.core.common.utils.PussycatServiceContainer;
+import com.alipay.pussycat.provider.DefaultProvider;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import org.apache.commons.collections4.CollectionUtils;
 import com.alipay.pussycat.core.common.utils.NettyUtils;
 import com.alipay.pussycat.core.common.utils.PussycatServiceContainer;
 import com.alipay.pussycat.provider.DefaultProvider;
@@ -48,9 +57,11 @@ public class LocalRegistry extends AbstractRegistry {
 
     private final ConcurrentMap<Long, MsgNOTAck> messagesNonAcks = new ConcurrentHashMap<Long, MsgNOTAck>();
 
-    @Override public boolean isStart() {
+    @Override
+    public boolean isStart() {
         return false;
     }
+
 
     @Override public void register(ProviderConfig config) {
 
