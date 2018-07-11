@@ -2,6 +2,7 @@ package com.alipay.pussycat.core.common.register.conf;
 
 import com.alipay.pussycat.core.common.utils.StringUtils;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,6 +29,13 @@ public class ProviderConfig<T> extends AbstractConfig {
 
     private Map<String, MethodConfig> methods;
 
+    private String serviceName;
+
+    /**
+     * 一个服务提供可以多台机器注册到一个注册中心
+     */
+    private List<ServerConfig> serverConfigs;
+
     private boolean register;
 
     private T ref;
@@ -45,7 +53,7 @@ public class ProviderConfig<T> extends AbstractConfig {
     /**
      * 服务优先级[还可以加入一些权重属性,后期慢慢加]
      */
-    private int priority;
+    private int weight;
 
     public String getUniqueId() {
         return uniqueId;
@@ -104,12 +112,28 @@ public class ProviderConfig<T> extends AbstractConfig {
         this.exclude = exclude;
     }
 
-    public int getPriority() {
-        return priority;
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServerConfigs(List<ServerConfig> serverConfigs) {
+        this.serverConfigs = serverConfigs;
+    }
+
+    public List<ServerConfig> getServerConfigs() {
+        return serverConfigs;
     }
 
     @Override

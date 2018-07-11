@@ -19,6 +19,11 @@ public class PussycatRequest extends RemotingTransporter implements TransportBod
     //参数类型
     private final Class<?>[] argTypes;
 
+    /**
+     * 调用类型
+     */
+    private String invokeType;
+
     private int timeout = PussycatContants.DEFAULT_TIMEOUT;
 
     public PussycatRequest(int timeout, String serviceName, String methodName, Object[] reqArgs, Class<?>[] argTypes) {
@@ -63,6 +68,14 @@ public class PussycatRequest extends RemotingTransporter implements TransportBod
 
     public int getTimeout() {
         return timeout;
+    }
+
+    public void setInvokeType(String invokeType) {
+        this.invokeType = invokeType;
+    }
+
+    public String getInvokeType() {
+        return invokeType;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.alipay.pussycat.core.common.register;
 
 import com.alipay.pussycat.core.common.register.conf.ConsumerConfig;
-import com.alipay.pussycat.core.common.register.conf.ProviderConfig;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -18,7 +17,7 @@ public abstract class AbstractRegistry implements Registry {
     /**
      * 本地缓存
      */
-    protected static Map<String,ProviderConfig> providerLocalMap = Maps.newConcurrentMap();
+    protected static Map<String,ProviderGroup> providerLocalMap = Maps.newConcurrentMap();
     protected static Map<String,ConsumerConfig> consumerLocalMap = Maps.newConcurrentMap();
 
 

@@ -1,7 +1,14 @@
 package com.alipay.pussycat.core.common.register;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -15,6 +22,10 @@ public class ProviderGroup implements Serializable {
 
     private List<ProviderInfo> providerInfoList;
 
+    public ProviderGroup(List<ProviderInfo> providerInfoList) {
+        this.providerInfoList = providerInfoList;
+    }
+
     public static class ProviderInfo implements Serializable {
 
         private String host;
@@ -27,7 +38,7 @@ public class ProviderGroup implements Serializable {
         /**
          * 可用\禁用\恢复中\暂停
          */
-        private int    status;
+        private int    status = 0;
 
         public String getHost() {
             return host;
@@ -68,6 +79,16 @@ public class ProviderGroup implements Serializable {
         public void setStatus(int status) {
             this.status = status;
         }
+
+        @Override
+        public int hashCode() {
+            return  HashCodeBuilder.reflectionHashCode(this,false);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return EqualsBuilder.reflectionEquals(obj,this,false);
+        }
     }
 
     public String getName() {
@@ -85,5 +106,22 @@ public class ProviderGroup implements Serializable {
     public void setProviderInfoList(
             List<ProviderInfo> providerInfoList) {
         this.providerInfoList = providerInfoList;
+    }
+
+    public void addProviderInfo(ProviderInfo providerInfo) {
+        if (CollectionUtils.isNotEmpty(providerInfoList)) {
+            providerInfoList.add(providerInfo);
+        } else {
+            providerInfoList = Lists.newArrayList();
+            providerInfoList.add(providerInfo);
+        }
+    }
+
+    public ProviderGroup removeProviderInfo(ProviderInfo providerInfo){
+        Set<ProviderInfo> set = Sets.newConcurrentHashSet();
+        set.remove(providerInfo);
+
+        this.providerInfoList=Lists.newArrayList(set);
+        return this;
     }
 }
